@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace dll.Models
 {
     [Table("testQuestions_tb")]
-    internal class TestQuestion
+    public class TestQuestion
     {
         [Key]
         public int question_id { get; set; }

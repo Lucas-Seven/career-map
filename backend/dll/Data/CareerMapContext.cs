@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace dll.Data
 {
-    internal class CareerMapContext : DbContext
+    public class CareerMapContext : DbContext
     {
         public CareerMapContext(DbContextOptions<CareerMapContext> options) : base(options)
         { }
