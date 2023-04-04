@@ -1,24 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
+﻿using dll.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace dll.DI
 {
-    internal static class DependencyInjection
+    public static class DependencyInjection
     {
         public static IServiceCollection AddInfraStructureDb(this IServiceCollection services, IConfiguration configuration)
         {
-            var provider = services.AddDbContext<DbContext>(options => 
-                options.UseSqlServer(configuration.GetConnectionString("DbConnection")))
+            var provider = services.AddDbContext<CareerMapContext>(options => 
+                options.UseSqlServer(configuration.GetConnectionString("CareerMapConnection")))
                 .BuildServiceProvider();
             
-            var context = provider.GetRequiredService<DbContext>();
+            var context = provider.GetRequiredService<CareerMapContext>();
             DbInitializer.Initialize(context);
 
             return services;

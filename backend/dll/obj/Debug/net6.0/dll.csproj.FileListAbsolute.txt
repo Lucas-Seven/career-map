@@ -1,0 +1,12 @@
+C:\GitHub\career-map\backend\dll\bin\Debug\net6.0\dll.deps.json
+C:\GitHub\career-map\backend\dll\bin\Debug\net6.0\dll.dll
+C:\GitHub\career-map\backend\dll\bin\Debug\net6.0\dll.pdb
+C:\GitHub\career-map\backend\dll\obj\Debug\net6.0\dll.csproj.AssemblyReference.cache
+C:\GitHub\career-map\backend\dll\obj\Debug\net6.0\dll.GeneratedMSBuildEditorConfig.editorconfig
+C:\GitHub\career-map\backend\dll\obj\Debug\net6.0\dll.AssemblyInfoInputs.cache
+C:\GitHub\career-map\backend\dll\obj\Debug\net6.0\dll.AssemblyInfo.cs
+C:\GitHub\career-map\backend\dll\obj\Debug\net6.0\dll.csproj.CoreCompileInputs.cache
+C:\GitHub\career-map\backend\dll\obj\Debug\net6.0\dll.dll
+C:\GitHub\career-map\backend\dll\obj\Debug\net6.0\refint\dll.dll
+C:\GitHub\career-map\backend\dll\obj\Debug\net6.0\dll.pdb
+C:\GitHub\career-map\backend\dll\obj\Debug\net6.0\ref\dll.dll
