@@ -19,6 +19,7 @@ namespace dll.DAL
 
         public IEnumerable<CareerMapCompanyPositionsVM> ListCompanyPositionsByCareerMap(int idCareerMap)
         {
+            
             var list = Context.CareerMaps.Join(
                 Context.CareerMaps_CompanyPositions,
                 m => m.career_map_id,
