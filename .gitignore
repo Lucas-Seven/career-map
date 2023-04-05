@@ -1,2 +1,6 @@
 # Arquivos da IDE Visual Studio
 .vs
+backend/api/bin/*
+backend/api/obj/*
+backend/dll/bin/*
+backend/dll/obj/*
