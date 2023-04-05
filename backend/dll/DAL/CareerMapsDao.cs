@@ -10,7 +10,7 @@ namespace dll.DAL
 {
     public class CareerMapsDao : GenericDao<CareerMap>
     {
-        public CareerMapsDao(CareerMapContext context) : base(context)
+        public CareerMapsDao(AprovAtosContext context) : base(context)
         { }
     }
 }

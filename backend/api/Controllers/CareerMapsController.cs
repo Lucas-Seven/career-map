@@ -12,7 +12,7 @@ namespace api.Controllers
     {
         private readonly CareerMapsDao _careerMapsDao;
 
-        public CareerMapsController(CareerMapContext context)
+        public CareerMapsController(AprovAtosContext context)
         {
             _careerMapsDao = new CareerMapsDao(context);
         }

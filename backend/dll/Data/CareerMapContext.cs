@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace dll.Data
 {
-    public class CareerMapContext : DbContext
+    public class AprovAtosContext : DbContext
     {
-        public CareerMapContext(DbContextOptions<CareerMapContext> options) : base(options)
+        public AprovAtosContext(DbContextOptions<AprovAtosContext> options) : base(options)
         { }
 
         // Mapeando as entidades do modelo para tabelas no banco de dados.

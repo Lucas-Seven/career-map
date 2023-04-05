@@ -12,7 +12,7 @@ namespace dll.DAL
 {
     public class CompanyPositionsDao : GenericDao<CompanyPosition>
     {
-        public CompanyPositionsDao(CareerMapContext context) : base(context)
+        public CompanyPositionsDao(AprovAtosContext context) : base(context)
         { 
             this.Context = context;
         }
@@ -23,7 +23,7 @@ namespace dll.DAL
                 Context.CareerMaps_CompanyPositions,
                 m => m.career_map_id,
                 mp => mp.career_map_id,
-                (m, mp) => new { CareerMap = m, CareerMap_CompanyPosition = mp}
+                (m, mp) => new {CareerMap = m, CareerMap_CompanyPosition = mp}
             )
             .Join(
                 Context.CompanyPositions,

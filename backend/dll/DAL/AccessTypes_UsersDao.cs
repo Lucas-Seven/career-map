@@ -10,7 +10,7 @@ namespace dll.DAL
 {
     public class AccessTypes_UsersDao : GenericDao<AccessType_User>
     {
-        public AccessTypes_UsersDao(CareerMapContext context) : base(context)
+        public AccessTypes_UsersDao(AprovAtosContext context) : base(context)
         { }
     }
 }

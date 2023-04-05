@@ -19,8 +19,8 @@ namespace dll.DAL
 
     public abstract class GenericDao<T> where T: class
     {
-        public CareerMapContext Context { get; set; }
-        public GenericDao(CareerMapContext context)
+        public AprovAtosContext Context { get; set; }
+        public GenericDao(AprovAtosContext context)
         {
             this.Context = context;
         }

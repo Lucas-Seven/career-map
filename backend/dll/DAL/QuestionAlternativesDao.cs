@@ -10,7 +10,7 @@ namespace dll.DAL
 {
     public class QuestionAlternativesDao : GenericDao<QuestionAlternative>
     {
-        public QuestionAlternativesDao(CareerMapContext context) : base(context)
+        public QuestionAlternativesDao(AprovAtosContext context) : base(context)
         { }
     }
 }

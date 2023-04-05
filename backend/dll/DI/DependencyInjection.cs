@@ -9,11 +9,11 @@ namespace dll.DI
     {
         public static IServiceCollection AddInfraStructureDb(this IServiceCollection services, IConfiguration configuration)
         {
-            var provider = services.AddDbContext<CareerMapContext>(options => 
-                options.UseSqlServer(configuration.GetConnectionString("CareerMapConnection")))
+            var provider = services.AddDbContext<AprovAtosContext>(options => 
+                options.UseSqlServer(configuration.GetConnectionString("AprovAtosConnection")))
                 .BuildServiceProvider();
             
-            var context = provider.GetRequiredService<CareerMapContext>();
+            var context = provider.GetRequiredService<AprovAtosContext>();
             DbInitializer.Initialize(context);
 
             return services;

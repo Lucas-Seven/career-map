@@ -2,7 +2,7 @@
 {
     internal class DbInitializer
     {
-        public static void Initialize(CareerMapContext context)
+        public static void Initialize(AprovAtosContext context)
         {
             context.Database.EnsureCreated();
         }

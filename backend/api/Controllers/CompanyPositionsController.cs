@@ -13,7 +13,7 @@ namespace api.Controllers
     {
         private readonly CompanyPositionsDao _companyPositionsDao;
 
-        public CompanyPositionsController(CareerMapContext context)
+        public CompanyPositionsController(AprovAtosContext context)
         {
             _companyPositionsDao = new CompanyPositionsDao(context);
         }
