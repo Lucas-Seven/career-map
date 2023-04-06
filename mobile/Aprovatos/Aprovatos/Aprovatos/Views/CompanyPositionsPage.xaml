@@ -2,22 +2,22 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Aprovatos.Views.CompanyPositionsPage"
-             Title="Trilhas"
+             Title="Posições"
              >
     <ContentPage.Content>
         <StackLayout>
-            <Label  Text="Escolha sua trilha"
+            <Label  Text="Escolha sua posição"
                     VerticalOptions="Center" 
                     HorizontalOptions="CenterAndExpand" />
 
-            <ListView x:Name="lstCareers" ItemSelected="lstCareers_ItemSelected">
+            <ListView x:Name="lstCompanyPositions" ItemSelected="lstCompanyPositions_ItemSelected">
                 <ListView.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
-                        <x:String>Desenvolvimento Backend</x:String>
-                        <x:String>Desenvolvimento Frontend</x:String>
-                        <x:String>Administração de Banco de dados</x:String>
-                        <x:String>Infraestrutura</x:String>
-                        <x:String>DevOps</x:String>
+                        <x:String>Júnior</x:String>
+                        <x:String>Pleno</x:String>
+                        <x:String>Sênior</x:String>
+                        <x:String>Master</x:String>
+                        <x:String>Especialista</x:String>
                     </x:Array>
                 </ListView.ItemsSource>
             </ListView>

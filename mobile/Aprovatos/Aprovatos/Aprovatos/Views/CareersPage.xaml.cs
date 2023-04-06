@@ -16,5 +16,10 @@ namespace Aprovatos.Views
         {
             InitializeComponent();
         }
+
+        private async void lstCareers_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            await Navigation.PushAsync(new CompanyPositionsPage());
+        }
     }
 }

@@ -16,5 +16,10 @@ namespace Aprovatos.Views
         {
             InitializeComponent();
         }
+
+        private void lstPositionRequirements_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+
+        }
     }
 }

@@ -2,22 +2,26 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Aprovatos.Views.PositionRequirementsPage"
-             Title="Trilhas"
+             Title="Requementos"
              >
     <ContentPage.Content>
         <StackLayout>
-            <Label  Text="Escolha sua trilha"
+            <Label  Text="Escolha seu quererimento"
                     VerticalOptions="Center" 
                     HorizontalOptions="CenterAndExpand" />
 
-            <ListView x:Name="lstCareers" ItemSelected="lstCareers_ItemSelected">
+            <ListView x:Name="lstPositionRequirements" ItemSelected="lstPositionRequirements_ItemSelected">
                 <ListView.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
-                        <x:String>Desenvolvimento Backend</x:String>
-                        <x:String>Desenvolvimento Frontend</x:String>
-                        <x:String>Administração de Banco de dados</x:String>
-                        <x:String>Infraestrutura</x:String>
-                        <x:String>DevOps</x:String>
+                        <x:String>Req 01</x:String>
+                        <x:String>Req 02</x:String>
+                        <x:String>Req 03</x:String>
+                        <x:String>Req 04</x:String>
+                        <x:String>Req 05</x:String>
+                        <x:String>Req 06</x:String>
+                        <x:String>Req 07</x:String>
+                        <x:String>Req 08</x:String>
+                        <x:String>Req 09</x:String>
                     </x:Array>
                 </ListView.ItemsSource>
             </ListView>

@@ -16,5 +16,10 @@ namespace Aprovatos.Views
         {
             InitializeComponent();
         }
+
+        private async void btnLogin_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new CareersPage());
+        }
     }
 }
