@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Aprovatos.Views.CompanyPositionsPage"
+             Title="Trilhas"
+             >
+    <ContentPage.Content>
+        <StackLayout>
+            <Label  Text="Escolha sua trilha"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="CenterAndExpand" />
+
+            <ListView x:Name="lstCareers" ItemSelected="lstCareers_ItemSelected">
+                <ListView.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Desenvolvimento Backend</x:String>
+                        <x:String>Desenvolvimento Frontend</x:String>
+                        <x:String>Administração de Banco de dados</x:String>
+                        <x:String>Infraestrutura</x:String>
+                        <x:String>DevOps</x:String>
+                    </x:Array>
+                </ListView.ItemsSource>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
