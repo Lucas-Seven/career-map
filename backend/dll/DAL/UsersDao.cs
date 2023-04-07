@@ -37,13 +37,29 @@ namespace dll.DAL
                 (ucau, a) => new UserProfileVM
                 {
                     user_id = ucau.User.user_id,
-                    first_name = ucau.User.first_name,
+                    firstName = ucau.User.first_name,
                     last_name = ucau.User.last_name,
                     email = ucau.User.email,
-                    career_map_id = ucau.CareerMap.career_map_id,
-                    career_map_name = ucau.CareerMap.career_map_name,
-                    access_type_id = a.access_type_id,
-                    access_type_name = a.access_type_name
+                    careerMap = new CareerMapVm()
+                    {
+                        id = ucau.CareerMap.career_map_id,
+                        name = ucau.CareerMap.career_map_name
+                    },
+                    //aceessTypes = new List<AccessTypeVm>(){
+                    //    new AccessTypeVm()
+                    //    {
+                    //        access_type_id = a.access_type_id,
+                    //        access_type_name = a.access_type_name
+                    //    }
+                    //},
+                    aceessTypes = Context.AccessTypes
+                    .Where(a => a.access_type_id == ucau.AccessType_User.access_type_id)
+                    .Select(a => new AccessTypeVM()
+                    {
+                        id = a.access_type_id,
+                        name = a.access_type_name
+                    })
+                    .ToList()
                 }
             )
             .Where(

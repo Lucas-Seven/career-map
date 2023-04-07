@@ -36,7 +36,7 @@ namespace dll.DAL
                     career_map_name = mmp.CareerMap.career_map_name,
                     company_position_id = p.company_position_id,
                     company_position_name = p.company_position_name,
-                    hierarchy_number = mmp.CareerMap_CompanyPosition.hierarchy_number
+                    hierarchyNumber = mmp.CareerMap_CompanyPosition.hierarchy_number
                 }
             )
             .Where(
