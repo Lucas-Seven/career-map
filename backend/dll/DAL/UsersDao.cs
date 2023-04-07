@@ -40,7 +40,7 @@ namespace dll.DAL
                     firstName = ucau.User.first_name,
                     last_name = ucau.User.last_name,
                     email = ucau.User.email,
-                    careerMap = new CareerMapVm()
+                    careerMap = new CareerMapVM()
                     {
                         id = ucau.CareerMap.career_map_id,
                         name = ucau.CareerMap.career_map_name

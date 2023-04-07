@@ -25,7 +25,7 @@ namespace dll.DAL
             this.Context = context;
         }
 
-        public void Execute(T item, OperationType type)
+        public void Execute(T item, EntityState type)
         {
             Context.Entry<T>(item).State = (EntityState)type;
             Context.SaveChanges();

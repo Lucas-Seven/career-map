@@ -3,6 +3,7 @@ using dll.Data;
 using dll.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Controllers
 {
@@ -26,14 +27,14 @@ namespace api.Controllers
         [HttpPost]
         public CareerMap PostCareerMap(CareerMap careerMap)
         {
-            _careerMapsDao.Execute(careerMap, OperationType.Added);
+            _careerMapsDao.Execute(careerMap, EntityState.Added);
             return careerMap;
         }
 
         [HttpPut]
         public CareerMap PutCareerMap(CareerMap careerMap)
         {
-            _careerMapsDao.Execute(careerMap, OperationType.Modified);
+            _careerMapsDao.Execute(careerMap, EntityState.Modified);
             return careerMap;
         }
 
@@ -42,7 +43,7 @@ namespace api.Controllers
         {
             try
             {
-                _careerMapsDao.Execute(careerMap, OperationType.Deleted);
+                _careerMapsDao.Execute(careerMap, EntityState.Deleted);
                 return Ok("The career map was successfully deleted.");
             }
             catch (Exception ex)

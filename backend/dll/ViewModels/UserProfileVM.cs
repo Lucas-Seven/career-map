@@ -12,7 +12,7 @@ namespace dll.ViewModels
         public string firstName { get; set; }
         public string last_name { get; set; }
         public string email { get; set; }
-        public CareerMapVm careerMap { get; set; }
+        public CareerMapVM careerMap { get; set; }
 
         public ICollection<AccessTypeVM> aceessTypes { get; set; }
 

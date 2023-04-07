@@ -8,7 +8,7 @@ namespace dll.ViewModels
 {
     public class CareerMapCompanyPositionsVM
     {
-        public CareerMapVm careerMap { get; set; }
+        public CareerMapVM careerMap { get; set; }
 
         public CompanyPositionVM companyPosition { get; set; }
 

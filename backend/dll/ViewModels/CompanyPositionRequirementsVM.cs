@@ -8,8 +8,7 @@ namespace dll.ViewModels
 {
     public class CompanyPositionRequirementsVM
     {
-        public int company_position_id { get; set; }
-        public string company_position_name { get; set; }
+        public CompanyPositionVM companyPosition { get; set; }
         public string? group_name { get; set; }
         public int requirement_id { get; set; }
         public string requirement_name { get; set; }
