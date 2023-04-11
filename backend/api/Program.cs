@@ -1,15 +1,10 @@
-using dll.DI;
-
 var builder = WebApplication.CreateBuilder(args);
-ConfigurationManager config = builder.Configuration;
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-builder.Services.AddInfraStructureDb(config);
 
-builder.Services.AddCors(policy => 
-    policy.AddDefaultPolicy(p => 
+builder.Services.AddCors(policy =>
+    policy.AddDefaultPolicy(p =>
         p.WithOrigins("*")
             .AllowAnyHeader()
             .AllowAnyMethod()

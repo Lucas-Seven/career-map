@@ -1,54 +1,28 @@
 ﻿using dll.DAL;
-using dll.Data;
-using dll.Models;
-using Microsoft.AspNetCore.Http;
+using dll.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/careerMaps")]
     [ApiController]
     public class CareerMapsController : ControllerBase
     {
-        private readonly CareerMapsDao _careerMapsDao;
-
-        public CareerMapsController(AprovAtosContext context)
+        private readonly IConfiguration _configuration;
+        private readonly CareerMapsDAO _careerMapsDAO;
+        public string ConnectionString { get; set; }
+        public CareerMapsController(IConfiguration configuration)
         {
-            _careerMapsDao = new CareerMapsDao(context);
+            _configuration = configuration;
+            ConnectionString = _configuration.GetConnectionString("AprovAtosConnection");
+            _careerMapsDAO = new CareerMapsDAO(ConnectionString);
         }
 
         [HttpGet]
-        public IEnumerable<CareerMap> GetAllCareerMaps()
+        [Route("{careerMapId}/companyPositions")]
+        public CareerMapViewModel GetCareerMapWithCompanyPositionsById(int careerMapId)
         {
-            return _careerMapsDao.List();
-        }
-
-        [HttpPost]
-        public CareerMap PostCareerMap(CareerMap careerMap)
-        {
-            _careerMapsDao.Execute(careerMap, OperationType.Added);
-            return careerMap;
-        }
-
-        [HttpPut]
-        public CareerMap PutCareerMap(CareerMap careerMap)
-        {
-            _careerMapsDao.Execute(careerMap, OperationType.Modified);
-            return careerMap;
-        }
-
-        [HttpDelete]
-        public IActionResult DeleteCareerMap(CareerMap careerMap)
-        {
-            try
-            {
-                _careerMapsDao.Execute(careerMap, OperationType.Deleted);
-                return Ok("The career map was successfully deleted.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return _careerMapsDAO.SelectCareerMapWithCompanyPositionsById(careerMapId);
         }
     }
 }
