@@ -1,8 +1,6 @@
 ﻿using dll.DAL;
-using dll.Data;
 using dll.Models;
 using dll.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
@@ -11,23 +9,14 @@ namespace api.Controllers
     [ApiController]
     public class TestsController : ControllerBase
     {
-        private readonly TestsDao _testsDao;
-
-        public TestsController(AprovAtosContext context)
+        private readonly IConfiguration _configuration;
+        private readonly TestsDAO _testsDAO;
+        public string ConnectionString { get; set; }
+        public TestsController(IConfiguration configuration)
         {
-            _testsDao = new TestsDao(context);
-        }
-
-        [HttpGet]
-        public IEnumerable<TestVM> GetAllTests()
-        {
-            return _testsDao.ListTests();
-        }
-
-        [HttpGet("{idRequirement}")]
-        public IEnumerable<TestVM> GetTest(int idRequirement)
-        {
-            return _testsDao.TestById(idRequirement);
+            _configuration = configuration;
+            ConnectionString = _configuration.GetConnectionString("AprovAtosConnection");
+            _testsDAO = new TestsDAO(ConnectionString);
         }
     }
 }

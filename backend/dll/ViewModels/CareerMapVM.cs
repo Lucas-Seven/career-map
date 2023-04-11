@@ -2,7 +2,7 @@
 {
     public class CareerMapVM
     {
-        public int? id { get; set; }
-        public string? name { get; set; }
+        public int CareerMapId { get; set; }
+        public string? CareerMapName { get; set; }
     }
 }

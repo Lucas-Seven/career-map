@@ -1,33 +1,44 @@
 ﻿using dll.DAL;
-using dll.Data;
 using dll.Models;
 using dll.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/users")]
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly UsersDao _usersDao;
-
-        public UsersController(AprovAtosContext context)
+        private readonly IConfiguration _configuration;
+        private readonly UsersDAO _usersDAO;
+        public string ConnectionString { get; set; }
+        public UsersController(IConfiguration configuration)
         {
-            _usersDao = new UsersDao(context);
+            _configuration = configuration;
+            ConnectionString = _configuration.GetConnectionString("AprovAtosConnection");
+            _usersDAO = new UsersDAO(ConnectionString);
         }
 
         [HttpGet]
-        public IEnumerable<User> GetAllUsers()
+        [Route("accessTypes")]
+        public List<UserAccessTypesVM> GetAllUsersWithAccessTypes()
         {
-            return _usersDao.List();
+            List<UserAccessTypesVM> users = _usersDAO.SelectAllUsersWithAccessTypes();
+            return users;
         }
 
-        [HttpGet("{idUser}")]
-        public IEnumerable<UserProfileVM> GetUser(int idUser)
+        [HttpGet]
+        [Route("{userId}/accessTypes")]
+        public UserAccessTypesVM GetUserByIdWithAccessTypes(int userId)
         {
-            return _usersDao.UserById(idUser);
+            return _usersDAO.SelectUserByIdWithAccessTypes(userId);
+        }
+
+        [HttpPost]
+        public IActionResult PostUser([FromBody] UserModel user)
+        {
+            _usersDAO.InsertUser(user);
+            return Ok();
         }
     }
 }

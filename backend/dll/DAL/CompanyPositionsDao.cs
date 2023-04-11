@@ -1,52 +1,86 @@
-﻿using dll.Data;
-using dll.Models;
+﻿using dll.Models;
 using dll.ViewModels;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
 
 namespace dll.DAL
 {
-    public class CompanyPositionsDao : GenericDao<CompanyPosition>
+    public class CompanyPositionsDAO
     {
-        public CompanyPositionsDao(AprovAtosContext context) : base(context)
-        { 
-            this.Context = context;
+        private readonly string _connectionString;
+        public CompanyPositionsDAO(string connectionString)
+        {
+            _connectionString = connectionString;
         }
 
-        public IEnumerable<CareerMapCompanyPositionsVM> ListCompanyPositionsByCareerMap(int idCareerMap)
+        public CompanyPositionRequirementsVM SelectCompanyPositionByIdWithRequirements(int careerMapId, int companyPositionId)
         {
-            
-            var list = Context.CareerMaps.Join(
-                Context.CareerMaps_CompanyPositions,
-                m => m.career_map_id,
-                mp => mp.career_map_id,
-                (m, mp) => new {CareerMap = m, CareerMap_CompanyPosition = mp}
-            )
-            .Join(
-                Context.CompanyPositions,
-                mmp => mmp.CareerMap_CompanyPosition.company_position_id,
-                p => p.company_position_id,
-                (mmp, p) => new CareerMapCompanyPositionsVM
-                {
-                    career_map_id = mmp.CareerMap.career_map_id,
-                    career_map_name = mmp.CareerMap.career_map_name,
-                    company_position_id = p.company_position_id,
-                    company_position_name = p.company_position_name,
-                    hierarchyNumber = mmp.CareerMap_CompanyPosition.hierarchy_number
-                }
-            )
-            .Where(
-                w => w.career_map_id == idCareerMap
-            )
-            .OrderBy(
-                o => o.hierarchy_number
-            );
+            CompanyPositionRequirementsVM companyPosition = null;
 
-            return list.ToList();
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+
+                    try
+                    {
+                        using (SqlCommand command = new SqlCommand(
+                            "SELECT pr.career_map_id, " +
+                            "p.company_position_id, p.company_position_name, " +
+                            "pr.group_name, " +
+                            "r.requirement_id, r.requirement_name " +
+                            "FROM companyPositions_tb AS p " +
+                            "INNER JOIN companyPositions_positionRequirements_tb AS pr ON pr.company_position_id = p.company_position_id " +
+                            "INNER JOIN positionRequirements_tb AS r ON r.requirement_id = pr.requirement_id " +
+                            "WHERE pr.career_map_id = @careerMapId AND pr.company_position_id = @companyPositionId " +
+                            "ORDER BY pr.group_name;", connection))
+                        {
+                            command.Parameters.AddWithValue("@careerMapId", careerMapId);
+                            command.Parameters.AddWithValue("@companyPositionId", companyPositionId);
+
+                            using (SqlDataReader dataReader = command.ExecuteReader())
+                            {
+                                if (dataReader.HasRows)
+                                {
+                                    companyPosition = new CompanyPositionRequirementsVM();
+                                    companyPosition.Requirements = new List<PositionRequirementVM>();
+                                    while (dataReader.Read())
+                                    {
+                                        companyPosition.CareerMapId = Convert.ToInt32(dataReader["career_map_id"]);
+                                        companyPosition.CompanyPositionId = Convert.ToInt32(dataReader["company_position_id"]);
+                                        companyPosition.CompanyPositionName = dataReader["company_position_name"].ToString();
+                                        if (!Convert.IsDBNull(dataReader["requirement_id"]))
+                                        {
+                                            PositionRequirementVM requirement = new PositionRequirementVM
+                                            {
+                                                RequirementId = Convert.ToInt32(dataReader["requirement_id"]),
+                                                RequirementName = dataReader["requirement_name"].ToString(),
+                                                GroupName = dataReader["group_name"].ToString(),
+                                            };
+                                            companyPosition.Requirements.Add(requirement);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (companyPosition == null)
+                        {
+                            throw new Exception($"Career map with Id {careerMapId} and company position with Id {companyPositionId} not found.");
+                        }
+                        Console.WriteLine("The SelectCompanyPositionByIdWithRequirements query was successful.");
+                        return companyPosition;
+                    }
+                    catch (SqlException ex)
+                    {
+                        throw new Exception($"An error occurred when fetching the company's position requirements from the database. \n\nSqlException: {ex.Message}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred when fetching the company's position requirements from the database. \n\nException: {ex.Message}");
+            }
         }
     }
 }

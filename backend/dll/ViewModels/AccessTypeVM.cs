@@ -2,7 +2,7 @@
 {
     public class AccessTypeVM
     {
-        public int id { get; set; }
-        public string name { get; set; }
+        public int AccessTypeId { get; set; }
+        public string? AccessTypeName { get; set; }
     }
 }

@@ -1,55 +1,39 @@
 ﻿using dll.DAL;
-using dll.Data;
 using dll.Models;
-using Microsoft.AspNetCore.Http;
+using dll.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/careerMaps")]
     [ApiController]
     public class CareerMapsController : ControllerBase
     {
-        private readonly CareerMapsDao _careerMapsDao;
-
-        public CareerMapsController(AprovAtosContext context)
+        private readonly IConfiguration _configuration;
+        private readonly CareerMapsDAO _careerMapsDAO;
+        private readonly CompanyPositionsDAO _companyPositionsDAO;
+        public string ConnectionString { get; set; }
+        public CareerMapsController(IConfiguration configuration)
         {
-            _careerMapsDao = new CareerMapsDao(context);
+            _configuration = configuration;
+            ConnectionString = _configuration.GetConnectionString("AprovAtosConnection");
+            _careerMapsDAO = new CareerMapsDAO(ConnectionString);
+            _companyPositionsDAO = new CompanyPositionsDAO(ConnectionString);
         }
 
         [HttpGet]
-        public IEnumerable<CareerMap> GetAllCareerMaps()
+        [Route("{careerMapId}/companyPositions")]
+        public CareerMapCompanyPositionsVM GetCareerMapByIdWithCompanyPositions(int careerMapId)
         {
-            return _careerMapsDao.List();
+            return _careerMapsDAO.SelectCareerMapByIdWithCompanyPositions(careerMapId);
         }
 
-        [HttpPost]
-        public CareerMap PostCareerMap(CareerMap careerMap)
+        [HttpGet]
+        [Route("{careerMapId}/companyPositions/{companyPositionId}/requirements")]
+        public CompanyPositionRequirementsVM GetCompanyPositionByIdWithRequirements(int careerMapId, int companyPositionId)
         {
-            _careerMapsDao.Execute(careerMap, EntityState.Added);
-            return careerMap;
-        }
-
-        [HttpPut]
-        public CareerMap PutCareerMap(CareerMap careerMap)
-        {
-            _careerMapsDao.Execute(careerMap, EntityState.Modified);
-            return careerMap;
-        }
-
-        [HttpDelete]
-        public IActionResult DeleteCareerMap(CareerMap careerMap)
-        {
-            try
-            {
-                _careerMapsDao.Execute(careerMap, EntityState.Deleted);
-                return Ok("The career map was successfully deleted.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return _companyPositionsDAO.SelectCompanyPositionByIdWithRequirements(careerMapId, companyPositionId);
         }
     }
 }

@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace dll.ViewModels
+﻿namespace dll.ViewModels
 {
     public class CareerMapCompanyPositionsVM
     {
-        public CareerMapVM careerMap { get; set; }
-
-        public CompanyPositionVM companyPosition { get; set; }
-
-        public int hierarchyNumber { get; set; }
+        public int CareerMapId { get; set; }
+        public string? CareerMapName { get; set; }
+        public ICollection<CompanyPositionVM>? CompanyPositions { get; set; }
+        public CareerMapCompanyPositionsVM()
+        {
+            CompanyPositions = new List<CompanyPositionVM>();
+        }
     }
 }

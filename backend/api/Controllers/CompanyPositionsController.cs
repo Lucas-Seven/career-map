@@ -1,33 +1,22 @@
 ﻿using dll.DAL;
-using dll.Data;
 using dll.Models;
 using dll.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/companyPositions")]
     [ApiController]
     public class CompanyPositionsController : ControllerBase
     {
-        private readonly CompanyPositionsDao _companyPositionsDao;
-
-        public CompanyPositionsController(AprovAtosContext context)
+        private readonly IConfiguration _configuration;
+        private readonly CompanyPositionsDAO _companyPositionsDAO;
+        public string ConnectionString { get; set; }
+        public CompanyPositionsController(IConfiguration configuration)
         {
-            _companyPositionsDao = new CompanyPositionsDao(context);
-        }
-
-        [HttpGet]
-        public IEnumerable<CompanyPosition> GetAllCompanyPositions()
-        {
-            return _companyPositionsDao.List();
-        }
-
-        [HttpGet("{idCareerMap}")]
-        public IEnumerable<CareerMapCompanyPositionsVM> GetCompanyPositionsByCareerMap(int idCareerMap)
-        {
-            return _companyPositionsDao.ListCompanyPositionsByCareerMap(idCareerMap);
+            _configuration = configuration;
+            ConnectionString = _configuration.GetConnectionString("AprovAtosConnection");
+            _companyPositionsDAO = new CompanyPositionsDAO(ConnectionString);
         }
     }
 }
