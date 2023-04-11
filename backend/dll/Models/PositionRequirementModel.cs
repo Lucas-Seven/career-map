@@ -3,6 +3,6 @@
     public class PositionRequirementModel
     {
         public int RequirementId { get; set; }
-        public string? RequirementName { get; set; }
+        public string RequirementName { get; set; }
     }
 }

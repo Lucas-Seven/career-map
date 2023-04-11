@@ -1,4 +1,5 @@
 ﻿using dll.DAL;
+using dll.Models;
 using dll.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,9 +21,9 @@ namespace api.Controllers
 
         [HttpGet]
         [Route("{careerMapId}/companyPositions")]
-        public CareerMapViewModel GetCareerMapWithCompanyPositionsById(int careerMapId)
+        public CareerMapCompanyPositionsVM GetCareerMapByIdWithCompanyPositions(int careerMapId)
         {
-            return _careerMapsDAO.SelectCareerMapWithCompanyPositionsById(careerMapId);
+            return _careerMapsDAO.SelectCareerMapByIdWithCompanyPositions(careerMapId);
         }
     }
 }

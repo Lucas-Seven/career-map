@@ -1,5 +1,6 @@
 ﻿using dll.DAL;
 using dll.Models;
+using dll.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
@@ -19,17 +20,18 @@ namespace api.Controllers
         }
 
         [HttpGet]
-        public List<UserModel> GetAllUsers()
+        [Route("accessTypes")]
+        public List<UserAccessTypesVM> GetAllUsersWithAccessTypes()
         {
-            List<UserModel> users = _usersDAO.SelectAllUsers();
+            List<UserAccessTypesVM> users = _usersDAO.SelectAllUsersWithAccessTypes();
             return users;
         }
 
         [HttpGet]
         [Route("{userId}/accessTypes")]
-        public UserModel GetUserById(int userId)
+        public UserAccessTypesVM GetUserByIdWithAccessTypes(int userId)
         {
-            return _usersDAO.SelectUser(userId);
+            return _usersDAO.SelectUserByIdWithAccessTypes(userId);
         }
 
         [HttpPost]

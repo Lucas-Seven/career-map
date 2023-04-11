@@ -12,18 +12,18 @@ namespace dll.DAL
             _connectionString = connectionString;
         }
 
-        public CareerMapViewModel SelectCareerMapWithCompanyPositionsById(int careerMapId)
+        public CareerMapCompanyPositionsVM SelectCareerMapByIdWithCompanyPositions(int careerMapId)
         {
-            CareerMapViewModel careerMap = null;
+            CareerMapCompanyPositionsVM careerMap = null;
 
             try
             {
-                try
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
-                    using (SqlConnection connection = new SqlConnection(_connectionString))
-                    {
-                        connection.Open();
+                    connection.Open();
 
+                    try
+                    {
                         using (SqlCommand command = new SqlCommand(
                             "SELECT m.career_map_id, m.career_map_name, " +
                                 "p.company_position_id, p.company_position_name, " +
@@ -40,15 +40,15 @@ namespace dll.DAL
                             {
                                 if (dataReader.HasRows)
                                 {
-                                    careerMap = new CareerMapViewModel();
-                                    careerMap.CompanyPositions = new List<CompanyPositionViewModel>();
+                                    careerMap = new CareerMapCompanyPositionsVM();
+                                    careerMap.CompanyPositions = new List<CompanyPositionVM>();
                                     while (dataReader.Read())
                                     {
                                         careerMap.CareerMapId = Convert.ToInt32(dataReader["career_map_id"]);
                                         careerMap.CareerMapName = dataReader["career_map_name"].ToString();
                                         if (!Convert.IsDBNull(dataReader["company_position_id"]))
                                         {
-                                            CompanyPositionViewModel companyPosition = new CompanyPositionViewModel
+                                            CompanyPositionVM companyPosition = new CompanyPositionVM
                                             {
                                                 CompanyPositionId = Convert.ToInt32(dataReader["company_position_id"]),
                                                 CompanyPositionName = dataReader["company_position_name"].ToString(),
@@ -60,17 +60,18 @@ namespace dll.DAL
                                 }
                             }
                         }
+
+                        if (careerMap == null)
+                        {
+                            throw new Exception($"Career map with Id {careerMapId} not found.");
+                        }
+                        Console.WriteLine("The SelectAllCompanyPositionsByCareerMapId query was successful.");
+                        return careerMap;
                     }
-                    if (careerMap == null)
+                    catch (SqlException ex)
                     {
-                        throw new Exception($"Career map with Id {careerMapId} not found.");
+                        throw new Exception($"An error occurred when fetching company positions from the database. \n\nSqlException: {ex.Message}");
                     }
-                    Console.WriteLine("The SelectAllCompanyPositionsByCareerMapId query was successful.");
-                    return careerMap;
-                }
-                catch (SqlException ex)
-                {
-                    throw new Exception($"An error occurred when fetching company positions from the database. \n\nSqlException: {ex.Message}");
                 }
             }
             catch (Exception ex)
