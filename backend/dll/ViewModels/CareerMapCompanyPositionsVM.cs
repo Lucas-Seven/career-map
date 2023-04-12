@@ -2,8 +2,8 @@
 {
     public class CareerMapCompanyPositionsVM
     {
-        public int CareerMapId { get; set; }
-        public string? CareerMapName { get; set; }
+        public CareerMapVM CareerMap { get; set; }
+
         public ICollection<CompanyPositionVM>? CompanyPositions { get; set; }
         public CareerMapCompanyPositionsVM()
         {

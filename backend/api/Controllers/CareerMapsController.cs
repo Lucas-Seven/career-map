@@ -2,7 +2,6 @@
 using dll.Models;
 using dll.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Controllers
 {

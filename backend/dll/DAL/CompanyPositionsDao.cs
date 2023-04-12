@@ -46,9 +46,15 @@ namespace dll.DAL
                                     companyPosition.Requirements = new List<PositionRequirementVM>();
                                     while (dataReader.Read())
                                     {
-                                        companyPosition.CareerMapId = Convert.ToInt32(dataReader["career_map_id"]);
-                                        companyPosition.CompanyPositionId = Convert.ToInt32(dataReader["company_position_id"]);
-                                        companyPosition.CompanyPositionName = dataReader["company_position_name"].ToString();
+                                        companyPosition.CareerMap = new CareerMapVM()
+                                        {
+                                            CareerMapId = Convert.ToInt32(dataReader["career_map_id"])
+                                        };
+                                        companyPosition.CompanyPosition = new CompanyPositionVM()
+                                        {
+                                            CompanyPositionId = Convert.ToInt32(dataReader["company_position_id"]),
+                                            CompanyPositionName = dataReader["company_position_name"].ToString()
+                                        };
                                         if (!Convert.IsDBNull(dataReader["requirement_id"]))
                                         {
                                             PositionRequirementVM requirement = new PositionRequirementVM

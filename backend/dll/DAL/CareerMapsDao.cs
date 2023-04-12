@@ -44,8 +44,12 @@ namespace dll.DAL
                                     careerMap.CompanyPositions = new List<CompanyPositionVM>();
                                     while (dataReader.Read())
                                     {
-                                        careerMap.CareerMapId = Convert.ToInt32(dataReader["career_map_id"]);
-                                        careerMap.CareerMapName = dataReader["career_map_name"].ToString();
+                                        careerMap.CareerMap = new CareerMapVM()
+                                        {
+                                            CareerMapId = Convert.ToInt32(dataReader["career_map_id"]),
+                                            CareerMapName = dataReader["career_map_name"].ToString()
+                                        };
+
                                         if (!Convert.IsDBNull(dataReader["company_position_id"]))
                                         {
                                             CompanyPositionVM companyPosition = new CompanyPositionVM
