@@ -1,4 +1,5 @@
-﻿using admin.ViewModels;
+﻿using admin.Services;
+using admin.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,33 +7,16 @@ namespace admin.Controllers
 {
     public class CareerMapsController : Controller
     {
+        private CareerMapsService _service;
+        public CareerMapsController()
+        {
+            _service = new CareerMapsService();
+        }
+
         // GET: CarrermapsController
         public ActionResult Index()
         {
-            IEnumerable<CareerMapCompanyPositionsVM> lista = null;
-
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("https://localhost:7149/api/");
-
-                //HTTP GET
-                var responseTask = client.GetAsync("CareerMaps");
-                responseTask.Wait();
-                var result = responseTask.Result;
-
-                if (result.IsSuccessStatusCode)
-                {
-                    var readTask = result.Content.ReadAsAsync<IList<CareerMapCompanyPositionsVM>>();
-                    readTask.Wait();
-                    lista = readTask.Result;
-                }
-                else
-                {
-                    lista = Enumerable.Empty<CareerMapCompanyPositionsVM>();
-                    ModelState.AddModelError(string.Empty, "Erro no servidor. Contate o Administrador.");
-                }
-                return View(lista);
-            }
+            return View(_service.GetAllCareers());
         }
 
         // GET: CarrermapsController/Details/5

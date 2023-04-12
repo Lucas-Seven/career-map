@@ -16,8 +16,4 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\career\career-map\backend\dll\dll.csproj" />
-  </ItemGroup>
-
 </Project>
