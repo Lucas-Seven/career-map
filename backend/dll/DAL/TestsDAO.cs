@@ -1,5 +1,5 @@
 ﻿using dll.Models;
-using dll.ViewModels;
+using viewmodels;
 using Microsoft.Data.SqlClient;
 
 namespace dll.DAL
@@ -52,7 +52,7 @@ namespace dll.DAL
                                         test.Description = !Convert.IsDBNull(dataReader["test_description"]) ?
                                                           dataReader["test_description"].ToString() :
                                                           null;
-                                        test.Requirement = new PositionRequirementModel()
+                                        test.Requirement = new PositionRequirementVM()
                                         {
                                             RequirementId = Convert.ToInt32(dataReader["requirement_id"]),
                                             RequirementName = dataReader["requirement_name"].ToString()
