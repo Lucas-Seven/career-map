@@ -15,7 +15,8 @@ namespace Aprovatos.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CompanyPositionsPage : ContentPage
     {
-        private CompanyPositionService _service;
+        //private CompanyPositionService _service;
+        private CareerMapCompanyPositionsService _service;
         public CompanyPositionsPage()
         {
             InitializeComponent();
@@ -23,7 +24,8 @@ namespace Aprovatos.Views
 
         public CompanyPositionsPage(CareerMap career) : this()
         {
-            _service = new CompanyPositionService(career.CareerMapId);
+            //_service = new CompanyPositionService(career.CareerMapId);
+            _service = new CareerMapCompanyPositionsService(career.CareerMapId);
         }
 
         private async void lstCompanyPositions_ItemSelected(object sender, SelectedItemChangedEventArgs e)
@@ -64,11 +66,19 @@ namespace Aprovatos.Views
             }
         }
 
+        //private async void loadData()
+        //{
+        //    var data = await _service.LoadDataFromApi();
+        //    ObservableCollection<CompanyPosition> companyPositions = new ObservableCollection<CompanyPosition>(data);
+        //    lstCompanyPositions.ItemsSource = companyPositions;
+        //}
+
         private async void loadData()
         {
-            var data = await _service.LoadDataFromApi();
-            ObservableCollection<CompanyPosition> companyPositions = new ObservableCollection<CompanyPosition>(data);
-            lstCompanyPositions.ItemsSource = companyPositions;
+            CareerMapCompanyPositions cmCompanyPositions = await _service.LoadDataFromApi();
+            lblBreadcrumb.Text = $"{cmCompanyPositions.CareerMap.CareerMapName}";
+
+            lstCompanyPositions.ItemsSource = new ObservableCollection<CompanyPosition>(cmCompanyPositions.CompanyPositions);
         }
     }
 }

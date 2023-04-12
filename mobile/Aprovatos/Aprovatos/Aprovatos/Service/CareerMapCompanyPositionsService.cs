@@ -11,16 +11,16 @@ using Aprovatos.ModelsFuturas;
 
 namespace Aprovatos.Service
 {
-    public class CompanyPositionService : BaseService
+    public class CareerMapCompanyPositionsService : BaseService
     {
-        public List<CompanyPosition> DataList { get; set; }
-        public CompanyPositionService(int companyId) 
+        public CareerMapCompanyPositions Data { get; set; }
+        public CareerMapCompanyPositionsService(int companyId) 
         {
             endpoint = $"careerMaps/{companyId}/companyPositions";
-            DataList = new List<CompanyPosition>();
+            Data = new CareerMapCompanyPositions();
         }
 
-        public async Task<List<CompanyPosition>> LoadDataFromApi()
+        public async Task<CareerMapCompanyPositions> LoadDataFromApi()
         {
             try
             {
@@ -30,14 +30,14 @@ namespace Aprovatos.Service
 
                 var dados = JsonConvert.DeserializeObject<CareerMapCompanyPositions>(json);
 
-                DataList.AddRange(dados.CompanyPositions);
+                Data = dados;
             }
             catch (Exception)
             {
                 //throw;
             }
 
-            return DataList;
+            return Data;
         }
     }
 }

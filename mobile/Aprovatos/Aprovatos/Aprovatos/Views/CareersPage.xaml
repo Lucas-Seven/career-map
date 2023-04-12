@@ -6,8 +6,20 @@
              >
     <ContentPage.Content>
         <StackLayout>
+            <Label x:Name="lblBreadcrumb"
+                   FontSize="10"
+                   FontAttributes="Bold"
+                   Padding="10,5"
+                   TextColor="DarkBlue"
+                   HeightRequest="30"
+                   VerticalTextAlignment="Center"
+                   Background="LightBlue"
+                   Text="Trilhas disponíveis"
+                />
             <ListView x:Name="lstCareers" 
                       ItemSelected="lstCareers_ItemSelected"
+                      VerticalOptions="FillAndExpand"
+                      VerticalScrollBarVisibility="Never"
                       >
                 <!--<ListView.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
