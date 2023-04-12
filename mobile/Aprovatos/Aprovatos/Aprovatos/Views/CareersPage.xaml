@@ -6,12 +6,14 @@
              >
     <ContentPage.Content>
         <StackLayout>
-            <Label  Text="Escolha sua trilha"
+            <!--<Label  Text="Escolha sua trilha"
                     VerticalOptions="Center" 
-                    HorizontalOptions="CenterAndExpand" />
+                    HorizontalOptions="CenterAndExpand" />-->
 
-            <ListView x:Name="lstCareers" ItemSelected="lstCareers_ItemSelected">
-                <ListView.ItemsSource>
+            <ListView x:Name="lstCareers" 
+                      ItemSelected="lstCareers_ItemSelected"
+                      >
+                <!--<ListView.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
                         <x:String>Desenvolvimento Backend</x:String>
                         <x:String>Desenvolvimento Frontend</x:String>
@@ -19,7 +21,19 @@
                         <x:String>Infraestrutura</x:String>
                         <x:String>DevOps</x:String>
                     </x:Array>
-                </ListView.ItemsSource>
+                </ListView.ItemsSource>-->
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Label Text="{Binding CareerMapName}"
+                                   FontSize="16"
+                                   Padding="15,5"
+                                   VerticalOptions="Center"
+                                   VerticalTextAlignment="Center"
+                            />
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
         </StackLayout>
     </ContentPage.Content>
