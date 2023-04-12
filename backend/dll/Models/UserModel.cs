@@ -1,6 +1,4 @@
-﻿using dll.ViewModels;
-
-namespace dll.Models
+﻿namespace dll.Models
 {
     public class UserModel
     {
@@ -8,6 +6,6 @@ namespace dll.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public CareerMapVM? CareerMap { get; set; }
+        public CareerMapModel? CareerMap { get; set; }
     }
 }
