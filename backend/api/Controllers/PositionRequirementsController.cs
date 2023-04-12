@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
-    [Route("api/positionRequirements")]
+    [Route("api/requirements")]
     [ApiController]
     public class PositionRequirementsController : ControllerBase
     {

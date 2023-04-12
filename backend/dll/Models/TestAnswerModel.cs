@@ -1,6 +1,6 @@
 ﻿namespace dll.Models
 {
-    public class TestAnswerVM
+    public class TestAnswerModel
     {
         public int AnswerId { get; set; }
         public int UserId { get; set; }
