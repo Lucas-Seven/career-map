@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/alternatives")]
     [ApiController]
     public class QuestionAlternativesController : ControllerBase
     {

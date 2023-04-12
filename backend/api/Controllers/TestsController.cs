@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/tests")]
     [ApiController]
     public class TestsController : ControllerBase
     {
@@ -17,6 +17,13 @@ namespace api.Controllers
             _configuration = configuration;
             ConnectionString = _configuration.GetConnectionString("AprovAtosConnection");
             _testsDAO = new TestsDAO(ConnectionString);
+        }
+
+        [HttpGet]
+        [Route("requirements/{requirementId}")]
+        public TestVM GetTestByRequirementId(int requirementId)
+        {
+            return _testsDAO.SelectTestByRequirementId(requirementId);
         }
     }
 }
