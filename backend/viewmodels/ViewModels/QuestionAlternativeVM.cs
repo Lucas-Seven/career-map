@@ -1,4 +1,4 @@
-﻿namespace viewmodels
+﻿namespace viewmodels.ViewModels
 {
     public class QuestionAlternativeVM
     {

@@ -1,6 +1,6 @@
 ﻿using dll.Models;
-using viewmodels;
 using Microsoft.Data.SqlClient;
+using viewmodels.ViewModels;
 
 namespace dll.DAL
 {
@@ -24,16 +24,24 @@ namespace dll.DAL
 
                     try
                     {
-                        using (SqlCommand command = new SqlCommand(
-                            "SELECT pr.career_map_id, " +
-                            "p.company_position_id, p.company_position_name, " +
-                            "pr.group_name, " +
-                            "r.requirement_id, r.requirement_name " +
-                            "FROM companyPositions_tb AS p " +
-                            "INNER JOIN companyPositions_positionRequirements_tb AS pr ON pr.company_position_id = p.company_position_id " +
-                            "INNER JOIN positionRequirements_tb AS r ON r.requirement_id = pr.requirement_id " +
-                            "WHERE pr.career_map_id = @careerMapId AND pr.company_position_id = @companyPositionId " +
-                            "ORDER BY pr.group_name;", connection))
+                        string sql = @"
+SELECT pr.career_map_id,
+       p.company_position_id,
+       p.company_position_name,
+       pr.group_name,
+       r.requirement_id,
+       r.requirement_name
+FROM   companypositions_tb AS p
+       INNER JOIN companypositions_positionrequirements_tb AS pr
+               ON pr.company_position_id = p.company_position_id
+       INNER JOIN positionrequirements_tb AS r
+               ON r.requirement_id = pr.requirement_id
+WHERE pr.career_map_id = @careerMapId
+       AND pr.company_position_id = @companyPositionId
+ORDER BY pr.group_name;";
+
+
+                        using (SqlCommand command = new SqlCommand(sql, connection))
                         {
                             command.Parameters.AddWithValue("@careerMapId", careerMapId);
                             command.Parameters.AddWithValue("@companyPositionId", companyPositionId);

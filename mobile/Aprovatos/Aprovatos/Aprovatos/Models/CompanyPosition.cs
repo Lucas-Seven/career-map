@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace viewmodels
+namespace Aprovatos.Models
 {
-    public class CompanyPositionVM
+    public class CompanyPosition
     {
+        public CareerMap CareerMap { get; set; }
+
+
         public int CompanyPositionId { get; set; }
-        public string? CompanyPositionName { get; set; }
+        public string CompanyPositionName { get; set; }
         public int HierarchyNumber { get; set; }
     }
 }

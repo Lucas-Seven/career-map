@@ -1,4 +1,4 @@
-﻿namespace viewmodels
+﻿namespace viewmodels.ViewModels
 {
     public class UserAccessTypesVM
     {
@@ -6,7 +6,7 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public CareerMapVM? CareerMap { get; set; }
+        public CareerMapVM CareerMap { get; set; }
         public ICollection<AccessTypeVM> AccessTypes { get; set; }
 
         public UserAccessTypesVM()

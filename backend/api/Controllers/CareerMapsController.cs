@@ -1,7 +1,7 @@
 ﻿using dll.DAL;
 using dll.Models;
-using viewmodels;
 using Microsoft.AspNetCore.Mvc;
+using viewmodels.ViewModels;
 
 namespace api.Controllers
 {
@@ -19,6 +19,13 @@ namespace api.Controllers
             ConnectionString = _configuration.GetConnectionString("AprovAtosConnection");
             _careerMapsDAO = new CareerMapsDAO(ConnectionString);
             _companyPositionsDAO = new CompanyPositionsDAO(ConnectionString);
+        }
+
+        [HttpGet]
+        public List<CareerMapVM> GetAllCareerMaps()
+        {
+            List<CareerMapVM> careerMaps = _careerMapsDAO.SelectAllCareerMaps();
+            return careerMaps;
         }
 
         [HttpGet]
