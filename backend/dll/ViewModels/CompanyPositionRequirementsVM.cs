@@ -8,9 +8,8 @@ namespace dll.ViewModels
 {
     public class CompanyPositionRequirementsVM
     {
-        public int CareerMapId { get; set; }
-        public int CompanyPositionId { get; set; }
-        public string? CompanyPositionName { get; set; }
+        public CareerMapVM CareerMap { get; set; }
+        public CompanyPositionVM CompanyPosition { get; set; }
         public ICollection<PositionRequirementVM>? Requirements { get; set; }
         public CompanyPositionRequirementsVM()
         {
