@@ -1,6 +1,6 @@
 ﻿using dll.Models;
-using viewmodels;
 using Microsoft.Data.SqlClient;
+using viewmodels.ViewModels;
 
 namespace dll.DAL
 {

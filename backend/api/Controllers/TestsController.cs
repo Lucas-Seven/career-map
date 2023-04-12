@@ -1,7 +1,7 @@
 ﻿using dll.DAL;
 using dll.Models;
-using viewmodels;
 using Microsoft.AspNetCore.Mvc;
+using viewmodels.ViewModels;
 
 namespace api.Controllers
 {
