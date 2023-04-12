@@ -5,18 +5,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
-    [Route("api/positionRequirements")]
+    [Route("api/accessTypes")]
     [ApiController]
-    public class PositionRequirementsController : ControllerBase
+    public class AccessTypesController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        private readonly PositionRequirementsDAO _positionRequirementsDAO;
+        private readonly AccessTypesDAO _accessTypesDAO;
         public string ConnectionString { get; set; }
-        public PositionRequirementsController(IConfiguration configuration)
+        public AccessTypesController(IConfiguration configuration)
         {
             _configuration = configuration;
             ConnectionString = _configuration.GetConnectionString("AprovAtosConnection");
-            _positionRequirementsDAO = new PositionRequirementsDAO(ConnectionString);
+            _accessTypesDAO = new AccessTypesDAO(ConnectionString);
         }
     }
 }

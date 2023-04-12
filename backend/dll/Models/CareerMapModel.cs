@@ -3,6 +3,6 @@
     public class CareerMapModel
     {
         public int CareerMapId { get; set; }
-        public string? CareerMapName { get; set; }
+        public string CareerMapName { get; set; }
     }
 }

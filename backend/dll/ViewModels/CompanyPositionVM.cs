@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace dll.ViewModels
 {
-    public class CompanyPositionViewModel
+    public class CompanyPositionVM
     {
         public int CompanyPositionId { get; set; }
         public string? CompanyPositionName { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace dll.ViewModels
 {
-    public class PositionRequirementViewModel
+    public class PositionRequirementVM
     {
         public int RequirementId { get; set; }
         public string? RequirementName { get; set; }
