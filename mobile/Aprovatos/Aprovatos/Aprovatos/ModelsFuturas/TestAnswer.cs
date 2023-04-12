@@ -1,6 +1,6 @@
-﻿namespace Models
+﻿namespace Aprovatos.ModelsFuturas
 {
-    public class TestAnswerVM
+    public class TestAnswer
     {
         public int AnswerId { get; set; }
         public int UserId { get; set; }

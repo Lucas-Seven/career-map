@@ -1,6 +1,6 @@
-﻿namespace Models
+﻿namespace Aprovatos.ModelsFuturas
 {
-    public class QuestionAlternativeVM
+    public class QuestionAlternative
     {
         public int AlternativeId { get; set; }
         public bool IsRight { get; set; }

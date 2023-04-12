@@ -6,20 +6,20 @@
              >
     <ContentPage.Content>
         <StackLayout>
-            <Label  Text="Escolha sua posição"
-                    VerticalOptions="Center" 
-                    HorizontalOptions="CenterAndExpand" />
-
-            <ListView x:Name="lstCompanyPositions" ItemSelected="lstCompanyPositions_ItemSelected">
-                <ListView.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>Júnior</x:String>
-                        <x:String>Pleno</x:String>
-                        <x:String>Sênior</x:String>
-                        <x:String>Master</x:String>
-                        <x:String>Especialista</x:String>
-                    </x:Array>
-                </ListView.ItemsSource>
+            <ListView x:Name="lstCompanyPositions"
+                      ItemSelected="lstCompanyPositions_ItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Label Text="{Binding CompanyPositionName}"
+                                   FontSize="16"
+                                   Padding="15,5"
+                                   VerticalOptions="Center"
+                                   VerticalTextAlignment="Center"
+                            />
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
         </StackLayout>
     </ContentPage.Content>

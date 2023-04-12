@@ -1,6 +1,6 @@
-﻿namespace Models
+﻿namespace Aprovatos.ModelsFuturas
 {
-    public class QuestionTypeVM
+    public class QuestionType
     {
         public int QuestionTypeId { get; set; }
         public string QuestionTypeName { get; set; }

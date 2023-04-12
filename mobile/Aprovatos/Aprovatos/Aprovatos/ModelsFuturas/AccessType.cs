@@ -1,6 +1,6 @@
-﻿namespace Models
+﻿namespace Aprovatos.ModelsFuturas
 {
-    public class AccessTypeVM
+    public class AccessType
     {
         public int AccessTypeId { get; set; }
         public string AccessTypeName { get; set; }

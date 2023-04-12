@@ -6,10 +6,6 @@
              >
     <ContentPage.Content>
         <StackLayout>
-            <!--<Label  Text="Escolha sua trilha"
-                    VerticalOptions="Center" 
-                    HorizontalOptions="CenterAndExpand" />-->
-
             <ListView x:Name="lstCareers" 
                       ItemSelected="lstCareers_ItemSelected"
                       >

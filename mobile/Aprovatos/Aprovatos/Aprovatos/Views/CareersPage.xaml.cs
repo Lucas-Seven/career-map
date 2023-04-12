@@ -1,9 +1,9 @@
 ﻿using Aprovatos.Service;
 using System;
 using System.Collections.ObjectModel;
-using Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Aprovatos.Models;
 
 namespace Aprovatos.Views
 {
@@ -24,12 +24,18 @@ namespace Aprovatos.Views
                 return;
             }
 
-            var career = e.SelectedItem as CareerMapVM;
+            var career = e.SelectedItem as CareerMap;
 
-            //await Navigation.PushAsync(new ProdutosListaPage(fornecedor));
-            //await Navigation.PushAsync(new CompanyPositionsPage());
 
-            await DisplayAlert("Selectionado", $"{career.CareerMapId} - {career.CareerMapName}", "ok");
+            if(career is null) 
+            {
+                //await DisplayAlert("Selecionado", $"{career.CareerMapId} - {career.CareerMapName}", "ok");
+                await DisplayAlert("Erro", "Ocorreu um erro.", "Ok");
+            }
+            else
+            {
+                await Navigation.PushAsync(new CompanyPositionsPage(career));
+            }
 
             ((ListView)sender).SelectedItem = null;
         }
@@ -40,7 +46,7 @@ namespace Aprovatos.Views
 
             try
             {
-                carregaDados();
+                loadData();
             }
             catch(Exception ex)
             {
@@ -48,10 +54,10 @@ namespace Aprovatos.Views
             }
         }
 
-        private async void carregaDados()
+        private async void loadData()
         {
             var data = await _service.LoadDataFromApi();
-            ObservableCollection<CareerMapVM> careers = new ObservableCollection<CareerMapVM>(data);
+            ObservableCollection<CareerMap> careers = new ObservableCollection<CareerMap>(data);
             lstCareers.ItemsSource = careers;
         }
     }

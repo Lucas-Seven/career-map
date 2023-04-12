@@ -1,6 +1,6 @@
-﻿namespace Models
+﻿namespace Aprovatos.ModelsFuturas
 {
-    public class PositionRequirementVM
+    public class PositionRequirement
     {
         public int RequirementId { get; set; }
         public string RequirementName { get; set; }
