@@ -78,7 +78,7 @@ namespace dll.DAL
                         {
                             throw new Exception($"Users not found.");
                         }
-                        Console.WriteLine("The GetAllUsers query was successful.");
+                        Console.WriteLine("The SelectAllUsersWithAccessTypes query was successful.");
                         return users;
                     }
                     catch (SqlException ex)
@@ -89,7 +89,7 @@ namespace dll.DAL
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred when fetching users from the database. \n\nError: " + ex.Message);
+                throw new Exception($"An error occurred when fetching users from the database. \n\nException: {ex.Message}");
             }
         }
 

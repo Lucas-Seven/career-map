@@ -22,6 +22,13 @@ namespace api.Controllers
         }
 
         [HttpGet]
+        public List<CareerMapVM> GetAllCareerMaps()
+        {
+            List<CareerMapVM> careerMaps = _careerMapsDAO.SelectAllCareerMaps();
+            return careerMaps;
+        }
+
+        [HttpGet]
         [Route("{careerMapId}/companyPositions")]
         public CareerMapCompanyPositionsVM GetCareerMapByIdWithCompanyPositions(int careerMapId)
         {

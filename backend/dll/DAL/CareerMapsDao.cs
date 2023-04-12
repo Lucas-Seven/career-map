@@ -12,6 +12,61 @@ namespace dll.DAL
             _connectionString = connectionString;
         }
 
+        public List<CareerMapVM> SelectAllCareerMaps()
+        {
+            List<CareerMapVM> careerMaps = new List<CareerMapVM>();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+
+                    try
+                    {
+                        using (SqlCommand command = new SqlCommand(
+                            "SELECT career_map_id, career_map_name " +
+                            "FROM careerMaps_tb;", connection))
+                        {
+                            using (SqlDataReader dataReader = command.ExecuteReader())
+                            {
+                                while (dataReader.Read())
+                                {
+                                    int careerMapId = Convert.ToInt32(dataReader["career_map_id"]);
+                                    CareerMapVM careerMap = careerMaps.FirstOrDefault(c => c.CareerMapId == careerMapId);
+
+                                    if (careerMap == null)
+                                    {
+                                        careerMap = new CareerMapVM()
+                                        {
+                                            CareerMapId = careerMapId,
+                                            CareerMapName = dataReader["career_map_name"].ToString()
+                                        };
+                                        careerMaps.Add(careerMap);
+                                    }
+                                }
+                            }
+                        }
+
+                        if (careerMaps == null)
+                        {
+                            throw new Exception($"Career maps not found.");
+                        }
+                        Console.WriteLine("The SelectAllCareerMaps query was successful.");
+                        return careerMaps;
+                    }
+                    catch (SqlException ex)
+                    {
+                        throw new Exception($"An error occurred when fetching career maps from the database. \n\nSqlException: {ex.Message}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred when fetching career maps from the database. \n\nException: {ex.Message}");
+            }
+        }
+
         public CareerMapCompanyPositionsVM SelectCareerMapByIdWithCompanyPositions(int careerMapId)
         {
             CareerMapCompanyPositionsVM careerMap = null;
