@@ -7,20 +7,19 @@ using Xamarin.Forms;
 using System.Threading.Tasks;
 using Aprovatos.Models;
 using System.Net;
-using Aprovatos.ModelsFuturas;
 
 namespace Aprovatos.Service
 {
-    public class CareerMapCompanyPositionsService : BaseService
+    public class CompanyPositionRequirementsService : BaseService
     {
-        public CareerMapCompanyPositions Data { get; set; }
-        public CareerMapCompanyPositionsService(CareerMap career) 
+        public CompanyPositionRequirements Data { get; set; }
+        public CompanyPositionRequirementsService(CompanyPosition companyPosition) 
         {
-            endpoint = $"careerMaps/{career.CareerMapId}/companyPositions";
-            Data = new CareerMapCompanyPositions();
+            endpoint = $"careerMaps/{companyPosition.CareerMap.CareerMapId}/companyPositions/{companyPosition.CompanyPositionId}/requirements";
+            Data = new CompanyPositionRequirements();
         }
 
-        public async Task<CareerMapCompanyPositions> LoadDataFromApi()
+        public async Task<CompanyPositionRequirements> LoadDataFromApi()
         {
             try
             {
@@ -28,7 +27,7 @@ namespace Aprovatos.Service
                 httpClient.BaseAddress = new Uri(url);
                 var json = await httpClient.GetStringAsync("");
 
-                var dados = JsonConvert.DeserializeObject<CareerMapCompanyPositions>(json);
+                var dados = JsonConvert.DeserializeObject<CompanyPositionRequirements>(json);
 
                 Data = dados;
             }

@@ -15,7 +15,6 @@ namespace Aprovatos.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CompanyPositionsPage : ContentPage
     {
-        //private CompanyPositionService _service;
         private CareerMapCompanyPositionsService _service;
         public CompanyPositionsPage()
         {
@@ -24,8 +23,7 @@ namespace Aprovatos.Views
 
         public CompanyPositionsPage(CareerMap career) : this()
         {
-            //_service = new CompanyPositionService(career.CareerMapId);
-            _service = new CareerMapCompanyPositionsService(career.CareerMapId);
+            _service = new CareerMapCompanyPositionsService(career);
         }
 
         private async void lstCompanyPositions_ItemSelected(object sender, SelectedItemChangedEventArgs e)
@@ -40,13 +38,11 @@ namespace Aprovatos.Views
 
             if (position is null)
             {
-                //await DisplayAlert("Selecionado", $"{career.CareerMapId} - {career.CareerMapName}", "ok");
                 await DisplayAlert("Erro", "Ocorreu um erro.", "Ok");
             }
             else
             {
-                await Navigation.PushAsync(new PositionRequirementsPage());
-                //await Navigation.PushAsync(new CompanyPositionsPage(career));
+                await Navigation.PushAsync(new PositionRequirementsPage(position));
             }
 
             ((ListView)sender).SelectedItem = null;
@@ -65,13 +61,6 @@ namespace Aprovatos.Views
                 DisplayAlert("Erro", "Ocorreu um erro.", "Ok");
             }
         }
-
-        //private async void loadData()
-        //{
-        //    var data = await _service.LoadDataFromApi();
-        //    ObservableCollection<CompanyPosition> companyPositions = new ObservableCollection<CompanyPosition>(data);
-        //    lstCompanyPositions.ItemsSource = companyPositions;
-        //}
 
         private async void loadData()
         {
