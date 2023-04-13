@@ -1,6 +1,6 @@
-﻿namespace dll.Models
+﻿namespace viewmodels.User
 {
-    public class AccessTypeModel
+    public class VMAccessType
     {
         public int AccessTypeId { get; set; }
         public string AccessTypeName { get; set; }

@@ -1,7 +1,8 @@
 ﻿using dll.DAL;
 using dll.Models;
 using Microsoft.AspNetCore.Mvc;
-using viewmodels.ViewModels;
+using viewmodels;
+using viewmodels.CareerMap;
 
 namespace api.Controllers
 {
@@ -22,22 +23,23 @@ namespace api.Controllers
         }
 
         [HttpGet]
-        public List<CareerMapVM> GetAllCareerMaps()
+        public List<VMCareerMap> GetAllCareerMaps()
         {
-            List<CareerMapVM> careerMaps = _careerMapsDAO.SelectAllCareerMaps();
+            List<VMCareerMap> careerMaps = _careerMapsDAO.SelectAllCareerMaps();
             return careerMaps;
         }
 
+
         [HttpGet]
         [Route("{careerMapId}/companyPositions")]
-        public CareerMapCompanyPositionsVM GetCareerMapByIdWithCompanyPositions(int careerMapId)
+        public VMCareerMapCompanyPositions GetCareerMapByIdWithCompanyPositions(int careerMapId)
         {
             return _careerMapsDAO.SelectCareerMapByIdWithCompanyPositions(careerMapId);
         }
 
         [HttpGet]
         [Route("{careerMapId}/companyPositions/{companyPositionId}/requirements")]
-        public CompanyPositionRequirementsVM GetCompanyPositionByIdWithRequirements(int careerMapId, int companyPositionId)
+        public VMCareerMapEntire GetCompanyPositionByIdWithRequirements(int careerMapId, int companyPositionId)
         {
             return _companyPositionsDAO.SelectCompanyPositionByIdWithRequirements(careerMapId, companyPositionId);
         }

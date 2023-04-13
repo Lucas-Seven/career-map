@@ -1,7 +1,7 @@
 ﻿using dll.DAL;
 using dll.Models;
 using Microsoft.AspNetCore.Mvc;
-using viewmodels.ViewModels;
+using viewmodels.User;
 
 namespace api.Controllers
 {
@@ -19,26 +19,26 @@ namespace api.Controllers
             _usersDAO = new UsersDAO(ConnectionString);
         }
 
-        [HttpGet]
-        [Route("accessTypes")]
-        public List<UserAccessTypesVM> GetAllUsersWithAccessTypes()
-        {
-            List<UserAccessTypesVM> users = _usersDAO.SelectAllUsersWithAccessTypes();
-            return users;
-        }
+        //[HttpGet]
+        //[Route("accessTypes")]
+        //public List<VMUserEntire> GetAllUsersWithAccessTypes()
+        //{
+        //    List<VMUserEntire> users = _usersDAO.SelectAllUsersWithAccessTypes();
+        //    return users;
+        //}
 
-        [HttpGet]
-        [Route("{userId}/accessTypes")]
-        public UserAccessTypesVM GetUserByIdWithAccessTypes(int userId)
-        {
-            return _usersDAO.SelectUserByIdWithAccessTypes(userId);
-        }
+        //[HttpGet]
+        //[Route("{userId}/accessTypes")]
+        //public VMUserEntire GetUserByIdWithAccessTypes(int userId)
+        //{
+        //    return _usersDAO.SelectUserByIdWithAccessTypes(userId);
+        //}
 
-        [HttpPost]
-        public IActionResult PostUser([FromBody] UserModel user)
-        {
-            _usersDAO.InsertUser(user);
-            return Ok();
-        }
+        //[HttpPost]
+        //public IActionResult PostUser([FromBody] MUser user)
+        //{
+        //    _usersDAO.InsertUser(user);
+        //    return Ok();
+        //}
     }
 }
