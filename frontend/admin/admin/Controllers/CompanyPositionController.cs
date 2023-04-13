@@ -1,45 +1,37 @@
 ﻿using admin.Services;
-using admin.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace admin.Controllers
 {
-    public class CareerMapsController : Controller
+    public class CompanyPositionController : Controller
     {
-        private CareerMapsService _service;
-        //private CompanyPositionService _companyPositionService;
-        public CareerMapsController()
+        private CompanyPositionService _service;
+
+        public CompanyPositionController()
         {
-            _service = new CareerMapsService();
-            
+            _service = new CompanyPositionService();
         }
 
-        // GET: CarrermapsController
+        // GET: CompanyPositionController
         public ActionResult Index()
         {
-            return View(_service.GetAllCareers());
-        }
+            return View(_service);
+        }    
 
-        // GET: CarrermapsController/Details/5
-        public ActionResult Details(int junior)
+        // GET: CompanyPositionController/Details/5
+        public ActionResult Informacao(int id)
         {
             return View();
         }
 
-        public ActionResult Informacao(int junior)
-        {
-            return View();
-        }
-
-        // GET: CarrermapsController/Create
+        // GET: CompanyPositionController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: CarrermapsController/Create
+        // POST: CompanyPositionController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -54,13 +46,13 @@ namespace admin.Controllers
             }
         }
 
-        // GET: CarrermapsController/Edit/5
+        // GET: CompanyPositionController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: CarrermapsController/Edit/5
+        // POST: CompanyPositionController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -75,13 +67,13 @@ namespace admin.Controllers
             }
         }
 
-        // GET: CarrermapsController/Delete/5
+        // GET: CompanyPositionController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: CarrermapsController/Delete/5
+        // POST: CompanyPositionController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
@@ -93,21 +85,6 @@ namespace admin.Controllers
             catch
             {
                 return View();
-            }
-        }
-
-        [HttpGet]
-        public IActionResult ListaPorCarreiras()
-        {
-            try
-            {
-                //ViewBag.Foruns = new SelectList(forumDao.Listar(), "Id ", "Descricao");
-                return View();
-            }
-            catch (Exception ex)
-            {
-
-                return View("_erro", ex);
             }
         }
     }

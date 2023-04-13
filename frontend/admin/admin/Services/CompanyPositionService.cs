@@ -1,35 +1,15 @@
 ﻿using admin.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace admin.Services
 {
-    public class CompanyPositionService
-    {
-        public List<CompanyPositionVM> GetAllCompanyPositions()
+    public class CompanyPositionService : Controller
+    {    
+        public List<CompanyPositionVM> GetAllCompanyPositions( )
         {
-            //IEnumerable<CareerMapVM> lista = null;
-
-            //using (var client = new HttpClient())
-            //{
-            //    client.BaseAddress = new Uri("https://localhost:7149/api/");
-
-            //    //HTTP GET
-            //    var responseTask = client.GetAsync("CareerMaps");
-            //    responseTask.Wait();
-            //    var result = responseTask.Result;
-
-            //    if (result.IsSuccessStatusCode)
-            //    {
-            //        var readTask = result.Content.ReadAsAsync<IList<CareerMapVM>>();
-            //        readTask.Wait();
-            //        lista = readTask.Result;chro
-            //    }
-            //    else
-            //    {
-            //        lista = Enumerable.Empty<CareerMapVM>();
-            //        ModelState.AddModelError(string.Empty, "Erro no servidor. Contate o Administrador.");
-            //    }
-            //    return View(lista);
-            //}
+            
+            var companyPositions = new List<CompanyPositionVM>();
 
             var careers = new List<CareerMapVM>();
 
@@ -40,9 +20,21 @@ namespace admin.Services
                     CareerMapId = i,
                     CareerMapName = $"Carreira {i}"
                 });
-            };
+            }
 
-            return careers;
+            companyPositions.Add(new CompanyPositionVM()
+            {
+                CompanyPositionId = 1,
+                CompanyPositionName = "Posição 1"
+            });
+
+            return companyPositions;
+        }     
+        
+        public ActionResult MeuTest( string meuValor = "valor1")
+        {
+            ViewBag.MeuValor = "Ola teste";
+            return View();
         }
     }
 }

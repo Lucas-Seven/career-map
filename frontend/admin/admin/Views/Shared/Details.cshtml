@@ -1,60 +1,125 @@
-﻿
-<nav aria-label="breadcrumb">
+﻿@*@model IEnumerable<admin.ViewModels.CareerMapVM>
+@{
+    ViewBag.Title = "Index";
+}*@
+@*<nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Library</li>
+        <li class="breadcrumb-item"><a href="#">Desenvolvimento Backend</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Carreiras</li>
     </ol>
-    <h1>Detalhes</h1>
-    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-        <option selected>Carreira</option>
-        <option value="1">Junior</option>
-        <option value="2">Pleno</option>
-        <option value="3">Senior</option>
-    </select>
-    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-        <option selected>Nivel</option>
-        <option value="1">Junior</option>
-        <option value="2">Pleno</option>
-        <option value="3">Senior</option>
-    </select>
-    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-        <option selected>Requisito</option>
-        <option value="1">Junior</option>
-        <option value="2">Pleno</option>
-        <option value="3">Senior</option>  
-    </select>
-    <select onchange="location = this.value;">
-        <option value="">Selecione uma opção</option>
-        <option value="~/Shared/Informacao.cshtml"> </option>
-    </select>
+    <h1>Desenvolvimento Backend</h1>
 
+    <button class="btn-details" onclick="location.href='@Url.Action("Informacao")'">Exibir</button>
+
+     
+    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="redirecionar" onchange="irParaPagina()">  
+        <option selected>Analista Júnior</option>
+        <option value="/CareerMaps/Informacao">C#</option>
+        <option value="carreiras.html">SQL</option>
+        <option value="carreiras.html">AWS</option>
+        <option value="carreiras.html">Java</option>
+        <option value="/CareerMaps/Informacao">Azure</option>
+    </select>
+    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="redirecionar" onchange="irParaPagina()">
+        <option selected>Analista Pleno </option>
+        <option value="carreiras.html">C#</option>
+        <option value="carreiras.html">SQL</option>
+        <option value="carreiras.html">AWS</option>
+        <option value="carreiras.html">Java</option>
+        <option value="/CareerMaps/Informacao">Azure</option>
+    </select>
+    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="redirecionar" onchange="irParaPagina()">
+        <option selected>Analista Senior</option>
+        <option value="carreiras.html">C#</option>
+        <option value="carreiras.html">SQL</option>
+        <option value="carreiras.html">AWS</option>
+        <option value="carreiras.html">Java</option>
+        <option value="/CareerMaps/Informacao">Azure</option>
+    </select>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <button class="btn btn-primary" type="button" onclick="history.back()">Button</button>
     </div>
+</nav>*@
+
+@*<script src="scripts/main.js"></script>
+<script>
+function irParaPagina() {
+  var select = document.getElementById("redirecionar");
+  var selectedOption = select.options[select.selectedIndex];
+  if (selectedOption.value !== "") {
+    window.location = selectedOption.value;
+  }
+}
+</script>*@
+
+
+@model IEnumerable<admin.ViewModels.CompanyPositionVM >
+@{
+    ViewBag.Title = "Index";
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">Home</li>
+    </ol>
+    <h2>Mapa de Carreira</h2>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-primary me-md-2" type="button">Adicionar Mapa</button>
+    </div>
+    <table class="table">
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Career name
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompanyPositionId )
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompanyPositionName)
+                </td>
+                <td>
+@*                    <button class="btn-details" onclick="location.href='@Url.Action("Details", new { id = item.CareerMapId })'">Exibir</button>
+*@                </td>
+            </tr>
+        }
+        <tr>
+            <td>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    </table>   
 </nav>
 
-<button id="html">
-    teste js
-</button>
 
-<script src="scripts/main.js"></script>
-@*<script>
-    document.querySelector("html").addEventListener("click", function () {
-        alert("Ai! Pare de me cutucar!");
-    });
-</script>*@
-@*<script>
-    document.getElementById("nivel").onchange = function () {
-        var nivel = document.getElementById("nivel").value;
-        if (nivel === "1") {
-            window.location.href = "~/Views/Shared/Informacao.cshtml";
-        } else if (nivel === "2") {
-            window.location.href = "~/Shared/Informacao.cshtml";
-        } else if (nivel === "3") {
-            window.location.href = "~/Informacao.cshtml";
-        }
-    };
-</script>*@
+
+<style>
+.btn-details {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-details:hover {
+  background-color: #0069d9;
+}
+</style>
+
+
+            
+
 
 
 

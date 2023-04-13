@@ -1,46 +1,42 @@
-﻿@model IEnumerable<admin.ViewModels.CompanyPositionRequirementsVM>
+﻿@model IEnumerable<admin.ViewModels.CompanyPositionVM>
+@{
+    ViewBag.Title = "Index";
+}
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Home</a></li>
-        <li class="breadcrumb-item"><a href="#">Library</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Data</li>
+        <li class="breadcrumb-item active" aria-current="page">Detalhes das carreiras</li>
     </ol>
 
-    <table class="table">
-        <tr>
-            <th>
-                Id
-            </th>
-            <th>
-                Career name
-            </th>
-            <th>
-                Action
-            </th>
-        </tr>
+   
+    <p>Como um analista de sistemas júnior em C#, você precisaria de um conjunto de habilidades básicas, incluindo:.</p>
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.company_position_name )
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.company_position_id)
-                </td>
-                <td>
-                    <button class="btn-details" @*onclick="location.href='@Url.Action("Details", new { id = item.career_map_id })'"*@>Exibir</button>
-                </td>
-            </tr>
-        }
-        <tr>
-            <td>
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            </td>
-        </tr>
-    </table>
+    <ol>
+        <li>Conhecimento de programação em C#: você deve ter um conhecimento sólido da linguagem C# e saber como usá-la para criar aplicativos desktop, aplicativos da Web e aplicativos móveis.</li>
+        <li>Desenvolvimento de aplicativos: você deve ter conhecimento em desenvolvimento de aplicativos e ser capaz de desenvolver aplicativos desde o planejamento até o lançamento.</li>
+        <li>Banco de Dados: Conhecimento de banco de dados relacionais, como o SQL Server e como interagir com ele usando o C#.</li>
+    </ol>
+
+
+        
+
+        
+
+        
+
+        
+
+        
+
+       
+    
+
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-primary" type="button" onclick="history.back()">Button</button>
+    </div>
+   
 </nav>
-
 
 
 
