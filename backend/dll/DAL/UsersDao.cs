@@ -1,6 +1,5 @@
-﻿using dll.Models;
-using Microsoft.Data.SqlClient;
-using viewmodels;
+﻿using Microsoft.Data.SqlClient;
+using viewmodels.CareerMap;
 using viewmodels.User;
 
 namespace dll.DAL
@@ -13,162 +12,379 @@ namespace dll.DAL
             _connectionString = connectionString;
         }
 
-        //public List<VMUserEntire> SelectAllUsersWithAccessTypes()
-        //{
-        //    List<VMUserEntire> users = new List<VMUserEntire>();
+        public List<VMUser> SelectAllUsers()
+        {
+            try
+            {
+                List<VMUser> users = new List<VMUser>();
 
-        //    try
-        //    {
-        //        using (SqlConnection connection = new SqlConnection(_connectionString))
-        //        {
-        //            connection.Open();
+                string sql = @"SELECT 
+                                  user_id, 
+                                  first_name, 
+                                  last_name, 
+                                  email
+                                FROM 
+                                  users_tb;";
 
-        //            try
-        //            {
-        //                using (SqlCommand command = new SqlCommand(
-        //                    "SELECT u.user_id, u.first_name, u.last_name, u.email, " +
-        //                        "c.career_map_id, c.career_map_name, " +
-        //                        "a.access_type_id, a.access_type_name " +
-        //                    "FROM users_tb AS u " +
-        //                    "LEFT JOIN careerMaps_tb AS c ON c.career_map_id = u.career_map_id " +
-        //                    "INNER JOIN accessTypes_users_tb AS au ON au.user_id = u.user_id " +
-        //                    "INNER JOIN accessTypes_tb AS a ON a.access_type_id = au.access_type_id " +
-        //                    "ORDER BY u.email;", connection))
-        //                {
-        //                    using (SqlDataReader dataReader = command.ExecuteReader())
-        //                    {
-        //                        while (dataReader.Read())
-        //                        {
-        //                            int userId = Convert.ToInt32(dataReader["user_id"]);
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
 
-        //                            VMUserEntire user = users.FirstOrDefault(u => u.UserId == userId);
+                    try
+                    {
+                        using (SqlCommand command = new SqlCommand(sql, connection))
+                        {
+                            using (SqlDataReader dataReader = command.ExecuteReader())
+                            {
+                                while (dataReader.Read())
+                                {
+                                    int userId = Convert.ToInt32(dataReader["user_id"]);
+                                    VMUser user = users.FirstOrDefault(u => u.UserId == userId);
 
-        //                            if (user == null)
-        //                            {
-        //                                user = new VMUserEntire()
-        //                                {
-        //                                    UserId = userId,
-        //                                    FirstName = dataReader["first_name"].ToString(),
-        //                                    LastName = dataReader["last_name"].ToString(),
-        //                                    Email = dataReader["email"].ToString(),
-        //                                    AccessTypes = new List<VMAccessType>()
-        //                                };
+                                    if (user == null)
+                                    {
+                                        user = new VMUser()
+                                        {
+                                            UserId = userId,
+                                            FirstName = dataReader["first_name"].ToString(),
+                                            LastName = dataReader["last_name"].ToString(),
+                                            Email = dataReader["email"].ToString()
+                                        };
+                                        users.Add(user);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    catch (SqlException ex)
+                    {
+                        throw new Exception($"An error occurred when fetching \"users\" from the database. \n\nSqlException: {ex.Message}");
+                    }
+                }
 
-        //                                if (!Convert.IsDBNull(dataReader["career_map_id"]))
-        //                                {
-        //                                    user.CareerMap = new VMCareerMap()
-        //                                    {
-        //                                        CareerMapId = Convert.ToInt32(dataReader["career_map_id"]),
-        //                                        CareerMapName = dataReader["career_map_name"].ToString()
-        //                                    };
-        //                                }
-        //                                users.Add(user);
-        //                            }
+                if (users == null || users.Count == 0)
+                {
+                    throw new Exception("The \"users\" not found.");
+                }
 
-        //                            VMAccessType accessType = new VMAccessType
-        //                            {
-        //                                AccessTypeId = Convert.ToInt32(dataReader["access_type_id"]),
-        //                                AccessTypeName = dataReader["access_type_name"].ToString()
-        //                            };
-        //                            user.AccessTypes.Add(accessType);
-        //                        }
-        //                    }
-        //                }
+                Console.WriteLine("The \"SelectUserById\" query was successful.");
+                return users;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred. \n\nException: {ex.Message}");
+            }
+        }
 
-        //                if (users == null)
-        //                {
-        //                    throw new Exception($"Users not found.");
-        //                }
-        //                Console.WriteLine("The SelectAllUsersWithAccessTypes query was successful.");
-        //                return users;
-        //            }
-        //            catch (SqlException ex)
-        //            {
-        //                throw new Exception($"An error occurred when fetching users from the database. \n\nSqlException: {ex.Message}");
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception($"An error occurred when fetching users from the database. \n\nException: {ex.Message}");
-        //    }
-        //}
+        public VMUser SelectUserById(int userId)
+        {
+            try
+            {
+                VMUser user = null;
 
-        //public VMUserEntire SelectUserByIdWithAccessTypes(int userId)
-        //{
-        //    VMUserEntire user = null;
+                string sql = @"SELECT 
+                                  user_id, 
+                                  first_name, 
+                                  last_name, 
+                                  email
+                                FROM 
+                                  users_tb
+                                WHERE 
+                                  user_id = @userId 
+                                ORDER BY 
+                                  email;";
 
-        //    try
-        //    {
-        //        using (SqlConnection connection = new SqlConnection(_connectionString))
-        //        {
-        //            connection.Open();
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
 
-        //            try
-        //            {
-        //                using (SqlCommand command = new SqlCommand(
-        //                    "SELECT u.user_id, u.first_name, u.last_name, u.email, " +
-        //                        "c.career_map_id, c.career_map_name, " +
-        //                        "a.access_type_id, a.access_type_name " +
-        //                    "FROM users_tb AS u " +
-        //                    "LEFT JOIN careerMaps_tb AS c ON c.career_map_id = u.career_map_id " +
-        //                    "INNER JOIN accessTypes_users_tb AS au ON au.user_id = u.user_id " +
-        //                    "INNER JOIN accessTypes_tb AS a ON a.access_type_id = au.access_type_id " +
-        //                    "WHERE u.user_id = @userId " +
-        //                    "ORDER BY u.email;", connection))
-        //                {
-        //                    command.Parameters.AddWithValue("@userId", userId);
+                    try
+                    {
+                        using (SqlCommand command = new SqlCommand(sql, connection))
+                        {
+                            command.Parameters.AddWithValue("@userId", userId);
 
-        //                    using (SqlDataReader dataReader = command.ExecuteReader())
-        //                    {
-        //                        if (dataReader.HasRows)
-        //                        {
-        //                            user = new VMUserEntire();
-        //                            user.AccessTypes = new List<VMAccessType>();
-        //                            while (dataReader.Read())
-        //                            {
-        //                                user.UserId = Convert.ToInt32(dataReader["user_id"]);
-        //                                user.FirstName = dataReader["first_name"].ToString();
-        //                                user.LastName = dataReader["last_name"].ToString();
-        //                                user.Email = dataReader["email"].ToString();
-        //                                user.CareerMap = null;
-        //                                if (!Convert.IsDBNull(dataReader["career_map_id"]))
-        //                                {
-        //                                    user.CareerMap = new VMCareerMap()
-        //                                    {
-        //                                        CareerMapId = Convert.ToInt32(dataReader["career_map_id"]),
-        //                                        CareerMapName = dataReader["career_map_name"].ToString()
-        //                                    };
-        //                                }
-        //                                VMAccessType accessType = new VMAccessType
-        //                                {
-        //                                    AccessTypeId = Convert.ToInt32(dataReader["access_type_id"]),
-        //                                    AccessTypeName = dataReader["access_type_name"].ToString()
-        //                                };
-        //                                user.AccessTypes.Add(accessType);
-        //                            }
-        //                        }
-        //                    }
-        //                }
+                            using (SqlDataReader dataReader = command.ExecuteReader())
+                            {
+                                if (dataReader.HasRows)
+                                {
+                                    user = new VMUser();
+                                    while (dataReader.Read())
+                                    {
+                                        user = new VMUser()
+                                        {
+                                            UserId = Convert.ToInt32(dataReader["user_id"]),
+                                            FirstName = dataReader["first_name"].ToString(),
+                                            LastName = dataReader["last_name"].ToString(),
+                                            Email = dataReader["email"].ToString()
+                                        };
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    catch (SqlException ex)
+                    {
+                        throw new Exception($"An error occurred when fetching \"users\" from the database. \n\nSqlException: {ex.Message}");
+                    }
+                }
 
-        //                if (user == null)
-        //                {
-        //                    throw new Exception($"User with Id {userId} not found.");
-        //                }
-        //                Console.WriteLine("The SelectUserByIdWithAccessTypes query was successful.");
-        //                return user;
-        //            }
-        //            catch (SqlException ex)
-        //            {
-        //                throw new Exception($"An error occurred when fetching user from the database. \n\nSqlException: {ex.Message}");
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception($"An error occurred when fetching user from the database. \n\nException: {ex.Message}");
-        //    }
-        //}
+                if (user == null)
+                {
+                    throw new Exception("The \"users\" not found.");
+                }
+
+                Console.WriteLine("The \"SelectUserById\" query was successful.");
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred. \n\nException: {ex.Message}");
+            }
+        }
+
+        public VMUserCareerMap SelectUserByIdWithCareerMap(int userId)
+        {
+            try
+            {
+                VMUserCareerMap user = null;
+
+                string sql = @"SELECT 
+                                  u.user_id, 
+                                  u.first_name, 
+                                  u.last_name, 
+                                  u.email, 
+                                  c.career_map_id, 
+                                  c.career_map_name
+                                FROM 
+                                  users_tb AS u 
+                                  LEFT JOIN careerMaps_tb AS c ON c.career_map_id = u.career_map_id 
+                                WHERE 
+                                  u.user_id = @userId 
+                                ORDER BY 
+                                  u.email;";
+
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+
+                    try
+                    {
+                        using (SqlCommand command = new SqlCommand(sql, connection))
+                        {
+                            command.Parameters.AddWithValue("@userId", userId);
+
+                            using (SqlDataReader dataReader = command.ExecuteReader())
+                            {
+                                if (dataReader.HasRows)
+                                {
+                                    user = new VMUserCareerMap();
+                                    while (dataReader.Read())
+                                    {
+                                        user.User = new VMUser()
+                                        {
+                                            UserId = Convert.ToInt32(dataReader["user_id"]),
+                                            FirstName = dataReader["first_name"].ToString(),
+                                            LastName = dataReader["last_name"].ToString(),
+                                            Email = dataReader["email"].ToString()
+                                        };
+
+                                        user.CareerMap = new VMCareerMap()
+                                        {
+                                            CareerMapId = Convert.ToInt32(dataReader["career_map_id"]),
+                                            CareerMapName = dataReader["career_map_name"].ToString()
+                                        };
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    catch (SqlException ex)
+                    {
+                        throw new Exception($"An error occurred when fetching \"users\" from the database. \n\nSqlException: {ex.Message}");
+                    }
+                }
+
+                if (user == null)
+                {
+                    throw new Exception("The \"users\" not found.");
+                }
+
+                Console.WriteLine("The \"SelectUserByIdWithCareerMap\" query was successful.");
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred. \n\nException: {ex.Message}");
+            }
+        }
+        
+        public VMUserAccessTypes SelectUserByIdWithAccessTypes(int userId)
+        {
+            try
+            {
+                VMUserAccessTypes user = null;
+
+                string sql = @"SELECT 
+                                  u.user_id, 
+                                  u.first_name, 
+                                  u.last_name, 
+                                  u.email, 
+                                  a.access_type_id, 
+                                  a.access_type_name 
+                                FROM 
+                                  users_tb AS u 
+                                  INNER JOIN accessTypes_users_tb AS au ON au.user_id = u.user_id 
+                                  INNER JOIN accessTypes_tb AS a ON a.access_type_id = au.access_type_id 
+                                WHERE 
+                                  u.user_id = @userId 
+                                ORDER BY 
+                                  u.email;";
+
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+
+                    try
+                    {
+                        using (SqlCommand command = new SqlCommand(sql, connection))
+                        {
+                            command.Parameters.AddWithValue("@userId", userId);
+
+                            using (SqlDataReader dataReader = command.ExecuteReader())
+                            {
+                                if (dataReader.HasRows)
+                                {
+                                    user = new VMUserAccessTypes();
+                                    user.AccessTypes = new List<VMAccessType>();
+                                    while (dataReader.Read())
+                                    {
+                                        user.User = new VMUser()
+                                        {
+                                            UserId = Convert.ToInt32(dataReader["user_id"]),
+                                            FirstName = dataReader["first_name"].ToString(),
+                                            LastName = dataReader["last_name"].ToString(),
+                                            Email = dataReader["email"].ToString()
+                                        };
+
+                                        VMAccessType accessType = new VMAccessType()
+                                        {
+                                            AccessTypeId = Convert.ToInt32(dataReader["access_type_id"]),
+                                            AccessTypeName = dataReader["access_type_name"].ToString()
+                                        };
+                                        user.AccessTypes.Add(accessType);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    catch (SqlException ex)
+                    {
+                        throw new Exception($"An error occurred when fetching \"users\" from the database. \n\nSqlException: {ex.Message}");
+                    }
+                }
+
+                if (user == null)
+                {
+                    throw new Exception("The \"users\" not found.");
+                }
+
+                Console.WriteLine("The \"SelectUserByIdWithAccessTypes\" query was successful.");
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred. \n\nException: {ex.Message}");
+            }
+        }
+
+        public VMUserEntire SelectUserEntireById(int userId)
+        {
+            try
+            {
+                VMUserEntire user = null;
+
+                string sql = @"SELECT 
+                                  u.user_id, 
+                                  u.first_name, 
+                                  u.last_name, 
+                                  u.email, 
+                                  c.career_map_id, 
+                                  c.career_map_name, 
+                                  a.access_type_id, 
+                                  a.access_type_name 
+                                FROM 
+                                  users_tb AS u 
+                                  LEFT JOIN careerMaps_tb AS c ON c.career_map_id = u.career_map_id 
+                                  INNER JOIN accessTypes_users_tb AS au ON au.user_id = u.user_id 
+                                  INNER JOIN accessTypes_tb AS a ON a.access_type_id = au.access_type_id 
+                                WHERE 
+                                  u.user_id = @userId 
+                                ORDER BY 
+                                  u.email;";
+
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+
+                    try
+                    {
+                        using (SqlCommand command = new SqlCommand(sql, connection))
+                        {
+                            command.Parameters.AddWithValue("@userId", userId);
+
+                            using (SqlDataReader dataReader = command.ExecuteReader())
+                            {
+                                if (dataReader.HasRows)
+                                {
+                                    user = new VMUserEntire();
+                                    user.AccessTypes = new List<VMAccessType>();
+                                    while (dataReader.Read())
+                                    {
+                                        user.User = new VMUser()
+                                        {
+                                            UserId = Convert.ToInt32(dataReader["user_id"]),
+                                            FirstName = dataReader["first_name"].ToString(),
+                                            LastName = dataReader["last_name"].ToString(),
+                                            Email = dataReader["email"].ToString()
+                                        };
+
+                                        user.CareerMap = new VMCareerMap()
+                                        {
+                                            CareerMapId = Convert.ToInt32(dataReader["career_map_id"]),
+                                            CareerMapName = dataReader["career_map_name"].ToString()
+                                        };
+
+                                        VMAccessType accessType = new VMAccessType()
+                                        {
+                                            AccessTypeId = Convert.ToInt32(dataReader["access_type_id"]),
+                                            AccessTypeName = dataReader["access_type_name"].ToString()
+                                        };
+                                        user.AccessTypes.Add(accessType);
+                                    }                                    
+                                }
+                            }
+                        }
+                    }
+                    catch (SqlException ex)
+                    {
+                        throw new Exception($"An error occurred when fetching \"users\" from the database. \n\nSqlException: {ex.Message}");
+                    }
+                }
+
+                if (user == null)
+                {
+                    throw new Exception("The \"users\" not found.");
+                }
+
+                Console.WriteLine("The \"SelectUserEntireById\" query was successful.");
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred. \n\nException: {ex.Message}");
+            }
+        }
 
         //public MUser InsertUser(MUser user)
         //{

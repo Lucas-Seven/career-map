@@ -12,14 +12,12 @@ namespace api.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly CareerMapsDAO _careerMapsDAO;
-        private readonly CompanyPositionsDAO _companyPositionsDAO;
         public string ConnectionString { get; set; }
         public CareerMapsController(IConfiguration configuration)
         {
             _configuration = configuration;
             ConnectionString = _configuration.GetConnectionString("AprovAtosConnection");
             _careerMapsDAO = new CareerMapsDAO(ConnectionString);
-            _companyPositionsDAO = new CompanyPositionsDAO(ConnectionString);
         }
 
         [HttpGet]
@@ -28,7 +26,6 @@ namespace api.Controllers
             List<VMCareerMap> careerMaps = _careerMapsDAO.SelectAllCareerMaps();
             return careerMaps;
         }
-
 
         [HttpGet]
         [Route("{careerMapId}/companyPositions")]
@@ -39,9 +36,9 @@ namespace api.Controllers
 
         [HttpGet]
         [Route("{careerMapId}/companyPositions/{companyPositionId}/requirements")]
-        public VMCareerMapEntire GetCompanyPositionByIdWithRequirements(int careerMapId, int companyPositionId)
+        public VMCareerMapEntire GetCareerMapEntireById(int careerMapId, int companyPositionId)
         {
-            return _companyPositionsDAO.SelectCompanyPositionByIdWithRequirements(careerMapId, companyPositionId);
+            return _careerMapsDAO.SelectCareerMapEntireById(careerMapId, companyPositionId);
         }
     }
 }
