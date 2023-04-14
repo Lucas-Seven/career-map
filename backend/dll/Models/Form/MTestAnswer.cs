@@ -1,6 +1,6 @@
-﻿namespace viewmodels.ViewModels
+﻿namespace dll.Models.Form
 {
-    public class TestAnswerVM
+    public class MTestAnswer
     {
         public int AnswerId { get; set; }
         public int UserId { get; set; }

@@ -1,7 +1,7 @@
 ﻿using dll.DAL;
 using dll.Models;
 using Microsoft.AspNetCore.Mvc;
-using viewmodels.ViewModels;
+using viewmodels;
 
 namespace api.Controllers
 {
@@ -19,11 +19,11 @@ namespace api.Controllers
             _testsDAO = new TestsDAO(ConnectionString);
         }
 
-        [HttpGet]
-        [Route("requirements/{requirementId}")]
-        public TestVM GetTestByRequirementId(int requirementId)
-        {
-            return _testsDAO.SelectTestByRequirementId(requirementId);
-        }
+        //[HttpGet]
+        //[Route("requirements/{requirementId}")]
+        //public TestVM GetTestByRequirementId(int requirementId)
+        //{
+        //    return _testsDAO.SelectTestByRequirementId(requirementId);
+        //}
     }
 }

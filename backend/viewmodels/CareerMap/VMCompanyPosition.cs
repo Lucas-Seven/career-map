@@ -1,6 +1,6 @@
-﻿namespace dll.Models
+﻿namespace viewmodels.CareerMap
 {
-    public class CompanyPositionModel
+    public class VMCompanyPosition
     {
         public int CompanyPositionId { get; set; }
         public string CompanyPositionName { get; set; }
