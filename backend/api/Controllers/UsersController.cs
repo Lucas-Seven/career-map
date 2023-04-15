@@ -18,7 +18,14 @@ namespace api.Controllers
             ConnectionString = _configuration.GetConnectionString("AprovAtosConnection");
             _usersDAO = new UsersDAO(ConnectionString);
         }
-        
+
+        [HttpPost]
+        public IActionResult PostUser(MUser user)
+        {
+            MUser objAdded = _usersDAO.InsertUser(user);
+            return Ok(new { user = objAdded, message = "User was successfully registered." });
+        }
+
         [HttpGet]
         public List<VMUser> GetAllUsers()
         {
@@ -53,19 +60,5 @@ namespace api.Controllers
         {
             return _usersDAO.SelectUserEntireById(userId);
         }
-
-        //[HttpGet]
-        //[Route("{userId}/accessTypes")]
-        //public VMUserEntire GetUserByIdWithAccessTypes(int userId)
-        //{
-        //    return _usersDAO.SelectUserByIdWithAccessTypes(userId);
-        //}
-
-        //[HttpPost]
-        //public IActionResult PostUser([FromBody] MUser user)
-        //{
-        //    _usersDAO.InsertUser(user);
-        //    return Ok();
-        //}
     }
 }

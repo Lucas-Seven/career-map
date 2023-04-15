@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using dll.Models;
+using Microsoft.Data.SqlClient;
 using viewmodels.CareerMap;
 using viewmodels.User;
 
@@ -10,6 +11,83 @@ namespace dll.DAL
         public UsersDAO(string connectionString)
         {
             _connectionString = connectionString;
+        }
+
+        public MUser InsertUser(MUser user)
+        {
+            try
+            {
+                string sql1 = @"-- Insert user in users_tb table
+                                INSERT INTO users_tb (
+                                  first_name, last_name, email, career_map_id
+                                ) 
+                                VALUES (
+                                  @FirstName, @LastName, @Email, @CareerMapId
+                                );
+                               
+                               -- Select the last ID entered in users_tb table
+                                SELECT 
+                                  CAST(SCOPE_IDENTITY() AS INT);";
+
+                string sql2 = @"-- Insert user's access type in accessTypes_users_tb table
+                                INSERT INTO accessTypes_users_tb (
+                                  user_id, access_type_id
+                                ) 
+                                VALUES (
+                                  (SELECT user_id FROM users_tb WHERE email = @Email), 
+                                  @AccessTypeId
+                                );";
+
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    SqlTransaction transaction = connection.BeginTransaction();
+
+                    try
+                    {
+                        // Add user
+                        using (SqlCommand command1 = new SqlCommand(sql1, connection))
+                        {
+                            command1.Transaction = transaction;
+                            command1.Parameters.AddWithValue("@FirstName", user.FirstName);
+                            command1.Parameters.AddWithValue("@LastName", user.LastName);
+                            command1.Parameters.AddWithValue("@Email", user.Email);
+                            command1.Parameters.AddWithValue("@CareerMapId", user.CareerMapId != null ? user.CareerMapId : DBNull.Value);
+
+                            user.UserId = (int)command1.ExecuteScalar();
+                        }
+
+                        // Assigning default(employee) access type to user
+                        using (SqlCommand command2 = new SqlCommand(sql2, connection))
+                        {
+                            command2.Transaction = transaction;
+                            command2.Parameters.AddWithValue("@Email", user.Email);
+                            command2.Parameters.AddWithValue("@AccessTypeId", 1);
+                            command2.ExecuteNonQuery();
+                        }
+
+                        transaction.Commit();
+                        Console.WriteLine($"The user with Id {user.UserId} was successfully registered.");
+                        return user;
+                    }
+                    catch (SqlException ex)
+                    {
+                        transaction.Rollback();
+                        if (ex.Number == 2601 || ex.Number == 2627) // Unique constraint violation
+                        {
+                            throw new Exception($"An error occurred while registering the user in the database. \n\nSqlException: The email '{user.Email}' is already registered in the system.");
+                        }
+                        else
+                        {
+                            throw new Exception($"An error occurred while registering the user in the database. \n\nSqlException: {ex.Message}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred. \n\nException: {ex.Message}");
+            }
         }
 
         public List<VMUser> SelectAllUsers()
@@ -385,76 +463,5 @@ namespace dll.DAL
                 throw new Exception($"An error occurred. \n\nException: {ex.Message}");
             }
         }
-
-        //public MUser InsertUser(MUser user)
-        //{
-        //    try
-        //    {
-        //        using (SqlConnection connection = new SqlConnection(_connectionString))
-        //        {
-        //            connection.Open();
-        //            SqlTransaction transaction = connection.BeginTransaction();
-
-        //            try
-        //            {
-        //                // Insert a user
-        //                using (SqlCommand command1 = new SqlCommand(
-        //                    "INSERT INTO users_tb (career_map_id, first_name, last_name, email) " +
-        //                    "VALUES (@CareerMapId, @FirstName, @LastName, @Email);" +
-        //                    "SELECT CAST(SCOPE_IDENTITY() AS INT);", connection))
-        //                {
-        //                    command1.Transaction = transaction;
-        //                    command1.Parameters.AddWithValue("@FirstName", user.FirstName);
-        //                    command1.Parameters.AddWithValue("@LastName", user.LastName);
-        //                    command1.Parameters.AddWithValue("@Email", user.Email);
-        //                    if (user.CareerMap != null)
-        //                    {
-        //                        command1.Parameters.AddWithValue("@CareerMapId", user.CareerMap.CareerMapId);
-        //                    }
-        //                    else
-        //                    {
-        //                        command1.Parameters.AddWithValue("@CareerMapId", DBNull.Value);
-        //                    }
-        //                    user.UserId = (int)command1.ExecuteScalar();
-        //                }
-
-        //                // Assigning "employee"(default) access type to user
-        //                using (SqlCommand command2 = new SqlCommand(
-        //                    "INSERT INTO accessTypes_users_tb (user_id, access_type_id) " +
-        //                    "VALUES " +
-        //                        "(" +
-        //                            "(SELECT user_id FROM users_tb WHERE email = @Email), " +
-        //                            "@AccessTypeId" +
-        //                        ");", connection))
-        //                {
-        //                    command2.Transaction = transaction;
-        //                    command2.Parameters.AddWithValue("@Email", user.Email);
-        //                    command2.Parameters.AddWithValue("@AccessTypeId", 1);
-        //                    command2.ExecuteNonQuery();
-        //                }
-
-        //                transaction.Commit();
-        //                Console.WriteLine($"The user with Id {user.UserId} was successfully registered.");
-        //                return user;
-        //            }
-        //            catch (SqlException ex)
-        //            {
-        //                transaction.Rollback();
-        //                if (ex.Number == 2601 || ex.Number == 2627) // Unique constraint violation
-        //                {
-        //                    throw new Exception($"An error occurred while registering the user in the database. \n\nSqlException: The email '{user.Email}' is already registered in the system.");
-        //                }
-        //                else
-        //                {
-        //                    throw new Exception($"An error occurred while registering the user in the database. \n\nSqlException: {ex.Message}");
-        //                }
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception($"An error occurred while registering the user in the database. \n\nException: {ex.Message}");
-        //    }
-        //}
     }
 }
