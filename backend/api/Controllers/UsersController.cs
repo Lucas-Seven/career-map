@@ -19,26 +19,46 @@ namespace api.Controllers
             _usersDAO = new UsersDAO(ConnectionString);
         }
 
-        //[HttpGet]
-        //[Route("accessTypes")]
-        //public List<VMUserEntire> GetAllUsersWithAccessTypes()
-        //{
-        //    List<VMUserEntire> users = _usersDAO.SelectAllUsersWithAccessTypes();
-        //    return users;
-        //}
+        [HttpPost]
+        public IActionResult PostUser(MUser user)
+        {
+            MUser objAdded = _usersDAO.InsertUser(user);
+            return Ok(new { user = objAdded, message = "User was successfully registered." });
+        }
 
-        //[HttpGet]
-        //[Route("{userId}/accessTypes")]
-        //public VMUserEntire GetUserByIdWithAccessTypes(int userId)
-        //{
-        //    return _usersDAO.SelectUserByIdWithAccessTypes(userId);
-        //}
+        [HttpGet]
+        public List<VMUser> GetAllUsers()
+        {
+            List<VMUser> users = _usersDAO.SelectAllUsers();
+            return users;
+        }
 
-        //[HttpPost]
-        //public IActionResult PostUser([FromBody] MUser user)
-        //{
-        //    _usersDAO.InsertUser(user);
-        //    return Ok();
-        //}
+        [HttpGet]
+        [Route("{userId}")]
+        public VMUser GetUserById(int userId)
+        {
+            return _usersDAO.SelectUserById(userId);
+        }
+
+        [HttpGet]
+        [Route("{userId}/careerMap")]
+        public VMUserCareerMap GetUserByIdWithCareerMap(int userId)
+        {
+            return _usersDAO.SelectUserByIdWithCareerMap(userId);
+        }
+        
+        [HttpGet]
+        [Route("{userId}/accessTypes")]
+        public VMUserAccessTypes GetUserByIdWithAccessTypes(int userId)
+        {
+            return _usersDAO.SelectUserByIdWithAccessTypes(userId);
+        }
+
+        [HttpGet]
+        [Route("{userId}/careerMap/accessTypes")]
+        public VMUserEntire GetUserEntireById(int userId)
+        {
+            return _usersDAO.SelectUserEntireById(userId);
+        }
     }
 }
