@@ -1,4 +1,4 @@
-﻿namespace Aprovatos.Models
+﻿namespace Aprovatos.ViewModels
 {
     public class PositionRequirement
     {

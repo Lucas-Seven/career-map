@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Aprovatos.Models
+namespace Aprovatos.ViewModels
 {
     public class CompanyPositionRequirements
     {

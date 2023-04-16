@@ -3,7 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Aprovatos.Models;
+using Aprovatos.ViewModels;
 
 namespace Aprovatos.Views
 {
@@ -56,7 +56,8 @@ namespace Aprovatos.Views
 
         private async void loadData()
         {
-            var data = await _service.LoadDataFromApi();
+            //var data = await _service.LoadDataFromApi();
+            var data = await _service.GetCareerMapList();
             ObservableCollection<CareerMap> careers = new ObservableCollection<CareerMap>(data);
             lstCareers.ItemsSource = careers;
         }

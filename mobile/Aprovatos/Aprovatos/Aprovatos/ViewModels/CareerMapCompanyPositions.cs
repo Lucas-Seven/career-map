@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Aprovatos.Models
+namespace Aprovatos.ViewModels
 {
     public class CareerMapCompanyPositions
     {

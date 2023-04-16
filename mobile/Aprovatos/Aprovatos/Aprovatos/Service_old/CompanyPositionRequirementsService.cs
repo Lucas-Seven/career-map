@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Aprovatos.Models;
 using System.Net;
 
-namespace Aprovatos.Service
+namespace Aprovatos.Service_old
 {
     public class CompanyPositionRequirementsService : BaseService
     {

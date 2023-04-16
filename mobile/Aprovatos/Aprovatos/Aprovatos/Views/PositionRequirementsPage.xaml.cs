@@ -1,4 +1,4 @@
-﻿using Aprovatos.Models;
+﻿using Aprovatos.ViewModels;
 using Aprovatos.Service;
 using System;
 using System.Collections.Generic;
