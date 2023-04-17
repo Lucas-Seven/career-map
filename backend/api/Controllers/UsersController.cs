@@ -1,7 +1,7 @@
 ﻿using dll.DAL;
 using dll.Models;
-using dll.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using viewmodels.User;
 
 namespace api.Controllers
 {
@@ -19,26 +19,46 @@ namespace api.Controllers
             _usersDAO = new UsersDAO(ConnectionString);
         }
 
-        [HttpGet]
-        [Route("accessTypes")]
-        public List<UserAccessTypesVM> GetAllUsersWithAccessTypes()
+        [HttpPost]
+        public IActionResult PostUser(MUser user)
         {
-            List<UserAccessTypesVM> users = _usersDAO.SelectAllUsersWithAccessTypes();
+            MUser objAdded = _usersDAO.InsertUser(user);
+            return Ok(new { user = objAdded, message = "User was successfully registered." });
+        }
+
+        [HttpGet]
+        public List<VMUser> GetAllUsers()
+        {
+            List<VMUser> users = _usersDAO.SelectAllUsers();
             return users;
         }
 
         [HttpGet]
+        [Route("{userId}")]
+        public VMUser GetUserById(int userId)
+        {
+            return _usersDAO.SelectUserById(userId);
+        }
+
+        [HttpGet]
+        [Route("{userId}/careerMap")]
+        public VMUserCareerMap GetUserByIdWithCareerMap(int userId)
+        {
+            return _usersDAO.SelectUserByIdWithCareerMap(userId);
+        }
+        
+        [HttpGet]
         [Route("{userId}/accessTypes")]
-        public UserAccessTypesVM GetUserByIdWithAccessTypes(int userId)
+        public VMUserAccessTypes GetUserByIdWithAccessTypes(int userId)
         {
             return _usersDAO.SelectUserByIdWithAccessTypes(userId);
         }
 
-        [HttpPost]
-        public IActionResult PostUser([FromBody] UserModel user)
+        [HttpGet]
+        [Route("{userId}/careerMap/accessTypes")]
+        public VMUserEntire GetUserEntireById(int userId)
         {
-            _usersDAO.InsertUser(user);
-            return Ok();
+            return _usersDAO.SelectUserEntireById(userId);
         }
     }
 }

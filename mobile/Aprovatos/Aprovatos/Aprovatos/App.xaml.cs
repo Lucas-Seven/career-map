@@ -12,6 +12,7 @@ namespace Aprovatos
             InitializeComponent();
 
             MainPage = new NavigationPage(new LoginPage());
+            //MainPage = new NavigationPage(new CareersPage());
         }
 
         protected override void OnStart()

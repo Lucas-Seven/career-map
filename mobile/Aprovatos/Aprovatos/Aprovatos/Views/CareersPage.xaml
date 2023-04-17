@@ -6,12 +6,22 @@
              >
     <ContentPage.Content>
         <StackLayout>
-            <Label  Text="Escolha sua trilha"
-                    VerticalOptions="Center" 
-                    HorizontalOptions="CenterAndExpand" />
-
-            <ListView x:Name="lstCareers" ItemSelected="lstCareers_ItemSelected">
-                <ListView.ItemsSource>
+            <Label x:Name="lblBreadcrumb"
+                   FontSize="10"
+                   FontAttributes="Bold"
+                   Padding="10,5"
+                   TextColor="DarkBlue"
+                   HeightRequest="30"
+                   VerticalTextAlignment="Center"
+                   Background="LightBlue"
+                   Text="Trilhas disponíveis"
+                />
+            <ListView x:Name="lstCareers" 
+                      ItemSelected="lstCareers_ItemSelected"
+                      VerticalOptions="FillAndExpand"
+                      VerticalScrollBarVisibility="Never"
+                      >
+                <!--<ListView.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
                         <x:String>Desenvolvimento Backend</x:String>
                         <x:String>Desenvolvimento Frontend</x:String>
@@ -19,7 +29,19 @@
                         <x:String>Infraestrutura</x:String>
                         <x:String>DevOps</x:String>
                     </x:Array>
-                </ListView.ItemsSource>
+                </ListView.ItemsSource>-->
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Label Text="{Binding CareerMapName}"
+                                   FontSize="16"
+                                   Padding="15,5"
+                                   VerticalOptions="Center"
+                                   VerticalTextAlignment="Center"
+                            />
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
         </StackLayout>
     </ContentPage.Content>

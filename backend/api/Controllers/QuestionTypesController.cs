@@ -1,11 +1,11 @@
 ﻿using dll.DAL;
 using dll.Models;
-using dll.ViewModels;
+using viewmodels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/questionTypes")]
     [ApiController]
     public class QuestionTypesController : ControllerBase
     {

@@ -1,11 +1,11 @@
 ﻿using dll.DAL;
 using dll.Models;
-using dll.ViewModels;
+using viewmodels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
-    [Route("api/positionRequirements")]
+    [Route("api/requirements")]
     [ApiController]
     public class PositionRequirementsController : ControllerBase
     {

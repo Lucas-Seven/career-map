@@ -1,6 +1,6 @@
-﻿namespace dll.Models
+﻿namespace dll.Models.Form
 {
-    public class QuestionTypeVM
+    public class MQuestionType
     {
         public int QuestionTypeId { get; set; }
         public string QuestionTypeName { get; set; }
