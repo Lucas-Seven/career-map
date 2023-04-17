@@ -23,14 +23,56 @@ namespace admin.Controllers
         }
 
         // GET: CarrermapsController/Details/5
-        public ActionResult Details(int junior)
+        public ActionResult Details(int id)
         {
-            return View();
+            //IEnumerable<CompanyPositionService> contatos = null;
+
+            //using (var client = new HttpClient())
+            //{
+            //    client.BaseAddress = new Uri("https://localhost:7149/api/");
+
+            //    //var r = "1";
+            //    //HTTP GET
+            //    var responseTask = client.GetAsync($"careerMaps/{id}/companyPositions");
+            //    responseTask.Wait();
+            //    var result = responseTask.Result;
+
+            //    if (result.IsSuccessStatusCode)
+            //    {
+            //        var readTask = result.Content.ReadAsAsync<IList<CompanyPositionService>>();
+            //        readTask.Wait();
+            //        contatos = readTask.Result;
+            //    }
+            //    else
+            //    {
+            //        contatos = Enumerable.Empty<CompanyPositionService>();
+            //        ModelState.AddModelError(string.Empty, "Erro no servidor. Contate o Administrador.");
+            //    }
+            //    return View(contatos);
+            //}
+
+            var contatos = new List<CompanyPositionVM>()
+            {
+                new CompanyPositionVM { CompanyPositionId = 1 , CompanyPositionName = "Analista Junior"  },
+                new CompanyPositionVM { CompanyPositionId = 2 , CompanyPositionName = "Analista Pleno"  },
+                new CompanyPositionVM { CompanyPositionId = 3 , CompanyPositionName = "Analista Sênior"  },
+                new CompanyPositionVM { CompanyPositionId = 4 , CompanyPositionName = "Lider"  },
+                new CompanyPositionVM { CompanyPositionId = 5 , CompanyPositionName = "Coordenador"  }
+
+            };
+            return View(contatos);
         }
 
         public ActionResult Informacao(int junior)
         {
-            return View();
+            var contatos = new List<CompanyPositionRequirementsVM>()
+            {
+                new CompanyPositionRequirementsVM { company_position_id = 1 , company_position_name = "C#"  },
+                new CompanyPositionRequirementsVM { company_position_id = 1 , company_position_name = "SQL"  },
+                new CompanyPositionRequirementsVM { company_position_id = 1 , company_position_name = "AWS"  }
+            };
+            return View(contatos);           
+           
         }
 
         // GET: CarrermapsController/Create

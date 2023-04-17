@@ -50,6 +50,7 @@ function irParaPagina() {
     window.location = selectedOption.value;
   }
 }
+CompanyPositionRequirementsVM
 </script>*@
 
 
@@ -59,9 +60,9 @@ function irParaPagina() {
 }
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item active" aria-current="page">Home</li>
+        <li class="breadcrumb-item active" aria-current="page">Desenvolvimento Backend</li>
     </ol>
-    <h2>Mapa de Carreira</h2>
+    @*<h2>Mapa de Carreira</h2>*@
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <button class="btn btn-primary me-md-2" type="button">Adicionar Mapa</button>
     </div>
@@ -88,8 +89,8 @@ function irParaPagina() {
                     @Html.DisplayFor(modelItem => item.CompanyPositionName)
                 </td>
                 <td>
-@*                    <button class="btn-details" onclick="location.href='@Url.Action("Details", new { id = item.CareerMapId })'">Exibir</button>
-*@                </td>
+                    <button class="btn-details" onclick="location.href='@Url.Action("Informacao", new { id = item.CompanyPositionId })'">Exibir</button>
+                </td>
             </tr>
         }
         <tr>

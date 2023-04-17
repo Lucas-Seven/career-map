@@ -6,17 +6,42 @@ namespace admin.Controllers
 {
     public class CompanyPositionController : Controller
     {
-        private CompanyPositionService _service;
+        //private CompanyPositionService _service;
 
-        public CompanyPositionController()
-        {
-            _service = new CompanyPositionService();
-        }
+        //public CompanyPositionController()
+        //{
+        //    _service = new CompanyPositionService();
+        //}
 
         // GET: CompanyPositionController
         public ActionResult Index()
         {
-            return View(_service);
+            //return View(_service);
+
+            IEnumerable<CompanyPositionService> contatos = null;
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://localhost:7149/api/careerMaps/1/companyPositions");
+
+                //HTTP GET
+                var responseTask = client.GetAsync("contatos");
+                responseTask.Wait();
+                var result = responseTask.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = result.Content.ReadAsAsync<IList<CompanyPositionService>>();
+                    readTask.Wait();
+                    contatos = readTask.Result;
+                }
+                else
+                {
+                    contatos = Enumerable.Empty<CompanyPositionService>();
+                    ModelState.AddModelError(string.Empty, "Erro no servidor. Contate o Administrador.");
+                }
+                return View(contatos);
+            }
         }    
 
         // GET: CompanyPositionController/Details/5
