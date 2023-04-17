@@ -1,43 +1,35 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using Aprovatos.ViewModels;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-using Xamarin.Forms;
 using System.Threading.Tasks;
-using Aprovatos.Models;
+using api = Aprovatos.Api.Service;
 
 namespace Aprovatos.Service
 {
-    public class CareerMapService : BaseService
+    public class CareerMapService
     {
-        public List<CareerMap> DataList { get; set; }
-        public CareerMapService() 
+        public api.CareerMapService _apiService { get; set; }
+
+        public CareerMapService()
         {
-            endpoint = "careerMaps";
-            DataList = new List<CareerMap>();
+            _apiService = new api.CareerMapService();
         }
 
-        public async Task<List<CareerMap>> LoadDataFromApi()
+        public async Task<List<CareerMapVM>> GetCareerMapList()
         {
-            try
-            {
-                string url = baseUrl + endpoint;
-                httpClient.BaseAddress = new Uri(url);
-                var json = await httpClient.GetStringAsync("");
-                //var json = await httpClient.GetStringAsync(url);
-                var dados = JsonConvert.DeserializeObject<List<CareerMap>>(json);
+            var data = await _apiService.LoadDataFromApi();
+            var ret = new List<CareerMapVM>();
 
-                DataList.AddRange(dados);
+            foreach (var item in data) {
+                CareerMapVM career = new CareerMapVM()
+                {
+                    CareerMapId = item.CareerMapId,
+                    CareerMapName = item.CareerMapName
+                };
 
-                return DataList;
-            }
-            catch (Exception)
-            {
-                //throw;
+                ret.Add(career);
             }
 
-            return DataList;
+            return ret;
         }
     }
 }

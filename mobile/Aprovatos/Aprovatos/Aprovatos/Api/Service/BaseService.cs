@@ -1,13 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-using Xamarin.Forms;
-using System.Threading.Tasks;
-using Aprovatos.Models;
+﻿using System.Net.Http;
 
-namespace Aprovatos.Service
+namespace Aprovatos.Api.Service
 {
     public class BaseService
     {

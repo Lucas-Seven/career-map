@@ -1,4 +1,4 @@
-﻿using Aprovatos.Models;
+﻿using Aprovatos.ViewModels;
 using Aprovatos.Service;
 using System;
 using System.Collections.Generic;
@@ -15,17 +15,15 @@ namespace Aprovatos.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CompanyPositionsPage : ContentPage
     {
-        //private CompanyPositionService _service;
-        private CareerMapCompanyPositionsService _service;
+        private CompanyPositionService _service;
         public CompanyPositionsPage()
         {
             InitializeComponent();
         }
 
-        public CompanyPositionsPage(CareerMap career) : this()
+        public CompanyPositionsPage(CareerMapVM career) : this()
         {
-            //_service = new CompanyPositionService(career.CareerMapId);
-            _service = new CareerMapCompanyPositionsService(career.CareerMapId);
+            _service = new CompanyPositionService(career);
         }
 
         private async void lstCompanyPositions_ItemSelected(object sender, SelectedItemChangedEventArgs e)
@@ -35,18 +33,16 @@ namespace Aprovatos.Views
                 return;
             }
 
-            var position = e.SelectedItem as CompanyPosition;
+            var position = e.SelectedItem as CompanyPositionVM;
 
 
             if (position is null)
             {
-                //await DisplayAlert("Selecionado", $"{career.CareerMapId} - {career.CareerMapName}", "ok");
                 await DisplayAlert("Erro", "Ocorreu um erro.", "Ok");
             }
             else
             {
-                await Navigation.PushAsync(new PositionRequirementsPage());
-                //await Navigation.PushAsync(new CompanyPositionsPage(career));
+                await Navigation.PushAsync(new PositionRequirementsPage(position));
             }
 
             ((ListView)sender).SelectedItem = null;
@@ -66,19 +62,12 @@ namespace Aprovatos.Views
             }
         }
 
-        //private async void loadData()
-        //{
-        //    var data = await _service.LoadDataFromApi();
-        //    ObservableCollection<CompanyPosition> companyPositions = new ObservableCollection<CompanyPosition>(data);
-        //    lstCompanyPositions.ItemsSource = companyPositions;
-        //}
-
         private async void loadData()
         {
-            CareerMapCompanyPositions cmCompanyPositions = await _service.LoadDataFromApi();
-            lblBreadcrumb.Text = $"{cmCompanyPositions.CareerMap.CareerMapName}";
+            CompanyPositionListVM cmCompanyPositions = await _service.GetCompanyPositionsList();
+            lblBreadcrumb.Text = $"{cmCompanyPositions.CareerMapVm.CareerMapName}";
 
-            lstCompanyPositions.ItemsSource = new ObservableCollection<CompanyPosition>(cmCompanyPositions.CompanyPositions);
+            lstCompanyPositions.ItemsSource = new ObservableCollection<CompanyPositionVM>(cmCompanyPositions.CompanyPositionVmList);
         }
     }
 }

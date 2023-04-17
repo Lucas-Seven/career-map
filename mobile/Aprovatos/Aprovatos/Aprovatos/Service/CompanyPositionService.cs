@@ -1,43 +1,56 @@
-﻿using Newtonsoft.Json;
+﻿using Aprovatos.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Text;
-using Xamarin.Forms;
 using System.Threading.Tasks;
-using Aprovatos.Models;
-using System.Net;
-using Aprovatos.ModelsFuturas;
+using Xamarin.Forms;
+using api = Aprovatos.Api.Service;
 
 namespace Aprovatos.Service
 {
-    public class CompanyPositionService : BaseService
+    public class CompanyPositionService
     {
-        public List<CompanyPosition> DataList { get; set; }
-        public CompanyPositionService(int companyId) 
+        public api.CompanyPositionService _apiService { get; set; }
+
+        public CareerMapVM careerMap { get; set; }
+
+
+        public CompanyPositionService(CareerMapVM career) 
         {
-            endpoint = $"careerMaps/{companyId}/companyPositions";
-            DataList = new List<CompanyPosition>();
+            if (career != null)
+            {
+                this.careerMap = career;
+                _apiService = new api.CompanyPositionService(careerMap.CareerMapId); 
+            }
         }
 
-        public async Task<List<CompanyPosition>> LoadDataFromApi()
+        public async Task<CompanyPositionListVM> GetCompanyPositionsList()
         {
-            try
+            var data = await _apiService.LoadDataFromApi();
+
+            var careerMap = new CareerMapVM()
             {
-                string url = baseUrl + endpoint;
-                httpClient.BaseAddress = new Uri(url);
-                var json = await httpClient.GetStringAsync("");
+                CareerMapId = data.CareerMapResponse.CareerMapId,
+                CareerMapName = data.CareerMapResponse.CareerMapName
+            };
 
-                var dados = JsonConvert.DeserializeObject<CareerMapCompanyPositions>(json);
+            CompanyPositionListVM ret = new CompanyPositionListVM();
+            ret.CareerMapVm = careerMap;
 
-                DataList.AddRange(dados.CompanyPositions);
-            }
-            catch (Exception)
+            foreach (var item in data.CompanyPositionResponseList)
             {
-                //throw;
+                CompanyPositionVM cp = new CompanyPositionVM()
+                {
+                    ParentCareerMapVm = careerMap,
+                    CompanyPositionId = item.CompanyPositionInfo.CompanyPositionId,
+                    CompanyPositionName = item.CompanyPositionInfo.CompanyPositionName,
+                    HierarchyNumber = item.HierarchyNumber
+                };
+
+                ret.CompanyPositionVmList.Add(cp);
             }
 
-            return DataList;
+            return ret;
         }
     }
 }

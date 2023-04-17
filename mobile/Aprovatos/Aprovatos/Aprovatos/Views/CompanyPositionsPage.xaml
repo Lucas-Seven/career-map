@@ -17,9 +17,9 @@
                 />
 
             <ListView x:Name="lstCompanyPositions"
-                      ItemSelected="lstCompanyPositions_ItemSelected"
                       VerticalOptions="FillAndExpand"
                       VerticalScrollBarVisibility="Never"
+                      ItemSelected="lstCompanyPositions_ItemSelected"
                       >
                 <ListView.ItemTemplate>
                     <DataTemplate>
