@@ -10,13 +10,13 @@ using Aprovatos.Api.Model.Response;
 
 namespace Aprovatos.Api.Service
 {
-    public class CompanyPositionRequirementsService : BaseService
+    public class RequirementsService : BaseService
     {
         //public CompanyPositionRequirements Data { get; set; }
         private RequirementListResponse Data { get; set; }
-        public CompanyPositionRequirementsService(CareerMapResponse careerMap, CompanyPosition companyPosition) 
+        public RequirementsService(int careerMapId, int companyPositionId) 
         {
-            endpoint = $"careerMaps/{careerMap.CareerMapId}/companyPositions/{companyPosition.CompanyPositionInfo.CompanyPositionId}/requirements";
+            endpoint = $"careerMaps/{careerMapId}/companyPositions/{companyPositionId}/requirements";
             Data = new RequirementListResponse();
             //Data = new CompanyPositionRequirements();
         }

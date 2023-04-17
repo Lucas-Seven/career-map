@@ -15,39 +15,39 @@ namespace Aprovatos.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PositionRequirementsPage : ContentPage
     {
-        //private CompanyPositionRequirementsService _service;
+        private RequirementService _service;
         public PositionRequirementsPage()
         {
             InitializeComponent();
         }
 
-        public PositionRequirementsPage(CompanyPosition companyPosition) : this()
+        public PositionRequirementsPage(CompanyPositionVM companyPosition) : this()
         {
-            //_service = new CompanyPositionRequirementsService(companyPosition);
+            _service = new RequirementService(companyPosition);
         }
 
         private async void lstPositionRequirements_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            //if (e.SelectedItem == null)
-            //{
-            //    return;
-            //}
+            if (e.SelectedItem == null)
+            {
+                return;
+            }
 
-            //var requirements = e.SelectedItem as PositionRequirement;
+            var requirement = e.SelectedItem as RequirementVM;
 
 
-            //if (requirements is null)
-            //{
-            //    await DisplayAlert("Erro", "Ocorreu um erro.", "Ok");
-            //}
-            //else
-            //{
-            //    await DisplayAlert("Selecionado", $"{requirements.RequirementName}", "ok");
-            //    //await Navigation.PushAsync(new PositionRequirementsPage(requirements));
-            //    //await Navigation.PushAsync(new CompanyPositionsPage(career));
-            //}
+            if (requirement is null)
+            {
+                await DisplayAlert("Erro", "Ocorreu um erro.", "Ok");
+            }
+            else
+            {
+                
+                await DisplayAlert("Selecionado", $"navegar para a pagina  dos testes de {requirement.GroupName}/{requirement.RequirementName}", "Ok");
+                //await Navigation.PushAsync(new PositionRequirementsPage(position));
+            }
 
-            //((ListView)sender).SelectedItem = null;
+            ((ListView)sender).SelectedItem = null;
         }
 
         protected override void OnAppearing()
@@ -66,10 +66,10 @@ namespace Aprovatos.Views
 
         private async void loadData()
         {
-            //CompanyPositionRequirements cmCompanyPositions = await _service.LoadDataFromApi();
-            //lblBreadcrumb.Text = $"{cmCompanyPositions.CareerMap.CareerMapName}";
+            RequirementListVM requirements = await _service.GetRequirementsList();
+            lblBreadcrumb.Text = $"{requirements.CompanyPosition.ParentCareerMapVm.CareerMapName} > {requirements.CompanyPosition.CompanyPositionName}";
 
-            //lstCompanyPositions.ItemsSource = new ObservableCollection<CompanyPosition>(cmCompanyPositions.CompanyPositions);
-        }
+            lstPositionRequirements.ItemsSource = new ObservableCollection<RequirementVM>(requirements.Requirements);
+       }
     }
 }

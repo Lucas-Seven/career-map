@@ -2,10 +2,9 @@
 
 namespace Aprovatos.ViewModels
 {
-    public class CareerMap
+    public class CareerMapVM
     {
         public int CareerMapId { get; set; }
         public string CareerMapName { get; set; }
-        //public List<CompanyPosition> CompanyPositions { get; set; }
     }
 }

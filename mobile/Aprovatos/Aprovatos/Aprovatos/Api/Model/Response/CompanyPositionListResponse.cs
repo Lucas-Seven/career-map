@@ -6,13 +6,13 @@ namespace Aprovatos.Api.Model.Response
     public class CompanyPositionListResponse
     {
         [JsonProperty("careerMap")]
-        public CareerMapResponse CareerMap { get; set; }
+        public CareerMapResponse CareerMapResponse { get; set; }
 
         [JsonProperty("companyPositions")]
-        public List<CompanyPosition> CompanyPositions { get; set; }
+        public List<CompanyPositionResponse> CompanyPositionResponseList { get; set; }
     }
 
-    public class CompanyPosition
+    public class CompanyPositionResponse
     {
         [JsonProperty("hierarchyNumber")]
         public int HierarchyNumber { get; set; }

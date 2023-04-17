@@ -16,10 +16,10 @@
                    Background="LightBlue"
                 />
 
-                      <!--ItemSelected="lstCompanyPositions_ItemSelected"-->
             <ListView x:Name="lstCompanyPositions"
                       VerticalOptions="FillAndExpand"
                       VerticalScrollBarVisibility="Never"
+                      ItemSelected="lstCompanyPositions_ItemSelected"
                       >
                 <ListView.ItemTemplate>
                     <DataTemplate>

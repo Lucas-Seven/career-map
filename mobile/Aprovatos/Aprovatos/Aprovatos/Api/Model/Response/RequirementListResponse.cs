@@ -3,19 +3,7 @@ using System.Collections.Generic;
 
 namespace Aprovatos.Api.Model.Response
 {
-    public class RequirementListResponse
-    {
-        [JsonProperty("careerMap")]
-        public CareerMapResponse CareerMap { get; set; }
-
-        [JsonProperty("companyPosition")]
-        public CompanyPosition CompanyPosition { get; set; }
-
-        [JsonProperty("requirements")]
-        public List<Requirement> Requirements { get; set; }
-    }
-
-    public class Requirement
+    public class RequirementResponse
     {
         [JsonProperty("groupName")]
         public string GroupName { get; set; }
@@ -24,6 +12,7 @@ namespace Aprovatos.Api.Model.Response
         public RequirementInfo RequirementInfo { get; set; }
     }
 
+    //public class Requirement2
     public class RequirementInfo
     {
         [JsonProperty("requirementId")]
@@ -31,5 +20,17 @@ namespace Aprovatos.Api.Model.Response
 
         [JsonProperty("requirementName")]
         public string RequirementName { get; set; }
+    }
+
+    public class RequirementListResponse
+    {
+        [JsonProperty("careerMap")]
+        public CareerMapResponse CareerMap { get; set; }
+
+        [JsonProperty("companyPosition")]
+        public CompanyPositionInfo CompanyPositionInfo { get; set; }
+
+        [JsonProperty("requirements")]
+        public List<RequirementResponse> Requirements { get; set; }
     }
 }

@@ -14,13 +14,13 @@ namespace Aprovatos.Service
             _apiService = new api.CareerMapService();
         }
 
-        public async Task<List<CareerMap>> GetCareerMapList()
+        public async Task<List<CareerMapVM>> GetCareerMapList()
         {
             var data = await _apiService.LoadDataFromApi();
-            var ret = new List<CareerMap>();
+            var ret = new List<CareerMapVM>();
 
             foreach (var item in data) {
-                CareerMap career = new CareerMap()
+                CareerMapVM career = new CareerMapVM()
                 {
                     CareerMapId = item.CareerMapId,
                     CareerMapName = item.CareerMapName

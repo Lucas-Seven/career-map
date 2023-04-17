@@ -15,59 +15,59 @@ namespace Aprovatos.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CompanyPositionsPage : ContentPage
     {
-        //private CompanyPositionService _service;
+        private CompanyPositionService _service;
         public CompanyPositionsPage()
         {
             InitializeComponent();
         }
 
-        public CompanyPositionsPage(CareerMap career) : this()
+        public CompanyPositionsPage(CareerMapVM career) : this()
         {
-            //_service = new CompanyPositionService(career);
+            _service = new CompanyPositionService(career);
         }
 
-        //private async void lstCompanyPositions_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-        //{
-        //    if (e.SelectedItem == null)
-        //    {
-        //        return;
-        //    }
+        private async void lstCompanyPositions_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem == null)
+            {
+                return;
+            }
 
-        //    var position = e.SelectedItem as CompanyPosition;
+            var position = e.SelectedItem as CompanyPositionVM;
 
 
-        //    if (position is null)
-        //    {
-        //        await DisplayAlert("Erro", "Ocorreu um erro.", "Ok");
-        //    }
-        //    else
-        //    {
-        //        await Navigation.PushAsync(new PositionRequirementsPage(position));
-        //    }
+            if (position is null)
+            {
+                await DisplayAlert("Erro", "Ocorreu um erro.", "Ok");
+            }
+            else
+            {
+                await Navigation.PushAsync(new PositionRequirementsPage(position));
+            }
 
-        //    ((ListView)sender).SelectedItem = null;
-        //}
+            ((ListView)sender).SelectedItem = null;
+        }
 
-        //protected override void OnAppearing()
-        //{
-        //    base.OnAppearing();
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
 
-        //    try
-        //    {
-        //        loadData();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        DisplayAlert("Erro", "Ocorreu um erro.", "Ok");
-        //    }
-        //}
+            try
+            {
+                loadData();
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("Erro", "Ocorreu um erro.", "Ok");
+            }
+        }
 
-        //private async void loadData()
-        //{
-        //    CareerMapCompanyPositions cmCompanyPositions = await _service.LoadDataFromApi();
-        //    lblBreadcrumb.Text = $"{cmCompanyPositions.CareerMap.CareerMapName}";
+        private async void loadData()
+        {
+            CompanyPositionListVM cmCompanyPositions = await _service.GetCompanyPositionsList();
+            lblBreadcrumb.Text = $"{cmCompanyPositions.CareerMapVm.CareerMapName}";
 
-        //    lstCompanyPositions.ItemsSource = new ObservableCollection<CompanyPosition>(cmCompanyPositions.CompanyPositions);
-        //}
+            lstCompanyPositions.ItemsSource = new ObservableCollection<CompanyPositionVM>(cmCompanyPositions.CompanyPositionVmList);
+        }
     }
 }

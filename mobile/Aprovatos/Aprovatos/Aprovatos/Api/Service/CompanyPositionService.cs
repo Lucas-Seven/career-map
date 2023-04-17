@@ -10,14 +10,14 @@ namespace Aprovatos.Api.Service
     {
         private CompanyPositionListResponse DataList {get; set; }
         //public List<CompanyPosition> DataList { get; set; }
-        public CompanyPositionService(int companyId) 
+        public CompanyPositionService(int careerMapId) 
         {
-            endpoint = $"careerMaps/{companyId}/companyPositions";
+            endpoint = $"careerMaps/{careerMapId}/companyPositions";
             DataList = new CompanyPositionListResponse();
             //DataList = new List<CompanyPosition>();
         }
 
-        public async Task<List<CompanyPosition>> LoadDataFromApi()
+        public async Task<CompanyPositionListResponse> LoadDataFromApi()
         {
             try
             {
@@ -35,7 +35,7 @@ namespace Aprovatos.Api.Service
                 //throw;
             }
 
-            return null; // DataList;
+            return DataList;
         }
     }
 }

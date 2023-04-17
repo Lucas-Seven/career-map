@@ -24,7 +24,7 @@ namespace Aprovatos.Views
                 return;
             }
 
-            var career = e.SelectedItem as CareerMap;
+            var career = e.SelectedItem as CareerMapVM;
 
 
             if(career is null) 
@@ -58,7 +58,7 @@ namespace Aprovatos.Views
         {
             //var data = await _service.LoadDataFromApi();
             var data = await _service.GetCareerMapList();
-            ObservableCollection<CareerMap> careers = new ObservableCollection<CareerMap>(data);
+            ObservableCollection<CareerMapVM> careers = new ObservableCollection<CareerMapVM>(data);
             lstCareers.ItemsSource = careers;
         }
     }

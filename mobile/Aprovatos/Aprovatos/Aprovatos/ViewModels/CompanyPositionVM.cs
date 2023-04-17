@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Aprovatos.ViewModels
 {
-    public class CompanyPosition
+    public class CompanyPositionVM
     {
-        public CareerMap CareerMap { get; set; }
+        public CareerMapVM ParentCareerMapVm { get; set; }
         public int CompanyPositionId { get; set; }
         public string CompanyPositionName { get; set; }
         public int HierarchyNumber { get; set; }
