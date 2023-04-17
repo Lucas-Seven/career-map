@@ -13,9 +13,10 @@
                     HorizontalOptions="CenterAndExpand" />
 
         <StackLayout VerticalOptions="Center" Padding="0,25">
-            <Editor x:Name="txtUser"
+            <Entry x:Name="txtUser"
                     Placeholder="Usuário"/>
-            <Editor x:Name="txtPassword"
+            <Entry x:Name="txtPassword"
+                    IsPassword="True"
                     Placeholder="Senha"/>
         </StackLayout>
 
