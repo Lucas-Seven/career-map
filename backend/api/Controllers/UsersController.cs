@@ -1,5 +1,6 @@
 ﻿using dll.DAL;
 using dll.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using viewmodels.User;
 
@@ -17,13 +18,6 @@ namespace api.Controllers
             _configuration = configuration;
             ConnectionString = _configuration.GetConnectionString("AprovAtosConnection");
             _usersDAO = new UsersDAO(ConnectionString);
-        }
-
-        [HttpPost]
-        public IActionResult PostUser(MUser user)
-        {
-            MUser objAdded = _usersDAO.InsertUser(user);
-            return Ok(new { user = objAdded, message = "User was successfully registered." });
         }
 
         [HttpGet]
@@ -59,6 +53,13 @@ namespace api.Controllers
         public VMUserEntire GetUserEntireById(int userId)
         {
             return _usersDAO.SelectUserEntireById(userId);
+        }
+
+        [HttpPost]
+        public IActionResult PostUser(MUser user)
+        {
+            _usersDAO.InsertUser(user);
+            return Ok(new { message = "User was successfully registered." });
         }
     }
 }

@@ -2,6 +2,8 @@
 using dll.Models;
 using viewmodels;
 using Microsoft.AspNetCore.Mvc;
+using dll.Models.CareerMap;
+using viewmodels.CareerMap;
 
 namespace api.Controllers
 {
@@ -17,6 +19,20 @@ namespace api.Controllers
             _configuration = configuration;
             ConnectionString = _configuration.GetConnectionString("AprovAtosConnection");
             _positionRequirementsDAO = new PositionRequirementsDAO(ConnectionString);
+        }
+
+        [HttpGet]
+        public List<VMRequirement> GetAllRequirements()
+        {
+            List<VMRequirement> requirements = _positionRequirementsDAO.SelectAllRequirements();
+            return requirements;
+        }
+
+        [HttpPost]
+        public IActionResult PostRequirement(MRequirement requirement)
+        {
+            _positionRequirementsDAO.InsertRequirement(requirement);
+            return Ok(new { message = "The requirement was successfully registered." });
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using dll.DAL;
-using dll.Models;
-using viewmodels;
+using dll.Models.User;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
@@ -17,6 +16,13 @@ namespace api.Controllers
             _configuration = configuration;
             ConnectionString = _configuration.GetConnectionString("AprovAtosConnection");
             _accessTypesDAO = new AccessTypesDAO(ConnectionString);
+        }
+
+        [HttpPost]
+        public IActionResult PostAccessType(MAccessType accessType)
+        {
+            _accessTypesDAO.InsertAccessType(accessType);
+            return Ok(new { message = "The access type was successfully registered." });
         }
     }
 }

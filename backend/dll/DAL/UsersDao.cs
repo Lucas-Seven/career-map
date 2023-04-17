@@ -1,5 +1,7 @@
 ﻿using dll.Models;
 using Microsoft.Data.SqlClient;
+using System.Transactions;
+using System.Windows.Input;
 using viewmodels.CareerMap;
 using viewmodels.User;
 
@@ -158,15 +160,15 @@ namespace dll.DAL
         {
             try
             {
-                VMUser user = null;
+                VMUser user = new VMUser();
 
                 string sql = @"SELECT 
                                   user_id, 
                                   first_name, 
                                   last_name, 
-                                  email
+                                  email 
                                 FROM 
-                                  users_tb
+                                  users_tb 
                                 WHERE 
                                   user_id = @userId 
                                 ORDER BY 
@@ -184,19 +186,15 @@ namespace dll.DAL
 
                             using (SqlDataReader dataReader = command.ExecuteReader())
                             {
-                                if (dataReader.HasRows)
+                                if (dataReader.Read())
                                 {
-                                    user = new VMUser();
-                                    while (dataReader.Read())
+                                    user = new VMUser()
                                     {
-                                        user = new VMUser()
-                                        {
-                                            UserId = Convert.ToInt32(dataReader["user_id"]),
-                                            FirstName = dataReader["first_name"].ToString(),
-                                            LastName = dataReader["last_name"].ToString(),
-                                            Email = dataReader["email"].ToString()
-                                        };
-                                    }
+                                        UserId = Convert.ToInt32(dataReader["user_id"]),
+                                        FirstName = dataReader["first_name"].ToString(),
+                                        LastName = dataReader["last_name"].ToString(),
+                                        Email = dataReader["email"].ToString()
+                                    };
                                 }
                             }
                         }
@@ -205,11 +203,6 @@ namespace dll.DAL
                     {
                         throw new Exception($"An error occurred when fetching \"users\" from the database. \n\nSqlException: {ex.Message}");
                     }
-                }
-
-                if (user == null)
-                {
-                    throw new Exception("The \"users\" not found.");
                 }
 
                 Console.WriteLine("The \"SelectUserById\" query was successful.");
@@ -225,7 +218,7 @@ namespace dll.DAL
         {
             try
             {
-                VMUserCareerMap user = null;
+                VMUserCareerMap user = new VMUserCareerMap();
 
                 string sql = @"SELECT 
                                   u.user_id, 
@@ -254,25 +247,22 @@ namespace dll.DAL
 
                             using (SqlDataReader dataReader = command.ExecuteReader())
                             {
-                                if (dataReader.HasRows)
+                                if (dataReader.Read())
                                 {
                                     user = new VMUserCareerMap();
-                                    while (dataReader.Read())
+                                    user.User = new VMUser()
                                     {
-                                        user.User = new VMUser()
-                                        {
-                                            UserId = Convert.ToInt32(dataReader["user_id"]),
-                                            FirstName = dataReader["first_name"].ToString(),
-                                            LastName = dataReader["last_name"].ToString(),
-                                            Email = dataReader["email"].ToString()
-                                        };
+                                        UserId = Convert.ToInt32(dataReader["user_id"]),
+                                        FirstName = dataReader["first_name"].ToString(),
+                                        LastName = dataReader["last_name"].ToString(),
+                                        Email = dataReader["email"].ToString()
+                                    };
 
-                                        user.CareerMap = new VMCareerMap()
-                                        {
-                                            CareerMapId = Convert.ToInt32(dataReader["career_map_id"]),
-                                            CareerMapName = dataReader["career_map_name"].ToString()
-                                        };
-                                    }
+                                    user.CareerMap = new VMCareerMap()
+                                    {
+                                        CareerMapId = Convert.ToInt32(dataReader["career_map_id"]),
+                                        CareerMapName = dataReader["career_map_name"].ToString()
+                                    };
                                 }
                             }
                         }
@@ -281,11 +271,6 @@ namespace dll.DAL
                     {
                         throw new Exception($"An error occurred when fetching \"users\" from the database. \n\nSqlException: {ex.Message}");
                     }
-                }
-
-                if (user == null)
-                {
-                    throw new Exception("The \"users\" not found.");
                 }
 
                 Console.WriteLine("The \"SelectUserByIdWithCareerMap\" query was successful.");
@@ -301,7 +286,7 @@ namespace dll.DAL
         {
             try
             {
-                VMUserAccessTypes user = null;
+                VMUserAccessTypes user = new VMUserAccessTypes();
 
                 string sql = @"SELECT 
                                   u.user_id, 
@@ -331,27 +316,24 @@ namespace dll.DAL
 
                             using (SqlDataReader dataReader = command.ExecuteReader())
                             {
-                                if (dataReader.HasRows)
+                                if (dataReader.Read())
                                 {
                                     user = new VMUserAccessTypes();
                                     user.AccessTypes = new List<VMAccessType>();
-                                    while (dataReader.Read())
+                                    user.User = new VMUser()
                                     {
-                                        user.User = new VMUser()
-                                        {
-                                            UserId = Convert.ToInt32(dataReader["user_id"]),
-                                            FirstName = dataReader["first_name"].ToString(),
-                                            LastName = dataReader["last_name"].ToString(),
-                                            Email = dataReader["email"].ToString()
-                                        };
+                                        UserId = Convert.ToInt32(dataReader["user_id"]),
+                                        FirstName = dataReader["first_name"].ToString(),
+                                        LastName = dataReader["last_name"].ToString(),
+                                        Email = dataReader["email"].ToString()
+                                    };
 
-                                        VMAccessType accessType = new VMAccessType()
-                                        {
-                                            AccessTypeId = Convert.ToInt32(dataReader["access_type_id"]),
-                                            AccessTypeName = dataReader["access_type_name"].ToString()
-                                        };
-                                        user.AccessTypes.Add(accessType);
-                                    }
+                                    VMAccessType accessType = new VMAccessType()
+                                    {
+                                        AccessTypeId = Convert.ToInt32(dataReader["access_type_id"]),
+                                        AccessTypeName = dataReader["access_type_name"].ToString()
+                                    };
+                                    user.AccessTypes.Add(accessType);
                                 }
                             }
                         }
@@ -360,11 +342,6 @@ namespace dll.DAL
                     {
                         throw new Exception($"An error occurred when fetching \"users\" from the database. \n\nSqlException: {ex.Message}");
                     }
-                }
-
-                if (user == null)
-                {
-                    throw new Exception("The \"users\" not found.");
                 }
 
                 Console.WriteLine("The \"SelectUserByIdWithAccessTypes\" query was successful.");
@@ -380,7 +357,7 @@ namespace dll.DAL
         {
             try
             {
-                VMUserEntire user = null;
+                VMUserEntire user = new VMUserEntire();
 
                 string sql = @"SELECT 
                                   u.user_id, 
@@ -413,33 +390,30 @@ namespace dll.DAL
 
                             using (SqlDataReader dataReader = command.ExecuteReader())
                             {
-                                if (dataReader.HasRows)
+                                if (dataReader.Read())
                                 {
                                     user = new VMUserEntire();
                                     user.AccessTypes = new List<VMAccessType>();
-                                    while (dataReader.Read())
+                                    user.User = new VMUser()
                                     {
-                                        user.User = new VMUser()
-                                        {
-                                            UserId = Convert.ToInt32(dataReader["user_id"]),
-                                            FirstName = dataReader["first_name"].ToString(),
-                                            LastName = dataReader["last_name"].ToString(),
-                                            Email = dataReader["email"].ToString()
-                                        };
+                                        UserId = Convert.ToInt32(dataReader["user_id"]),
+                                        FirstName = dataReader["first_name"].ToString(),
+                                        LastName = dataReader["last_name"].ToString(),
+                                        Email = dataReader["email"].ToString()
+                                    };
 
-                                        user.CareerMap = new VMCareerMap()
-                                        {
-                                            CareerMapId = Convert.ToInt32(dataReader["career_map_id"]),
-                                            CareerMapName = dataReader["career_map_name"].ToString()
-                                        };
+                                    user.CareerMap = new VMCareerMap()
+                                    {
+                                        CareerMapId = Convert.ToInt32(dataReader["career_map_id"]),
+                                        CareerMapName = dataReader["career_map_name"].ToString()
+                                    };
 
-                                        VMAccessType accessType = new VMAccessType()
-                                        {
-                                            AccessTypeId = Convert.ToInt32(dataReader["access_type_id"]),
-                                            AccessTypeName = dataReader["access_type_name"].ToString()
-                                        };
-                                        user.AccessTypes.Add(accessType);
-                                    }                                    
+                                    VMAccessType accessType = new VMAccessType()
+                                    {
+                                        AccessTypeId = Convert.ToInt32(dataReader["access_type_id"]),
+                                        AccessTypeName = dataReader["access_type_name"].ToString()
+                                    };
+                                    user.AccessTypes.Add(accessType);
                                 }
                             }
                         }
@@ -448,11 +422,6 @@ namespace dll.DAL
                     {
                         throw new Exception($"An error occurred when fetching \"users\" from the database. \n\nSqlException: {ex.Message}");
                     }
-                }
-
-                if (user == null)
-                {
-                    throw new Exception("The \"users\" not found.");
                 }
 
                 Console.WriteLine("The \"SelectUserEntireById\" query was successful.");

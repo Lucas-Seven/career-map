@@ -1,5 +1,6 @@
 ﻿using dll.DAL;
 using dll.Models;
+using dll.Models.CareerMap;
 using Microsoft.AspNetCore.Mvc;
 using viewmodels;
 using viewmodels.CareerMap;
@@ -39,6 +40,22 @@ namespace api.Controllers
         public VMCareerMapEntire GetCareerMapEntireById(int careerMapId, int companyPositionId)
         {
             return _careerMapsDAO.SelectCareerMapEntireById(careerMapId, companyPositionId);
+        }
+
+        [HttpPost]
+        [Route("insert")]
+        public IActionResult PostCareerMap(MCareerMap careerMap)
+        {
+            _careerMapsDAO.InsertCareerMap(careerMap);
+            return Ok(new { message = "The career map was successfully registered." });
+        }
+
+        [HttpPost]
+        [Route("{careerMapId}/companyPositions/insert")]
+        public IActionResult PostCompanyPositionInCareerMap(MCareerMapCompanyPosition careerMapCompanyPosition)
+        {
+            _careerMapsDAO.InsertCompanyPositionInCareerMap(careerMapCompanyPosition);
+            return Ok(new { message = "The company position was successfully registered into career map." });
         }
     }
 }
