@@ -1,4 +1,5 @@
-﻿using dll.Models;
+﻿using Dapper;
+using dll.Models;
 using Microsoft.Data.SqlClient;
 using System.Transactions;
 using System.Windows.Input;
@@ -288,59 +289,38 @@ namespace dll.DAL
             {
                 VMUserAccessTypes user = new VMUserAccessTypes();
 
-                string sql = @"SELECT 
-                                  u.user_id, 
-                                  u.first_name, 
-                                  u.last_name, 
-                                  u.email, 
-                                  a.access_type_id, 
-                                  a.access_type_name 
+                string sql1 = @"-- Select a user by id
+                                SELECT 
+                                  user_id AS UserId, 
+                                  first_name AS FirstName, 
+                                  last_name AS LastName, 
+                                  email AS Email
                                 FROM 
-                                  users_tb AS u 
-                                  INNER JOIN accessTypes_users_tb AS au ON au.user_id = u.user_id 
-                                  INNER JOIN accessTypes_tb AS a ON a.access_type_id = au.access_type_id 
+                                  users_tb
                                 WHERE 
-                                  u.user_id = @userId 
-                                ORDER BY 
-                                  u.email;";
+                                  user_id = @userId;";
+
+                string sql2 = @"-- Select a access type by user
+                                SELECT 
+                                  a.access_type_id AS AccessTypeId, 
+                                  a.access_type_name AS AccessTypeName
+                                FROM 
+                                  accessTypes_tb AS a 
+                                  INNER JOIN accessTypes_users_tb AS au ON au.access_type_id = a.access_type_id 
+                                WHERE 
+                                  au.user_id = @userId;";
 
                 using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
-                    connection.Open();
+                    var obj = connection.Query<VMUser>(sql1, new { userId }).SingleOrDefault();
 
-                    try
+                    if (obj != null)
                     {
-                        using (SqlCommand command = new SqlCommand(sql, connection))
-                        {
-                            command.Parameters.AddWithValue("@userId", userId);
+                        user.User = obj;
 
-                            using (SqlDataReader dataReader = command.ExecuteReader())
-                            {
-                                if (dataReader.Read())
-                                {
-                                    user = new VMUserAccessTypes();
-                                    user.AccessTypes = new List<VMAccessType>();
-                                    user.User = new VMUser()
-                                    {
-                                        UserId = Convert.ToInt32(dataReader["user_id"]),
-                                        FirstName = dataReader["first_name"].ToString(),
-                                        LastName = dataReader["last_name"].ToString(),
-                                        Email = dataReader["email"].ToString()
-                                    };
+                        var list = connection.Query<VMAccessType>(sql2, new { userId });
 
-                                    VMAccessType accessType = new VMAccessType()
-                                    {
-                                        AccessTypeId = Convert.ToInt32(dataReader["access_type_id"]),
-                                        AccessTypeName = dataReader["access_type_name"].ToString()
-                                    };
-                                    user.AccessTypes.Add(accessType);
-                                }
-                            }
-                        }
-                    }
-                    catch (SqlException ex)
-                    {
-                        throw new Exception($"An error occurred when fetching \"users\" from the database. \n\nSqlException: {ex.Message}");
+                        user.AccessTypes = list.ToList();
                     }
                 }
 
