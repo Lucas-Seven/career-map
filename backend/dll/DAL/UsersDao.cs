@@ -283,81 +283,51 @@ namespace dll.DAL
                 throw new Exception($"An error occurred. \n\nException: {ex.Message}");
             }
         }
-        
-        public VMNUserAccessTypes SelectUserByIdWithAccessTypes(int userId)
+
+        public VMUserAccessTypes SelectUserByIdWithAccessTypes(int userId)
         {
             try
             {
-                VMNUserAccessTypes user = new VMNUserAccessTypes();
-
-                string sql = @"SELECT 
-                                  u.user_id, 
-                                  u.first_name, 
-                                  u.last_name, 
-                                  u.email, 
-                                  a.access_type_id, 
-                                  a.access_type_name 
-                                FROM 
-                                  users_tb AS u 
-                                  INNER JOIN accessTypes_users_tb AS au ON au.user_id = u.user_id 
-                                  INNER JOIN accessTypes_tb AS a ON a.access_type_id = au.access_type_id 
-                                WHERE 
-                                  u.user_id = @userId 
-                                ORDER BY 
-                                  u.email;";
-
-                using (SqlConnection connection = new SqlConnection(_connectionString))
+                using (var connection = new SqlConnection(_connectionString))
                 {
-                    var list = connection.QueryAsync<MNUser, MNAccessType, MNUser>(sql, (user, acessType) =>
-                    {
-                        //user.UserId = userId;
-                        user.AccessTypes.Add(acessType);
-                        return user;
-                    }, new { userId = userId }, splitOn: "AccessTypeId").Result;
+                    string sql = @"SELECT 
+                                        u.user_id AS UserId, 
+                                        u.first_name AS FirstName, 
+                                        u.last_name AS LastName, 
+                                        u.email AS Email, 
+                                        a.access_type_id AS AccessTypeId, 
+                                        a.access_type_name AS AccessTypeName 
+                                    FROM 
+                                        users_tb AS u 
+                                        INNER JOIN accessTypes_users_tb AS au ON au.user_id = u.user_id 
+                                        INNER JOIN accessTypes_tb AS a ON a.access_type_id = au.access_type_id 
+                                    WHERE 
+                                        u.user_id = @userId 
+                                    ORDER BY 
+                                        u.email;";
 
+                    var userAccess = connection.Query<VMUserAccessTypes, VMAccessType, VMUserAccessTypes>(
+                        sql,
+                        (user, accessType) =>
+                        {
+                            user.AccessTypes = new List<VMAccessType>();
 
-                    
-                    
-                    //connection.Open();
+                            
+                            VMAccessType access = new VMAccessType();
+                            access.AccessTypeId = accessType.AccessTypeId;
+                            access.AccessTypeName = accessType.AccessTypeName;
 
-                    //try
-                    //{
-                    //    using (SqlCommand command = new SqlCommand(sql, connection))
-                    //    {
-                    //        command.Parameters.AddWithValue("@userId", userId);
+                            user.AccessTypes.Add(access);
 
-                    //        using (SqlDataReader dataReader = command.ExecuteReader())
-                    //        {
-                    //            if (dataReader.Read())
-                    //            {
-                    //                user = new VMUserAccessTypes();
-                    //                user.AccessTypes = new List<VMAccessType>();
-                    //                user.User = new VMUser()
-                    //                {
-                    //                    UserId = Convert.ToInt32(dataReader["user_id"]),
-                    //                    FirstName = dataReader["first_name"].ToString(),
-                    //                    LastName = dataReader["last_name"].ToString(),
-                    //                    Email = dataReader["email"].ToString()
-                    //                };
+                            return user;
+                        },
+                        new { userId },
+                        splitOn: "AccessTypeId"
+                    ).FirstOrDefault();
 
-                    //                VMAccessType accessType = new VMAccessType()
-                    //                {
-                    //                    AccessTypeId = Convert.ToInt32(dataReader["access_type_id"]),
-                    //                    AccessTypeName = dataReader["access_type_name"].ToString()
-                    //                };
-                    //                user.AccessTypes.Add(accessType);
-                    //            }
-                    //        }
-                    //    }
-                    //}
-                    //catch (SqlException ex)
-                    //{
-                    //    throw new Exception($"An error occurred when fetching \"users\" from the database. \n\nSqlException: {ex.Message}");
-                    //}
+                    Console.WriteLine("The \"SelectUserByIdWithAccessTypes\" query was successful.");
+                    return userAccess;
                 }
-
-                Console.WriteLine("The \"SelectUserByIdWithAccessTypes\" query was successful.");
-                return user;
             }
             catch (Exception ex)
             {
