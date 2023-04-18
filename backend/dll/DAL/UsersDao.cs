@@ -1,4 +1,6 @@
-﻿using dll.Models;
+﻿using Dapper;
+using dll.Models;
+using dll.Models.User;
 using Microsoft.Data.SqlClient;
 using System.Transactions;
 using System.Windows.Input;
@@ -282,11 +284,11 @@ namespace dll.DAL
             }
         }
         
-        public VMUserAccessTypes SelectUserByIdWithAccessTypes(int userId)
+        public VMNUserAccessTypes SelectUserByIdWithAccessTypes(int userId)
         {
             try
             {
-                VMUserAccessTypes user = new VMUserAccessTypes();
+                VMNUserAccessTypes user = new VMNUserAccessTypes();
 
                 string sql = @"SELECT 
                                   u.user_id, 
@@ -306,42 +308,52 @@ namespace dll.DAL
 
                 using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
-                    connection.Open();
-
-                    try
+                    var list = connection.QueryAsync<MNUser, MNAccessType, MNUser>(sql, (user, acessType) =>
                     {
-                        using (SqlCommand command = new SqlCommand(sql, connection))
-                        {
-                            command.Parameters.AddWithValue("@userId", userId);
+                        //user.UserId = userId;
+                        user.AccessTypes.Add(acessType);
+                        return user;
+                    }, new { userId = userId }, splitOn: "AccessTypeId").Result;
 
-                            using (SqlDataReader dataReader = command.ExecuteReader())
-                            {
-                                if (dataReader.Read())
-                                {
-                                    user = new VMUserAccessTypes();
-                                    user.AccessTypes = new List<VMAccessType>();
-                                    user.User = new VMUser()
-                                    {
-                                        UserId = Convert.ToInt32(dataReader["user_id"]),
-                                        FirstName = dataReader["first_name"].ToString(),
-                                        LastName = dataReader["last_name"].ToString(),
-                                        Email = dataReader["email"].ToString()
-                                    };
 
-                                    VMAccessType accessType = new VMAccessType()
-                                    {
-                                        AccessTypeId = Convert.ToInt32(dataReader["access_type_id"]),
-                                        AccessTypeName = dataReader["access_type_name"].ToString()
-                                    };
-                                    user.AccessTypes.Add(accessType);
-                                }
-                            }
-                        }
-                    }
-                    catch (SqlException ex)
-                    {
-                        throw new Exception($"An error occurred when fetching \"users\" from the database. \n\nSqlException: {ex.Message}");
-                    }
+                    
+                    
+                    //connection.Open();
+
+                    //try
+                    //{
+                    //    using (SqlCommand command = new SqlCommand(sql, connection))
+                    //    {
+                    //        command.Parameters.AddWithValue("@userId", userId);
+
+                    //        using (SqlDataReader dataReader = command.ExecuteReader())
+                    //        {
+                    //            if (dataReader.Read())
+                    //            {
+                    //                user = new VMUserAccessTypes();
+                    //                user.AccessTypes = new List<VMAccessType>();
+                    //                user.User = new VMUser()
+                    //                {
+                    //                    UserId = Convert.ToInt32(dataReader["user_id"]),
+                    //                    FirstName = dataReader["first_name"].ToString(),
+                    //                    LastName = dataReader["last_name"].ToString(),
+                    //                    Email = dataReader["email"].ToString()
+                    //                };
+
+                    //                VMAccessType accessType = new VMAccessType()
+                    //                {
+                    //                    AccessTypeId = Convert.ToInt32(dataReader["access_type_id"]),
+                    //                    AccessTypeName = dataReader["access_type_name"].ToString()
+                    //                };
+                    //                user.AccessTypes.Add(accessType);
+                    //            }
+                    //        }
+                    //    }
+                    //}
+                    //catch (SqlException ex)
+                    //{
+                    //    throw new Exception($"An error occurred when fetching \"users\" from the database. \n\nSqlException: {ex.Message}");
+                    //}
                 }
 
                 Console.WriteLine("The \"SelectUserByIdWithAccessTypes\" query was successful.");

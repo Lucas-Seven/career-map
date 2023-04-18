@@ -43,7 +43,7 @@ namespace api.Controllers
         
         [HttpGet]
         [Route("{userId}/accessTypes")]
-        public VMUserAccessTypes GetUserByIdWithAccessTypes(int userId)
+        public VMNUserAccessTypes GetUserByIdWithAccessTypes(int userId)
         {
             return _usersDAO.SelectUserByIdWithAccessTypes(userId);
         }
