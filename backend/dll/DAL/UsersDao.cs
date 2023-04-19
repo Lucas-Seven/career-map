@@ -290,6 +290,7 @@ namespace dll.DAL
             {
                 using (var connection = new SqlConnection(_connectionString))
                 {
+                    /*
                     string sql = @"SELECT 
                                         u.user_id AS UserId, 
                                         u.first_name AS FirstName, 
@@ -327,6 +328,44 @@ namespace dll.DAL
 
                     Console.WriteLine("The \"SelectUserByIdWithAccessTypes\" query was successful.");
                     return userAccess;
+                */
+
+                
+                VMUserAccessTypes user = new VMUserAccessTypes();
+
+                string sql1 = @"-- Select a user by id
+                                SELECT 
+                                  user_id AS UserId, 
+                                  first_name AS FirstName, 
+                                  last_name AS LastName, 
+                                  email AS Email
+                                FROM 
+                                  users_tb
+                                WHERE 
+                                  user_id = @userId;";
+
+                string sql2 = @"-- Select a access type by user
+                                SELECT 
+                                  a.access_type_id AS AccessTypeId, 
+                                  a.access_type_name AS AccessTypeName
+                                FROM 
+                                  accessTypes_tb AS a 
+                                  INNER JOIN accessTypes_users_tb AS au ON au.access_type_id = a.access_type_id 
+                                WHERE 
+                                  au.user_id = @userId;";
+
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    var obj = connection.Query<VMUser>(sql1, new { userId }).SingleOrDefault();
+
+                    if (obj != null)
+                    {
+                        user.User = obj;
+
+                        var list = connection.Query<VMAccessType>(sql2, new { userId });
+
+                        user.AccessTypes = list.ToList();
+                    }
                 }
             }
             catch (Exception ex)
