@@ -6,18 +6,31 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using admin.Api.Model.Response;
+using admin.Api.Service;
 
-namespace admin.Api.Service
+namespace admin.Services
 {
-    public class RequirementsService : BaseService
+    public class RequirementsServicee : BaseService
     {
         //public CompanyPositionRequirements Data { get; set; }
         private RequirementListResponse Data { get; set; }
-        public RequirementsService(int careerMapId, int companyPositionId) 
+
+        public RequirementsServicee()
+        {
+            endpoint = $"requirements";
+            Data = new RequirementListResponse();
+            //Data = new CompanyPositionRequirements();
+        }
+        public RequirementsServicee(int careerMapId, int companyPositionId)
         {
             endpoint = $"careerMaps/{careerMapId}/companyPositions/{companyPositionId}/requirements";
             Data = new RequirementListResponse();
             //Data = new CompanyPositionRequirements();
+        }
+
+        public async Task<List<RequirementResponse>> GetAll()
+        {
+            return null;
         }
 
         public async Task<RequirementListResponse> LoadDataFromApi()

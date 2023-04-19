@@ -2,49 +2,57 @@
 using admin.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Newtonsoft.Json;
+using System.Net.Http;
 using api = admin.Api.Service;
 
-namespace admin.Services
+namespace admin.Api.Service
 {
-    public class CompanyPositionService
-    {
-        public api.CompanyPositionService _api;
+    public class RequirementsService : BaseService
+    {   private RequirementListResponse DataList { get; set; }
 
-        public CompanyPositionService()
+        public RequirementsService()
         {
-            _api = new api.CompanyPositionService();
+            endpoint = $"requirements";
+            DataList = new RequirementListResponse();
+            //DataList = new List<CompanyPosition>();
         }
 
-        public List<CompanyPositionVM> GetAllPositions()
+
+        public async Task<List<RequirementInfo>> GetAllRequirements()
         {
-            var data = _api.GetAllPositions().Result;
-            var ret = new List<CompanyPositionVM>();
+            List<RequirementInfo> dados = new List<RequirementInfo>();
 
-            foreach (var item in data)
+            try
             {
-                CompanyPositionVM career = new CompanyPositionVM()
-                {
-                    CompanyPositionId = item.CompanyPositionId,
-                    CompanyPositionName = item.CompanyPositionName
-                };
+                string url = baseUrl + endpoint;
+                httpClient.BaseAddress = new Uri(url);
+                var json = await httpClient.GetStringAsync("");
 
-                ret.Add(career);
+                dados = JsonConvert.DeserializeObject<List<RequirementInfo>>(json);
+
+                //DataList = dados;
+                //DataList.AddRange(dados.Requirements);
+            }
+            catch (Exception)
+            {
+                //throw;
             }
 
-            return ret;
+            return dados;
         }
 
 
-        public Dictionary<int, CompanyPositionVM> LoadDataMemory()
+        public Dictionary<int, RequirementInfo> LoadDataMemory()
         {
-            var careers = new Dictionary<int, CompanyPositionVM>();
+            var careers = new Dictionary<int, RequirementInfo>();
 
             for (int i = 1; i <= 5; i++)
             {
-                careers.Add(i, new CompanyPositionVM()
+                careers.Add(i, new RequirementInfo()
                 {
-                    CompanyPositionId = i,
-                    CompanyPositionName = $"Carreira {i}"
+                    RequirementId = i,
+                    RequirementName = $"Req {i}"
                 });
             };
             return careers;

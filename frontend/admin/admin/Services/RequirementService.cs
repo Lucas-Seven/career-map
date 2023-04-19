@@ -6,26 +6,26 @@ using api = admin.Api.Service;
 
 namespace admin.Services
 {
-    public class CompanyPositionService
+    public class RequirementService
     {
-        public api.CompanyPositionService _api;
+        public api.RequirementsService _api;
 
-        public CompanyPositionService()
+        public RequirementService()
         {
-            _api = new api.CompanyPositionService();
+            _api = new api.RequirementsService();
         }
 
-        public List<CompanyPositionVM> GetAllPositions()
+        public List<RequirementVM> GetAllRequirements()
         {
-            var data = _api.GetAllPositions().Result;
-            var ret = new List<CompanyPositionVM>();
+            var data = _api.GetAllRequirements().Result;
+            var ret = new List<RequirementVM>();
 
             foreach (var item in data)
             {
-                CompanyPositionVM career = new CompanyPositionVM()
+                RequirementVM career = new RequirementVM()
                 {
-                    CompanyPositionId = item.CompanyPositionId,
-                    CompanyPositionName = item.CompanyPositionName
+                    RequirementId = item.RequirementId,
+                    RequirementName = item.RequirementName
                 };
 
                 ret.Add(career);
@@ -35,16 +35,16 @@ namespace admin.Services
         }
 
 
-        public Dictionary<int, CompanyPositionVM> LoadDataMemory()
+        public Dictionary<int, RequirementVM> LoadDataMemory()
         {
-            var careers = new Dictionary<int, CompanyPositionVM>();
+            var careers = new Dictionary<int, RequirementVM>();
 
             for (int i = 1; i <= 5; i++)
             {
-                careers.Add(i, new CompanyPositionVM()
+                careers.Add(i, new RequirementVM()
                 {
-                    CompanyPositionId = i,
-                    CompanyPositionName = $"Carreira {i}"
+                    RequirementId = i,
+                    RequirementName = $"Req {i}"
                 });
             };
             return careers;
