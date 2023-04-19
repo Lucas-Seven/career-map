@@ -8,11 +8,11 @@ namespace admin.Services
 {
     public class RequirementService
     {
-        public api.RequirementsService _api;
+        public api.RequirementService _api;
 
         public RequirementService()
         {
-            _api = new api.RequirementsService();
+            _api = new api.RequirementService();
         }
 
         public List<RequirementVM> GetAllRequirements()

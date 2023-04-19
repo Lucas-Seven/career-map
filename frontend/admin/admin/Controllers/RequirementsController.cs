@@ -8,11 +8,11 @@ namespace admin.Controllers
 {
     public class RequirementsController : Controller
     {
-        private RequirementService _service { get; set; }
+        private Services.RequirementService _service { get; set; }
 
         public RequirementsController()
         {
-            _service = new RequirementService();
+            _service = new Services.RequirementService();
         }
 
 
