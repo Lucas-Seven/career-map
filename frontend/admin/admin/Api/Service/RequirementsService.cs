@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
-using Xamarin.Forms;
 using System.Threading.Tasks;
 using System.Net;
 using admin.Api.Model.Response;
