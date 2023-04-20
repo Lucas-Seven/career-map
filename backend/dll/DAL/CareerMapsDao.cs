@@ -179,21 +179,22 @@ namespace dll.DAL
             try
             {
                 VMCareerMapCompanyPositions careerMap = new VMCareerMapCompanyPositions();
+                careerMap.CompanyPositions = new List<VMCompanyPositionEntire>();
 
                 string sql = @"SELECT 
-                                  m.career_map_id, 
-                                  m.career_map_name, 
-                                  p.company_position_id, 
-                                  p.company_position_name, 
-                                  mp.hierarchy_number 
-                                FROM 
-                                  careerMaps_tb AS m 
-                                  INNER JOIN careerMaps_companyPositions_tb AS mp ON mp.career_map_id = m.career_map_id 
-                                  INNER JOIN companyPositions_tb AS p ON p.company_position_id = mp.company_position_id 
-                                WHERE 
-                                  m.career_map_id = @careerMapId 
-                                ORDER BY 
-                                  mp.hierarchy_number;";
+                    m.career_map_id, 
+                    m.career_map_name, 
+                    p.company_position_id, 
+                    p.company_position_name, 
+                    mp.hierarchy_number 
+                FROM 
+                    careerMaps_tb AS m 
+                    INNER JOIN careerMaps_companyPositions_tb AS mp ON mp.career_map_id = m.career_map_id 
+                    INNER JOIN companyPositions_tb AS p ON p.company_position_id = mp.company_position_id 
+                WHERE 
+                    m.career_map_id = @careerMapId 
+                ORDER BY 
+                    mp.hierarchy_number;";
 
                 using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
@@ -207,16 +208,8 @@ namespace dll.DAL
 
                             using (SqlDataReader dataReader = command.ExecuteReader())
                             {
-                                if (dataReader.Read())
+                                while (dataReader.Read())
                                 {
-                                    careerMap = new VMCareerMapCompanyPositions();
-                                    careerMap.CompanyPositions = new List<VMCompanyPositionEntire>();
-                                    careerMap.CareerMap = new VMCareerMap()
-                                    {
-                                        CareerMapId = Convert.ToInt32(dataReader["career_map_id"]),
-                                        CareerMapName = dataReader["career_map_name"].ToString()
-                                    };
-
                                     VMCompanyPositionEntire companyPosition = new VMCompanyPositionEntire()
                                     {
                                         HierarchyNumber = Convert.ToInt32(dataReader["hierarchy_number"]),
@@ -225,9 +218,17 @@ namespace dll.DAL
                                             CompanyPositionId = Convert.ToInt32(dataReader["company_position_id"]),
                                             CompanyPositionName = dataReader["company_position_name"].ToString()
                                         }
-
                                     };
                                     careerMap.CompanyPositions.Add(companyPosition);
+
+                                    if (careerMap.CareerMap == null)
+                                    {
+                                        careerMap.CareerMap = new VMCareerMap()
+                                        {
+                                            CareerMapId = Convert.ToInt32(dataReader["career_map_id"]),
+                                            CareerMapName = dataReader["career_map_name"].ToString()
+                                        };
+                                    }
                                 }
                             }
                         }
@@ -254,24 +255,24 @@ namespace dll.DAL
                 VMCareerMapEntire careerMap = new VMCareerMapEntire();
 
                 string sql = @"SELECT 
-                                  m.career_map_id, 
-                                  m.career_map_name, 
-                                  p.company_position_id, 
-                                  p.company_position_name, 
-                                  pr.group_name, 
-                                  r.requirement_id, 
-                                  r.requirement_name 
-                                FROM 
-                                  careerMaps_tb AS m 
-                                  INNER JOIN careerMaps_companyPositions_tb AS mp ON m.career_map_id = mp.career_map_id 
-                                  INNER JOIN companyPositions_tb AS p ON mp.company_position_id = p.company_position_id 
-                                  INNER JOIN companypositions_positionrequirements_tb AS pr ON pr.company_position_id = p.company_position_id 
-                                  INNER JOIN positionrequirements_tb AS r ON r.requirement_id = pr.requirement_id 
-                                WHERE 
-                                  m.career_map_id = @careerMapId 
-                                  AND p.company_position_id = @companyPositionId 
-                                ORDER BY mp.hierarchy_number, 
-                                  pr.group_name;";
+                  m.career_map_id, 
+                  m.career_map_name, 
+                  p.company_position_id, 
+                  p.company_position_name, 
+                  pr.group_name, 
+                  r.requirement_id, 
+                  r.requirement_name 
+                FROM 
+                  careerMaps_tb AS m 
+                  INNER JOIN careerMaps_companyPositions_tb AS mp ON m.career_map_id = mp.career_map_id 
+                  INNER JOIN companyPositions_tb AS p ON mp.company_position_id = p.company_position_id 
+                  INNER JOIN companypositions_positionrequirements_tb AS pr ON pr.company_position_id = p.company_position_id 
+                  INNER JOIN positionrequirements_tb AS r ON r.requirement_id = pr.requirement_id 
+                WHERE 
+                  m.career_map_id = @careerMapId 
+                  AND p.company_position_id = @companyPositionId 
+                ORDER BY mp.hierarchy_number, 
+                  pr.group_name;";
 
                 using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
@@ -286,21 +287,28 @@ namespace dll.DAL
 
                             using (SqlDataReader dataReader = command.ExecuteReader())
                             {
-                                if (dataReader.Read())
-                                {
-                                    careerMap = new VMCareerMapEntire();
-                                    careerMap.Requirements = new List<VMRequirementEntire>();
-                                    careerMap.CareerMap = new VMCareerMap
-                                    {
-                                        CareerMapId = Convert.ToInt32(dataReader["career_map_id"]),
-                                        CareerMapName = dataReader["career_map_name"].ToString()
-                                    };
+                                careerMap = new VMCareerMapEntire();
+                                careerMap.Requirements = new List<VMRequirementEntire>();
 
-                                    careerMap.CompanyPosition = new VMCompanyPosition
+                                while (dataReader.Read())
+                                {
+                                    if (careerMap.CareerMap == null)
                                     {
-                                        CompanyPositionId = Convert.ToInt32(dataReader["company_position_id"]),
-                                        CompanyPositionName = dataReader["company_position_name"].ToString()
-                                    };
+                                        careerMap.CareerMap = new VMCareerMap
+                                        {
+                                            CareerMapId = Convert.ToInt32(dataReader["career_map_id"]),
+                                            CareerMapName = dataReader["career_map_name"].ToString()
+                                        };
+                                    }
+
+                                    if (careerMap.CompanyPosition == null)
+                                    {
+                                        careerMap.CompanyPosition = new VMCompanyPosition
+                                        {
+                                            CompanyPositionId = Convert.ToInt32(dataReader["company_position_id"]),
+                                            CompanyPositionName = dataReader["company_position_name"].ToString()
+                                        };
+                                    }
 
                                     VMRequirementEntire requirement = new VMRequirementEntire()
                                     {
