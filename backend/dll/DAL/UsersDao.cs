@@ -259,11 +259,19 @@ namespace dll.DAL
                                         Email = dataReader["email"].ToString()
                                     };
 
-                                    user.CareerMap = new VMCareerMap()
+                                    if (!dataReader.IsDBNull(dataReader.GetOrdinal("career_map_id")))
                                     {
-                                        CareerMapId = Convert.ToInt32(dataReader["career_map_id"]),
-                                        CareerMapName = dataReader["career_map_name"].ToString()
-                                    };
+                                        user.CareerMap = new VMCareerMap()
+                                        {
+                                            CareerMapId = Convert.ToInt32(dataReader["career_map_id"]),
+                                            CareerMapName = dataReader["career_map_name"].ToString()
+                                        };
+                                    }
+                                    else
+                                    {
+                                        user.CareerMap = null;
+                                    }
+
                                 }
                             }
                         }
@@ -382,11 +390,19 @@ namespace dll.DAL
                                         Email = dataReader["email"].ToString()
                                     };
 
-                                    user.CareerMap = new VMCareerMap()
+                                    if (!dataReader.IsDBNull(dataReader.GetOrdinal("career_map_id")))
                                     {
-                                        CareerMapId = Convert.ToInt32(dataReader["career_map_id"]),
-                                        CareerMapName = dataReader["career_map_name"].ToString()
-                                    };
+                                        user.CareerMap = new VMCareerMap()
+                                        {
+                                            CareerMapId = Convert.ToInt32(dataReader["career_map_id"]),
+                                            CareerMapName = dataReader["career_map_name"].ToString()
+                                        };
+                                    }
+                                    else
+                                    {
+                                        user.CareerMap = null;
+                                    }
+
 
                                     VMAccessType accessType = new VMAccessType()
                                     {
