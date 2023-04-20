@@ -1,0 +1,66 @@
+﻿@model IEnumerable<admin.ViewModels.RequirementVM>
+@{
+    ViewBag.Title = "Especializações";
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">Especializações</li>
+    </ol>
+    @*<h2>Mapa de Carreira</h2>*@
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-primary me-md-2" type="button">Adicionar Especialização</button>
+    </div>
+    <table class="table">
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Career name
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequirementId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequirementName)
+                </td>
+                <td>
+                    <button class="btn-details" onclick="location.href='@Url.Action("Details", new { id = item.RequirementId })'">Exibir</button>
+                </td>
+            </tr>
+        }
+        <tr>
+            <td>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    </table>   
+</nav>
+
+
+
+<style>
+.btn-details {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-details:hover {
+  background-color: #0069d9;
+}
+</style>
+
+
+            
