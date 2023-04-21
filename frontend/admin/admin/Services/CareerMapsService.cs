@@ -57,6 +57,11 @@ namespace admin.Services
             return ret;
         }
 
+        public CompanyPositionListResponse FromApi(int id)
+        {
+            return _api.GetById(id).Result;
+        }
+
 
         public Dictionary<int, CareerMapVM> LoadDataMemory()
         {

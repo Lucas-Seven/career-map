@@ -54,18 +54,20 @@ CompanyPositionRequirementsVM
 </script>*@
 
 
-@model admin.ViewModels.CompanyPositionListVM
+@model admin.Api.Model.Response.CompanyPositionListResponse
 @{
-    ViewBag.Title = "Carreira - " + Model.CareerMapVm.CareerMapName;
+    ViewBag.Title = "Carreira - " + Model.CareerMapResponse.CareerMapName;//  @model. CareerMapVm.CareerMapName;
 }
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item active" aria-current="page">@Model.CareerMapVm.CareerMapName</li>
+        <li class="breadcrumb-item active" aria-current="page">@Model.CareerMapResponse.CareerMapName</li>
     </ol>
     @*<h2>Mapa de Carreira</h2>*@
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+@*    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <button class="btn btn-primary me-md-2" type="button">Adicionar Mapa</button>
-    </div>
+    </div>*@
+
+
     <table class="table">
         <tr>
             <th>
@@ -79,17 +81,17 @@ CompanyPositionRequirementsVM
             </th>
         </tr>
 
-        @foreach (var item in Model.CompanyPositionVmList)
+        @foreach (var item in Model.CompanyPositionResponseList)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CompanyPositionId)
+                    @Html.DisplayFor(modelItem => item.CompanyPositionInfo.CompanyPositionId)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CompanyPositionName)
+                    @Html.DisplayFor(modelItem => item.CompanyPositionInfo.CompanyPositionName)
                 </td>
                 <td>
-                    <button class="btn-details" onclick="location.href='@Url.Action("Informacao", new { id = item.CompanyPositionId })'">Exibir</button>
+                    <button class="btn-details" onclick="location.href='@Url.Action("Informacao", new { id = item.CompanyPositionInfo.CompanyPositionId })'">Exibir</button>
                 </td>
             </tr>
         }

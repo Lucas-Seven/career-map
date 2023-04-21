@@ -34,6 +34,32 @@ namespace admin.Services
             return ret;
         }
 
+        public List<CompanyPositionVM> GetPostionsByCareerId(int id)
+        {
+            var data = _api.GetPositionsByCareerMap(id).Result;
+            var ret = new List<CompanyPositionVM>();
+
+            var careerMap = new CareerMapVM()
+            {
+                CareerMapId = data.CareerMapResponse.CareerMapId,
+                CareerMapName = data.CareerMapResponse.CareerMapName,
+            };
+                        
+            foreach (var item in data.CompanyPositionResponseList.OrderBy(x => x.HierarchyNumber))
+            {
+                CompanyPositionVM company = new CompanyPositionVM()
+                {
+                    ParentCareerMapVm = careerMap,
+                    CompanyPositionId = item.CompanyPositionInfo.CompanyPositionId,
+                    CompanyPositionName = item.CompanyPositionInfo.CompanyPositionName
+                };
+
+                ret.Add(company);
+            }
+
+            return ret;
+        }
+
 
         public Dictionary<int, CompanyPositionVM> LoadDataMemory()
         {

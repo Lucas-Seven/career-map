@@ -22,8 +22,26 @@ namespace admin.Controllers
             return View(_service.GetAllPositions());
         }
 
+        //// GET: CarrermapsController
+        //public ActionResult Index(int careerId)
+        //{
+        //    IEnumerable<CompanyPositionVM> positions;
+        //    try
+        //    {
+        //        List<CompanyPositionVM> cmCompanyPositions = _service.GetPostionsByCareerId(careerId);
+        //        //ViewData["Breadcrumb"] =  lblBreadcrumb.Text = $"{cmCompanyPositions.CareerMapVm.CareerMapName}";
 
+        //        //positions = new List<CompanyPositionVM>(cmCompanyPositions.CompanyPositionVmList);
+        //        //positions = new List<CompanyPositionVM>(cmCompanyPositions.CompanyPositionVmList);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        positions = new List<CompanyPositionVM>();
+        //        ModelState.AddModelError(string.Empty, "Erro no servidor. Contate o Administrador.");
+        //    }
 
+        //    return View(positions);
+        //}
 
 
 
@@ -48,7 +66,7 @@ namespace admin.Controllers
 
         ////    return View(positions);
         ////}
-        
+
         //////public ActionResult Index(int careerId) 
         //////{
         ////    //IEnumerable<CompanyPositionVM> positions;
