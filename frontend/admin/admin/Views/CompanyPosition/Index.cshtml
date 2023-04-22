@@ -1,51 +1,50 @@
 ﻿@model IEnumerable<admin.ViewModels.CompanyPositionVM>
 @{
-    ViewBag.Title = "Cargos";
+    ViewBag.Title = "Listagem de Cargos";
 }
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item active" aria-current="page">Cargos de @(Model.FirstOrDefault().ParentCareerMapVm.CareerMapName)</li>
+        <li class="breadcrumb-item active" aria-current="page">Cargos</li>
     </ol>
-
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button class="btn btn-primary me-md-2" type="button">Adicionar Cargo</button>
-    </div>
-    <table class="table">
-        <tr>
-            <th>
-                Id
-            </th>
-            <th>
-                Cargos
-            </th>
-            <th>
-                Action
-            </th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CompanyPositionId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CompanyPositionName)
-                </td>
-                <td>
-                    <button class="btn-details" onclick="location.href='@Url.Action("Details", new { id = item.CompanyPositionId })'">Exibir</button>
-                </td>
-            </tr>
-        }
-        <tr>
-            <td>
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            </td>
-        </tr>
-    </table>   
 </nav>
 
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button class="btn btn-primary me-md-2" type="button">Adicionar Cargo</button>
+</div>
 
+<table class="table">
+    <tr>
+        <th>
+            Id
+        </th>
+        <th>
+            Cargos
+        </th>
+@*            <th>
+            Action
+        </th>*@
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyPositionId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyPositionName)
+            </td>
+@*                <td>
+                <button class="btn-details" onclick="location.href='@Url.Action("Details", new { id = item.CompanyPositionId })'">Exibir</button>
+            </td>*@
+        </tr>
+    }
+    <tr>
+        <td>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        </td>
+    </tr>
+</table>
 
 <style>
 .btn-details {
@@ -60,7 +59,4 @@
 .btn-details:hover {
   background-color: #0069d9;
 }
-</style>
-
-
-            
+</style>         

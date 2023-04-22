@@ -34,7 +34,7 @@ namespace admin.Services
 
         public CompanyPositionListVM GetById(int id) 
         {
-            var data = _api.GetById(id).Result;
+            var data = _api.GetCompanyPositionsByCareerMapId(id).Result;
             var ret = new CompanyPositionListVM();
 
             ret.CareerMapVm = new CareerMapVM()
@@ -57,9 +57,14 @@ namespace admin.Services
             return ret;
         }
 
-        public CompanyPositionListResponse FromApi(int id)
+        public CompanyPositionListResponse LoadCompanyPositionsFromCareerMapId(int careerMapId)
         {
-            return _api.GetById(id).Result;
+            return _api.GetCompanyPositionsByCareerMapId(careerMapId).Result;
+        }
+
+        public RequirementListResponse LoadRequirementsFromCompanyPositionId(int careerMapId, int companyPositionId)
+        {
+            return _api.GetRequirimentsByCompanyPositionId(careerMapId, companyPositionId).Result;
         }
 
 

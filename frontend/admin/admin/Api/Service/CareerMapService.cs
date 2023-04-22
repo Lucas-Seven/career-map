@@ -37,11 +37,11 @@ namespace admin.Api.Service
             return DataList;
         }
 
-        public async Task<CompanyPositionListResponse> GetById(int careerMapId)
+        public async Task<CompanyPositionListResponse> GetCompanyPositionsByCareerMapId(int careerMapId)
         {
             try
             {
-                endpoint = $"careerMaps/{careerMapId}/companyPositions";
+                var endpoint = $"careerMaps/{careerMapId}/companyPositions";
 
                 string url = baseUrl + endpoint;
                 httpClient.BaseAddress = new Uri(url);
@@ -57,6 +57,28 @@ namespace admin.Api.Service
             }
 
             return new CompanyPositionListResponse();
+        }
+
+        public async Task<RequirementListResponse> GetRequirimentsByCompanyPositionId(int careerMapId, int companyPositionId)
+        {
+            try
+            {
+                var endpoint = $"careerMaps/{careerMapId}/companyPositions/{companyPositionId}/requirements";
+
+                string url = baseUrl + endpoint;
+                httpClient.BaseAddress = new Uri(url);
+                var json = await httpClient.GetStringAsync("");
+                //var json = await httpClient.GetStringAsync(url);
+                var dados = JsonConvert.DeserializeObject<RequirementListResponse>(json);
+
+                return dados;
+            }
+            catch (Exception)
+            {
+                //throw;
+            }
+
+            return new RequirementListResponse();
         }
     }
 }

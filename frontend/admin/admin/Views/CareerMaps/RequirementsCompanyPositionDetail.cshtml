@@ -1,0 +1,61 @@
+﻿@model admin.Api.Model.Response.RequirementListResponse
+@{
+    ViewBag.Title = "Cargo - " + Model.CompanyPositionInfo.CompanyPositionName;
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item "><a href="@Url.Action("Index", "CareerMaps")">Mapas de carreira</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("CompanyPositionsCareerMapDetail", "CareerMaps", new { careerMapId = Model.CareerMap.CareerMapId })">@Model.CareerMap.CareerMapName</a></li>
+        <li class="breadcrumb-item active"><a href="#">@Model.CompanyPositionInfo.CompanyPositionName</a></li>
+    </ol>
+</nav>
+
+<table class="table">
+    <tr>
+        <th>
+            Id
+        </th>
+        <th>
+            Career name
+        </th>
+@*        <th>
+            Action
+        </th>*@
+    </tr>
+
+    @foreach (var item in Model.Requirements)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequirementInfo.RequirementId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequirementInfo.RequirementName)
+            </td>
+@*            <td>RequirementsCompanyPositionDetail
+                <button class="btn-details" onclick="location.href='@Url.Action("Informacao", new { id = item.RequirementInfo.RequirementId })'">Exibir</button>
+            </td>*@
+        </tr>
+    }
+    <tr>
+        <td>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        </td>
+    </tr>
+</table>
+
+<style>
+.btn-details {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-details:hover {
+  background-color: #0069d9;
+}
+</style>

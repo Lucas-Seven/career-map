@@ -1,4 +1,5 @@
-﻿using admin.Api.Service;
+﻿using admin.Api.Model.Response;
+using admin.Api.Service;
 using admin.Services;
 using admin.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -20,6 +21,22 @@ namespace admin.Controllers
         public ActionResult Index()
         {
             return View(_service.GetAllRequirements());
+        }
+
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(RequirementInfo requirement)
+        {
+            var ret = _service.AddRequirement(requirement);
+            //if (ret)
+            //{
+            //}
+                return RedirectToAction("Index");
         }
 
 

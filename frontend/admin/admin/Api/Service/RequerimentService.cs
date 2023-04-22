@@ -8,7 +8,8 @@ using System.Net.Http;
 namespace admin.Api.Service
 {
     public class RequirementService : BaseService
-    {   private RequirementListResponse DataList { get; set; }
+    {
+        private RequirementListResponse DataList { get; set; }
 
         public RequirementService()
         {
@@ -39,6 +40,64 @@ namespace admin.Api.Service
             }
 
             return dados;
+        }
+
+        //public async Task<bool> AddRequirement(RequirementInfo requirement)
+        //{
+        //    try
+        //    {
+        //        string url = baseUrl + endpoint;
+        //        httpClient.BaseAddress = new Uri(url);
+
+        //        var dados = JsonConvert.SerializeObject(requirement);
+
+        //        var requirementContent = new HttpContent();
+
+
+        //        var json = await httpClient.PostAsync("", requirementContent);
+
+
+        //        //DataList = dados;
+        //        //DataList.AddRange(dados.Requirements);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        //throw;
+        //    }
+
+        //    return dados;
+        //}
+
+        public async Task<bool> AddRequirement()
+        {
+            try
+            {
+                string url = baseUrl + endpoint;
+                httpClient.BaseAddress = new Uri(url);
+
+
+                RequirementInfo requirement = new RequirementInfo()
+                {
+                    RequirementName = $"Requerimento das {DateTime.Now}"
+                };
+
+                var content = new StringContent(JsonConvert.SerializeObject(requirement),
+                                                 System.Text.Encoding.UTF8,
+                                                 "application/json");
+
+                var response = await httpClient.PostAsync("", content);
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                Console.WriteLine(responseContent);
+                return true;
+            }
+            catch (Exception)
+            {
+                //throw;
+            }
+
+            return false;
         }
 
 

@@ -22,43 +22,57 @@ namespace admin.Controllers
             return View(_service.GetAllCareers());
         }
 
-        // GET: CarrerMapsController/Details/5
-        public ActionResult Details(int id)
+
+        public ActionResult CompanyPositionsCareerMapDetail(int careerMapId)
         {
-            //var _companyPositionService = new CompanyPositionService();
-            //var ret = _companyPositionService.GetPostionsByCareerId(id);
-
-            ////////var ret = _service.GetById(id);
-            var ret = _service.FromApi(id);
-
-            //IEnumerable<CompanyPositionService> contatos = null;
-
-            //using (var client = new HttpClient())
-            //{
-            //    client.BaseAddress = new Uri("https://localhost:7149/api/");
-
-            //    //var r = "1";
-            //    //HTTP GET
-            //    var responseTask = client.GetAsync($"careerMaps/{id}/companyPositions");
-            //    responseTask.Wait();
-            //    var result = responseTask.Result;
-
-            //    if (result.IsSuccessStatusCode)
-            //    {
-            //        var readTask = result.Content.ReadAsAsync<IList<CompanyPositionService>>();
-            //        readTask.Wait();
-            //        contatos = readTask.Result;
-            //    }
-            //    else
-            //    {
-            //        contatos = Enumerable.Empty<CompanyPositionService>();
-            //        ModelState.AddModelError(string.Empty, "Erro no servidor. Contate o Administrador.");
-            //    }
-            //    return View(contatos);
-            //}
-
+            var ret = _service.LoadCompanyPositionsFromCareerMapId(careerMapId);
             return View(ret);
         }
+
+        public ActionResult RequirementsCompanyPositionDetail(int careerMapId, int companyPositionId)
+        {
+            var ret = _service.LoadRequirementsFromCompanyPositionId(careerMapId, companyPositionId);
+            return View(ret);
+        }
+
+
+        // GET: CarrerMapsController/Details/5
+        //public ActionResult Details(int id)
+        //{
+        //    //var _companyPositionService = new CompanyPositionService();
+        //    //var ret = _companyPositionService.GetPostionsByCareerId(id);
+
+        //    ////////var ret = _service.GetById(id);
+        //    var ret = _service.FromApi(id);
+
+        //    //IEnumerable<CompanyPositionService> contatos = null;
+
+        //    //using (var client = new HttpClient())
+        //    //{
+        //    //    client.BaseAddress = new Uri("https://localhost:7149/api/");
+
+        //    //    //var r = "1";
+        //    //    //HTTP GET
+        //    //    var responseTask = client.GetAsync($"careerMaps/{id}/companyPositions");
+        //    //    responseTask.Wait();
+        //    //    var result = responseTask.Result;
+
+        //    //    if (result.IsSuccessStatusCode)
+        //    //    {
+        //    //        var readTask = result.Content.ReadAsAsync<IList<CompanyPositionService>>();
+        //    //        readTask.Wait();
+        //    //        contatos = readTask.Result;
+        //    //    }
+        //    //    else
+        //    //    {
+        //    //        contatos = Enumerable.Empty<CompanyPositionService>();
+        //    //        ModelState.AddModelError(string.Empty, "Erro no servidor. Contate o Administrador.");
+        //    //    }
+        //    //    return View(contatos);
+        //    //}
+
+        //    return View(ret);
+        //}
 
 
         //// GET: CarrerMapsController/Details/5

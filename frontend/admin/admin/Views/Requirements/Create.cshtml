@@ -1,0 +1,38 @@
+﻿@model admin.Api.Model.Response.RequirementInfo
+
+@{
+    ViewData["Title"] = "Novo Requisito";
+}
+
+<h1>Create</h1>
+
+<h4>RequirementInfo</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="RequirementId" class="control-label"></label>
+                <input asp-for="RequirementId" class="form-control" />
+                <span asp-validation-for="RequirementId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RequirementName" class="control-label"></label>
+                <input asp-for="RequirementName" class="form-control" />
+                <span asp-validation-for="RequirementName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Cancelar</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

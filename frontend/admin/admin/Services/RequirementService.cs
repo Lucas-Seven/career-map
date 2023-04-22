@@ -34,6 +34,11 @@ namespace admin.Services
             return ret;
         }
 
+        public bool AddRequirement(RequirementInfo requirement) 
+        {
+            return _api.AddRequirement().Result;
+        }
+
 
         public Dictionary<int, RequirementVM> LoadDataMemory()
         {
