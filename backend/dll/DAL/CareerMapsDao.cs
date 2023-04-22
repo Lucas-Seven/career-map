@@ -271,8 +271,10 @@ namespace dll.DAL
                 WHERE 
                   m.career_map_id = @careerMapId 
                   AND p.company_position_id = @companyPositionId 
-                ORDER BY mp.hierarchy_number, 
-                  pr.group_name;";
+                ORDER BY 
+                    mp.hierarchy_number, 
+                    r.requirement_name,
+                    pr.group_name;";
 
                 using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
