@@ -51,7 +51,8 @@ namespace api.Controllers
         }
 
         [HttpPost]
-        [Route("{careerMapId}/companyPositions/insert")]
+        //[Route("{careerMapId}/companyPositions/insert")]
+        [Route("companyPositions/insert")]
         public IActionResult PostCompanyPositionInCareerMap(MCareerMapCompanyPosition careerMapCompanyPosition)
         {
             _careerMapsDAO.InsertCompanyPositionInCareerMap(careerMapCompanyPosition);
