@@ -26,5 +26,12 @@ namespace api.Controllers
         {
             return _testsDAO.SelectTestByRequirementId(requirementId);
         }
+
+        [HttpGet]
+        [Route("{id}")]
+        public VMTestEntire GetTestById(int id)
+        {
+            return _testsDAO.SelectTestById(id);
+        }
     }
 }
