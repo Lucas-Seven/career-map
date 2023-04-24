@@ -22,7 +22,7 @@ namespace api.Controllers
 
         [HttpGet]
         [Route("requirements/{requirementId}")]
-        public VMTestEntire GetTestByRequirementId(int requirementId)
+        public ICollection<VMTestEntire> GetTestByRequirementId(int requirementId)
         {
             return _testsDAO.SelectTestByRequirementId(requirementId);
         }
