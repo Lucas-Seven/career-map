@@ -43,6 +43,31 @@ namespace admin.Api.Service
             return dados;
         }
 
+
+        public async Task<TestEntireResponse> GetTestId(int testId)
+        {
+            endpoint = $"tests/{testId}";
+            TestEntireResponse dados = new TestEntireResponse();
+
+            try
+            {
+                string url = baseUrl + endpoint;
+                httpClient.BaseAddress = new Uri(url);
+                var json = await httpClient.GetStringAsync("");
+
+                dados = JsonConvert.DeserializeObject<TestEntireResponse>(json);
+
+                //DataList = dados;
+                //DataList.AddRange(dados.Requirements);
+            }
+            catch (Exception)
+            {
+                //throw;
+            }
+
+            return dados;
+        }
+
         //public async Task<bool> AddRequirement(RequirementInfo requirement)
         //{
         //    try
@@ -69,31 +94,31 @@ namespace admin.Api.Service
         //    return dados;
         //}
 
-        public async Task<bool> AddRequirement(RequirementInfo requirement)
-        {
-            try
-            {
-                string url = baseUrl + endpoint;
-                httpClient.BaseAddress = new Uri(url);
+        //public async Task<bool> AddRequirement(RequirementInfo requirement)
+        //{
+        //    try
+        //    {
+        //        string url = baseUrl + endpoint;
+        //        httpClient.BaseAddress = new Uri(url);
 
-                var content = new StringContent(JsonConvert.SerializeObject(requirement),
-                                                 System.Text.Encoding.UTF8,
-                                                 "application/json");
+        //        var content = new StringContent(JsonConvert.SerializeObject(requirement),
+        //                                         System.Text.Encoding.UTF8,
+        //                                         "application/json");
 
-                var response = await httpClient.PostAsync("", content);
+        //        var response = await httpClient.PostAsync("", content);
 
-                var responseContent = await response.Content.ReadAsStringAsync();
+        //        var responseContent = await response.Content.ReadAsStringAsync();
 
-                Console.WriteLine(responseContent);
-                return true;
-            }
-            catch (Exception)
-            {
-                //throw;
-            }
+        //        Console.WriteLine(responseContent);
+        //        return true;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        //throw;
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
 
 
         public Dictionary<int, RequirementInfo> LoadDataMemory()

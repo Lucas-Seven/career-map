@@ -36,6 +36,26 @@ namespace admin.Services
             return data;
         }
 
+        public TestEntireResponse GetTestById(int testId)
+        {
+            var data = _api.GetTestId(testId).Result;
+            //var ret = new List<RequirementVM>();
+
+            //foreach (var item in data)
+            //{
+            //    RequirementVM career = new RequirementVM()
+            //    {
+            //        RequirementId = item.RequirementId,
+            //        RequirementName = item.RequirementName
+            //    };
+
+            //    ret.Add(career);
+            //}
+
+            //return ret;
+            return data;
+        }
+
         public Dictionary<int, RequirementVM> LoadDataMemory()
         {
             var careers = new Dictionary<int, RequirementVM>();

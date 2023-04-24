@@ -29,6 +29,12 @@ namespace admin.Controllers
             return View();
         }
 
+        // GET: TestByID
+        public ActionResult Details(int testId)
+        {
+            return View(_service.GetTestById(testId));
+        }
+
         //[HttpPost]
         //public ActionResult Create(/*TestInfo test*/)
         //{
