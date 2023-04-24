@@ -33,10 +33,14 @@ namespace admin.Controllers
         public ActionResult Create(RequirementInfo requirement)
         {
             var ret = _service.AddRequirement(requirement);
-            //if (ret)
-            //{
-            //}
+            if (ret)
+            {
                 return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
         }
 
 

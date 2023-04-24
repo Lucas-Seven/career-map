@@ -68,18 +68,12 @@ namespace admin.Api.Service
         //    return dados;
         //}
 
-        public async Task<bool> AddRequirement()
+        public async Task<bool> AddRequirement(RequirementInfo requirement)
         {
             try
             {
                 string url = baseUrl + endpoint;
                 httpClient.BaseAddress = new Uri(url);
-
-
-                RequirementInfo requirement = new RequirementInfo()
-                {
-                    RequirementName = $"Requerimento das {DateTime.Now}"
-                };
 
                 var content = new StringContent(JsonConvert.SerializeObject(requirement),
                                                  System.Text.Encoding.UTF8,
