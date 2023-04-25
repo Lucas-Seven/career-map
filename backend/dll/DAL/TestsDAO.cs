@@ -1,4 +1,5 @@
 ﻿using dll.Models;
+using dll.Models.Form;
 using Microsoft.Data.SqlClient;
 using viewmodels;
 using viewmodels.CareerMap;
@@ -256,5 +257,96 @@ namespace dll.DAL
                 throw new Exception($"An error occurred. \n\nException: {ex.Message}");
             }
         }
+
+        public MTest Insert(MTest test)
+        {
+            try
+            {
+                string sql = @"--X
+INSERT INTO tests_tb
+(
+     requirement_id
+    ,description
+)
+OUTPUT INSERTED.test_id
+
+VALUES
+(
+    @requirement_id
+    ,@description
+);";
+
+                /*
+                Dictionary<MTest, List<MQuestion>> testQuestions = new Dictionary<MTest, List<MQuestion>>();
+
+                var mreq = new MRequirement()
+                {
+                    RequirementId = test.Requirement.RequirementId,
+                    RequirementName = test.Requirement.RequirementName
+                };
+
+                var mtest = new MTest()
+                {
+                    TestId = test.TestId,
+                    Description = test.Description,
+                    RequirementId = mreq.RequirementId
+                };
+
+                if (!testQuestions.ContainsKey(mtest))
+                {
+                    testQuestions.Add(mtest, new List<MQuestion>());
+                }
+
+                foreach (var question in test.QuestionsAlternatives)
+                {
+                    var mquestion = new MQuestion()
+                    {
+                        Description = question.Description,
+                        IsRequired = question.IsRequired,
+                        Question = question.Question,
+                        QuestionId = question.QuestionId,
+                        QuestionTypeId = question.Type.QuestionTypeId
+                    };
+
+                    testQuestions[mtest].Add(mquestion);
+                }
+
+                /**/
+
+
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    SqlTransaction transaction = connection.BeginTransaction();
+
+                    try
+                    {
+                        // Add career map
+                        using (SqlCommand command = new SqlCommand(sql, connection))
+                        {
+                            command.Transaction = transaction;
+                            command.Parameters.AddWithValue("@requirement_id", test.RequirementId);
+                            command.Parameters.AddWithValue("@description", test.Description);
+
+                            test.TestId = (Int32)command.ExecuteScalar();
+                        }
+
+                        transaction.Commit();
+                        Console.WriteLine($"The requirement with Id {test.RequirementId} was successfully registered.");
+                        return test;
+                    }
+                    catch (SqlException ex)
+                    {
+                        transaction.Rollback();
+                        throw new Exception($"An error occurred while registering the requirement in the company position. \n\nSqlException: {ex.Message}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred. \n\nException: {ex.Message}");
+            }
+        }
+
     }
 }
