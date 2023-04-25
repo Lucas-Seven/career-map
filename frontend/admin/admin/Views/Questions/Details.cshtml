@@ -1,0 +1,124 @@
+﻿@model admin.Api.Model.Response.QuestionsAlternative
+
+@{
+    //ViewBag.Title = "Carreira - " + Model.CareerMapResponse.CareerMapName;
+    ViewData["Title"] = Model.Question;
+}
+
+@*<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item "><a href="@Url.Action("Index", "CareerMaps")">Mapas de carreira</a></li>
+        <li class="breadcrumb-item active">@Model.Description</li>
+    </ol>
+</nav>
+*@
+
+@*<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button class="btn btn-primary me-md-2" type="button">Adicionar Mapa</button>
+</div>
+*@
+
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <input name="QuestionId" type="hidden" />
+
+                <label asp-for="Question" class="control-label">Questão</label>
+                <input asp-for="Question" class="form-control disabled" readonly/>
+                <span asp-validation-for="Question" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">Descrição</label>
+                <input asp-for="Description" class="form-control disabled" readonly />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-md-4">
+    @*        <div class="form-group">
+                <label asp-for="IsRequired" class="control-label">Obrigatório</label>
+                <input asp-for="IsRequired" class="form-control disabled" readonly />
+                <input name="IsRequired" type="checkbox" value="@Model.IsRequired" class="form-control disabled" readonly />
+                <span asp-validation-for="Question" class="text-danger"></span>
+            </div>
+    *@
+
+            <div class="form-group">
+            @*<div class="form-check">*@
+                @Html.CheckBoxFor(x => x.IsRequired, new{ @class="form-check-input", disabled="disabled"} )
+                <label class="form-check-label" for="IsRequired">
+                    Obrigatório
+                </label>
+            </div>
+        </div>
+
+
+
+
+        <div class="col-md-4">
+    @*        <div class="form-group">
+                <label asp-for="IsRequired" class="control-label">Obrigatório</label>
+                <input asp-for="IsRequired" class="form-control disabled" readonly />
+                <input name="IsRequired" type="checkbox" value="@Model.IsRequired" class="form-control disabled" readonly />
+                <span asp-validation-for="Question" class="text-danger"></span>
+            </div>
+    *@
+
+            <div class="form-group">
+            @*<div class="form-check">*@
+                @Html.CheckBoxFor(x => x.IsRequired, new{ @class="form-check-input", disabled="disabled"} )
+                <label class="form-check-label" for="IsRequired">
+                    Obrigatório
+                </label>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    @if (!Model.Type.QuestionTypeName.ToLower().Equals("text")){
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Alternatives.FirstOrDefault().AlternativeId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Alternatives.FirstOrDefault().Text)
+                    </th>
+                    <th>
+                        Ações
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+        @foreach (var item in Model.Alternatives) {
+            <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AlternativeId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Text)
+                    </td>
+                    <td>
+@*                        @html.actionlink("edit", "edit", new { /* id=item.primarykey */ }) |
+                        @html.actionlink("details", "details", new { /* id=item.primarykey */ }) |
+                        @html.actionlink("delete", "delete", new { /* id=item.primarykey */ })
+*@
+                        @Html.ActionLink("Visualizar", "Details", "Questions", new {  questionId=item.AlternativeId})
+                    </td>
+                </tr>
+        }
+            </tbody>
+        </table>
+
+    }

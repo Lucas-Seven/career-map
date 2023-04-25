@@ -7,29 +7,29 @@ using System.Net.Http;
 
 namespace admin.Api.Service
 {
-    public class AlternativeService : BaseService
+    public class QuestionService : BaseService
     {
-        private AlternativeListResponse DataList { get; set; }
+        //private AlternativeListResponse DataList { get; set; }
 
-        public AlternativeService()
+        public QuestionService()
         {
-            endpoint = $"Alternatives";
-            DataList = new AlternativeListResponse();
+            endpoint = $"question";
+            //DataList = new AlternativeListResponse();
             //DataList = new List<CompanyPosition>();
         }
 
 
-        public async Task<List<AlternativeInfo>> GetAllAlternatives()
+        public async Task<QuestionsAlternative> GetQuestionById(int questionId)
         {
-            List<AlternativeInfo> dados = new List<AlternativeInfo>();
+            QuestionsAlternative dados = new QuestionsAlternative();
 
             try
             {
-                string url = baseUrl + endpoint;
+                string url = $"{baseUrl}{endpoint}?questionId={questionId}";
                 httpClient.BaseAddress = new Uri(url);
                 var json = await httpClient.GetStringAsync("");
 
-                dados = JsonConvert.DeserializeObject<List<AlternativeInfo>>(json);
+                dados = JsonConvert.DeserializeObject<QuestionsAlternative>(json);
 
                 //DataList = dados;
                 //DataList.AddRange(dados.Alternatives);
@@ -41,6 +41,29 @@ namespace admin.Api.Service
 
             return dados;
         }
+
+        //public async Task<List<AlternativeInfo>> GetAllAlternatives()
+        //{
+        //    List<AlternativeInfo> dados = new List<AlternativeInfo>();
+
+        //    try
+        //    {
+        //        string url = baseUrl + endpoint;
+        //        httpClient.BaseAddress = new Uri(url);
+        //        var json = await httpClient.GetStringAsync("");
+
+        //        dados = JsonConvert.DeserializeObject<List<AlternativeInfo>>(json);
+
+        //        //DataList = dados;
+        //        //DataList.AddRange(dados.Alternatives);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        //throw;
+        //    }
+
+        //    return dados;
+        //}
 
         //public async Task<bool> AddAlternative(AlternativeInfo Alternative)
         //{
@@ -68,47 +91,47 @@ namespace admin.Api.Service
         //    return dados;
         //}
 
-        public async Task<bool> AddAlternative(AlternativeInfo Alternative)
-        {
-            try
-            {
-                string url = baseUrl + endpoint;
-                httpClient.BaseAddress = new Uri(url);
+        ////public async Task<bool> AddAlternative(AlternativeInfo Alternative)
+        ////{
+        ////    try
+        ////    {
+        ////        string url = baseUrl + endpoint;
+        ////        httpClient.BaseAddress = new Uri(url);
 
-                var content = new StringContent(JsonConvert.SerializeObject(Alternative),
-                                                 System.Text.Encoding.UTF8,
-                                                 "application/json");
+        ////        var content = new StringContent(JsonConvert.SerializeObject(Alternative),
+        ////                                         System.Text.Encoding.UTF8,
+        ////                                         "application/json");
 
-                var response = await httpClient.PostAsync("", content);
+        ////        var response = await httpClient.PostAsync("", content);
 
-                var responseContent = await response.Content.ReadAsStringAsync();
+        ////        var responseContent = await response.Content.ReadAsStringAsync();
 
-                Console.WriteLine(responseContent);
-                return true;
-            }
-            catch (Exception)
-            {
-                //throw;
-            }
+        ////        Console.WriteLine(responseContent);
+        ////        return true;
+        ////    }
+        ////    catch (Exception)
+        ////    {
+        ////        //throw;
+        ////    }
 
-            return false;
-        }
+        ////    return false;
+        ////}
 
 
-        public Dictionary<int, AlternativeInfo> LoadDataMemory()
-        {
-            var careers = new Dictionary<int, AlternativeInfo>();
+        ////public Dictionary<int, AlternativeInfo> LoadDataMemory()
+        ////{
+        ////    var careers = new Dictionary<int, AlternativeInfo>();
 
-            for (int i = 1; i <= 5; i++)
-            {
-                careers.Add(i, new AlternativeInfo()
-                {
-                    AlternativeId = i,
-                    AlternativeName = $"Req {i}"
-                });
-            };
-            return careers;
-        }
+        ////    for (int i = 1; i <= 5; i++)
+        ////    {
+        ////        careers.Add(i, new AlternativeInfo()
+        ////        {
+        ////            AlternativeId = i,
+        ////            AlternativeName = $"Req {i}"
+        ////        });
+        ////    };
+        ////    return careers;
+        ////}
 
         //public api.CompanyPositionService _apiService { get; set; }
 

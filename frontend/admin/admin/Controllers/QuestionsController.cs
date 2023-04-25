@@ -7,41 +7,48 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace admin.Controllers
 {
-    public class AlternativeController : Controller
+    public class QuestionsController : Controller
     {
-        private Services.RequirementService _service { get; set; }
+        private Services.QuestionService _service { get; set; }
 
-        public AlternativeController()
+        public QuestionsController()
         {
-            _service = new Services.RequirementService();
+            _service = new Services.QuestionService();
         }
+
+        public ActionResult Details(int questionId)
+        {
+            return View(_service.GetQuestionById(questionId));
+        }
+
+
 
 
         // GET: CarrermapsController
-        public ActionResult Index()
-        {
-            return View(_service.GetAllRequirements());
-        }
+        //public ActionResult Index()
+        //{
+        //    return View(_service.GetAllRequirements());
+        //}
 
-        [HttpGet]
-        public ActionResult Create()
-        {
-            return View();
-        }
+        //[HttpGet]
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
 
-        [HttpPost]
-        public ActionResult Create(RequirementInfo requirement)
-        {
-            var ret = _service.AddRequirement(requirement);
-            if (ret)
-            {
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                return View();
-            }
-        }
+        //[HttpPost]
+        //public ActionResult Create(RequirementInfo requirement)
+        //{
+        //    var ret = _service.AddRequirement(requirement);
+        //    if (ret)
+        //    {
+        //        return RedirectToAction("Index");
+        //    }
+        //    else
+        //    {
+        //        return View();
+        //    }
+        //}
 
 
 

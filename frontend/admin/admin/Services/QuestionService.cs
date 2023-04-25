@@ -6,54 +6,45 @@ using api = admin.Api.Service;
 
 namespace admin.Services
 {
-    public class AlternativeService
+    public class QuestionService
     {
-        public api.AlternativeService _api;
+        public api.QuestionService _api;
 
-        public AlternativeService()
+        public QuestionService()
         {
-            _api = new api.AlternativeService();
+            _api = new api.QuestionService();
         }
 
-        public List<AlternativeVM> GetAllAlternatives()
+        public QuestionsAlternative GetQuestionById(int questionId)
         {
-            var data = _api.GetAllAlternatives().Result;
-            var ret = new List<AlternativeVM>();
-
-            foreach (var item in data)
-            {
-                AlternativeVM career = new AlternativeVM()
-                {
-                    AlternativeId = item.AlternativeId,
-                    AlternativeName = item.AlternativeName
-                };
-
-                ret.Add(career);
-            }
-
-            return ret;
+            return _api.GetQuestionById(questionId).Result;
         }
 
-        public bool AddAlternative(AlternativeInfo Alternative) 
-        {
-            return _api.AddAlternative(Alternative).Result;
-        }
+        //public List<AlternativeVM> GetAllAlternatives()
+        //{
+        //    var data = _api.GetAllAlternatives().Result;
+        //    var ret = new List<AlternativeVM>();
+
+        //    foreach (var item in data)
+        //    {
+        //        AlternativeVM career = new AlternativeVM()
+        //        {
+        //            AlternativeId = item.AlternativeId,
+        //            AlternativeName = item.AlternativeName
+        //        };
+
+        //        ret.Add(career);
+        //    }
+
+        //    return ret;
+        //}
+
+        //public bool AddAlternative(AlternativeInfo Alternative) 
+        //{
+        //    return _api.AddAlternative(Alternative).Result;
+        //}
 
 
-        public Dictionary<int, AlternativeVM> LoadDataMemory()
-        {
-            var careers = new Dictionary<int, AlternativeVM>();
-
-            for (int i = 1; i <= 5; i++)
-            {
-                careers.Add(i, new AlternativeVM()
-                {
-                    AlternativeId = i,
-                    AlternativeName = $"Req {i}"
-                });
-            };
-            return careers;
-        }
 
         //public api.CompanyPositionService _apiService { get; set; }
 

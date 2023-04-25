@@ -28,7 +28,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.QuestionsAlternatives.FirstOrDefault().Type)
             </th>
-            <th></th>
+            <th>
+                Ações
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -44,9 +46,11 @@
                 @Html.DisplayFor(modelItem => item.Type.QuestionTypeName)
             </td>
             <td>
-@*                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+                @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |*@
+                @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
+                @*@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+
+                @Html.ActionLink("Visualizar", "Details", "Questions", new {  questionId=item.QuestionId })
             </td>
         </tr>
 }

@@ -33,15 +33,6 @@ namespace admin.Api.Model.Response
         public List<Alternative> Alternatives { get; set; }
     }
 
-    public class Requirement
-    {
-        [JsonProperty("requirementId")]
-        public int RequirementId { get; set; }
-
-        [JsonProperty("requirementName")]
-        public string RequirementName { get; set; }
-    }
-
     public class TestEntireResponse
     {
         [JsonProperty("testId")]
@@ -51,7 +42,7 @@ namespace admin.Api.Model.Response
         public string Description { get; set; }
 
         [JsonProperty("requirement")]
-        public Requirement Requirement { get; set; }
+        public RequirementInfo Requirement { get; set; }
 
         [JsonProperty("questionsAlternatives")]
         public List<QuestionsAlternative> QuestionsAlternatives { get; set; }
