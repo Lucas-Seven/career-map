@@ -8,7 +8,7 @@ using viewmodels.Form;
 
 namespace api.Controllers
 {
-    [Route("api/alternatives")]
+    [Route("api/question")]
     [ApiController]
     public class QuestionAlternativesController : ControllerBase
     {
@@ -20,6 +20,13 @@ namespace api.Controllers
             _configuration = configuration;
             ConnectionString = _configuration.GetConnectionString("AprovAtosConnection");
             _questionAlternativesDAO = new QuestionAlternativesDAO(ConnectionString);
+        }
+
+        [HttpGet]
+        public async Task<VMQuestionAlternatives> GetQuestionById(int questionId)
+        {
+            VMQuestionAlternatives question = _questionAlternativesDAO.GetQuestionById(questionId);
+            return question;
         }
 
         //[HttpGet]
