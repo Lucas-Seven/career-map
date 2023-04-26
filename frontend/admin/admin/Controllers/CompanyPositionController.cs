@@ -22,6 +22,20 @@ namespace admin.Controllers
             return View(_service.GetAllPositions());
         }
 
+        public ActionResult Create()
+        {
+            return View(_service.GetAllPositions());
+        }
+
+        public ActionResult Insert(int positionId)
+        {
+            int posicao = positionId;
+            return View(_service.PostAllPositions(posicao));
+        }
+
+
+
+
         //// GET: CarrermapsController
         //public ActionResult Index(int careerId)
         //{

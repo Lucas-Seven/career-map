@@ -1,0 +1,42 @@
+﻿@model IEnumerable<admin.ViewModels.CompanyPositionVM>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container-fluid">
+    <h1>Novo Cargo</h1>
+
+    <h4>Desenvolvimento Backend</h4>
+    
+    <div class="input-group mb-3">
+        <select class="form-select" id="inputGroupSelect01">
+            <option selected disabled hidden>Escolha uma opção</option>
+                @foreach (var item in Model)
+                {              
+                    var name = "cp_" + item.CompanyPositionName;
+
+                    <option name="@name" value="@item.CompanyPositionId">@item.CompanyPositionName</option>
+                }
+        </select>
+    </div>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">  
+@*        <button class="btn btn-primary" type="button" onclick="location.href='@Url.Action("Insert","CompanyPosition")'">Adicionar Cargo</button>
+*@
+        <button class="btn btn-primary" type="button" onclick="adicionarCargo()">Adicionar Cargo</button>
+</div>
+</div>
+
+<script>
+    function adicionarCargo() {       
+        
+        var positionId = document.getElementById("inputGroupSelect01").value;       
+
+        // atualizar o URL de ação do botão <button>
+        var url = "@Url.Action("Insert", "CompanyPosition")?positionId=" + positionId;
+        //var url = "@Url.Action("Insert", "CompanyPosition" , new {selectedPositionId = "__POSITION_ID__"})" ;
+                        
+        location.href = url;
+    }
+</script>
+
+

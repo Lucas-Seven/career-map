@@ -34,6 +34,25 @@ namespace admin.Services
             return ret;
         }
 
+        public List<CompanyPositionVM> PostAllPositions(int posicao)
+        {            
+            var data = _api.PostAllPositions().Result;            
+            var ret = new List<CompanyPositionVM>();
+
+            foreach (var item in data)
+            {
+                CompanyPositionVM career = new CompanyPositionVM()
+                {
+                    CompanyPositionId = item.CompanyPositionId,
+                    CompanyPositionName = item.CompanyPositionName
+                };
+
+                ret.Add(career);
+            }
+
+            return ret;
+        }
+
         public List<CompanyPositionVM> GetPostionsByCareerId(int id)
         {
             var data = _api.GetPositionsByCareerMap(id).Result;
