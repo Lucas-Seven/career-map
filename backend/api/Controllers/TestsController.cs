@@ -1,5 +1,6 @@
 ﻿using dll.DAL;
 using dll.Models;
+using dll.Models.Form;
 using Microsoft.AspNetCore.Mvc;
 using viewmodels;
 using viewmodels.Form;
@@ -32,6 +33,14 @@ namespace api.Controllers
         public VMTestEntire GetTestById(int id)
         {
             return _testsDAO.SelectTestById(id);
+        }
+
+        [HttpPost]
+        [Route("insert")]
+        public IActionResult PostTest(MTest test)
+        {
+            var ret = _testsDAO.Insert(test);
+            return Ok(ret);
         }
     }
 }

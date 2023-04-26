@@ -1,4 +1,5 @@
 ﻿
+using admin.Api.Model;
 using admin.Api.Model.Response;
 using admin.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -54,6 +55,11 @@ namespace admin.Services
 
             //return ret;
             return data;
+        }
+
+        public bool Insert(MTest test)
+        {
+            return _api.Insert(test).Result;
         }
 
         public Dictionary<int, RequirementVM> LoadDataMemory()

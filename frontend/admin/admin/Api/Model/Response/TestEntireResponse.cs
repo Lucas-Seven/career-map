@@ -31,6 +31,12 @@ namespace admin.Api.Model.Response
 
         [JsonProperty("alternatives")]
         public List<Alternative> Alternatives { get; set; }
+
+        public QuestionsAlternative()
+        {
+            Alternatives = new List<Alternative>();
+            Type = new Type();
+        }
     }
 
     public class TestEntireResponse
@@ -46,6 +52,11 @@ namespace admin.Api.Model.Response
 
         [JsonProperty("questionsAlternatives")]
         public List<QuestionsAlternative> QuestionsAlternatives { get; set; }
+
+        public TestEntireResponse()
+        {
+            QuestionsAlternatives = new List<QuestionsAlternative>();
+        }
     }
 
     public class Type
