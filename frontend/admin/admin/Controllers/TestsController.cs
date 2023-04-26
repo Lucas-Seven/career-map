@@ -1,4 +1,5 @@
-﻿using admin.Api.Model.Response;
+﻿using admin.Api.Model;
+using admin.Api.Model.Response;
 using admin.Api.Service;
 using admin.Services;
 using admin.ViewModels;
@@ -20,13 +21,31 @@ namespace admin.Controllers
         // GET: CarrermapsController
         public ActionResult TestsByRequirement(int requirementId)
         {
+            ViewBag.requirementId = requirementId;
             return View(_service.GetAllTestsByRequirementId(requirementId));
         }
 
         [HttpGet]
-        public ActionResult Create()
+        public ActionResult Create(int requirementId)
         {
+            ViewBag.requirementId = requirementId;
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(MTest test)
+        {
+            var res = _service.Insert(test);
+
+            if (res)
+            {
+                return RedirectToAction("TestsByRequirement", new { requirementId = test.RequirementId });
+            }
+            else
+            {
+                ViewBag.requirementId = test.RequirementId;
+                return View();
+            }
         }
 
         // GET: TestByID

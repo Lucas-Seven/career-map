@@ -38,10 +38,10 @@ namespace dll.DAL
                                     a.alternative 
                                 FROM 
                                     tests_tb AS t 
-                                    INNER JOIN tests_testQuestions_tb AS tq ON tq.test_id = t.test_id 
-                                    INNER JOIN positionRequirements_tb AS r ON r.requirement_id = t.requirement_id 
-                                    INNER JOIN testQuestions_tb AS q ON q.question_id = tq.question_id 
-                                    INNER JOIN questionTypes_tb AS qt ON qt.question_type_id = q.question_type_id 
+                                    LEFT JOIN tests_testQuestions_tb AS tq ON tq.test_id = t.test_id 
+                                    LEFT JOIN positionRequirements_tb AS r ON r.requirement_id = t.requirement_id 
+                                    LEFT JOIN testQuestions_tb AS q ON q.question_id = tq.question_id 
+                                    LEFT JOIN questionTypes_tb AS qt ON qt.question_type_id = q.question_type_id 
                                     LEFT JOIN questionAlternatives_tb AS a ON a.question_id = tq.question_id 
                                 WHERE 
                                     t.requirement_id = @requirementId
@@ -67,7 +67,7 @@ namespace dll.DAL
                                         var testId = Convert.ToInt32(dataReader["test_id"]);
                                         VMTestEntire test;
 
-                                        if(!tests.ContainsKey(testId))
+                                        if (!tests.ContainsKey(testId))
                                         {
                                             test = new VMTestEntire();
                                             test.TestId = Convert.ToInt32(dataReader["test_id"]);
@@ -84,43 +84,46 @@ namespace dll.DAL
 
                                         test = tests[testId];
 
-                                        int questionId = Convert.ToInt32(dataReader["question_id"]);
-
-                                        VMQuestionAlternatives question = test.QuestionsAlternatives.Where(q => q.QuestionId == questionId).FirstOrDefault();
-                                        if (question == null)
+                                        if (!Convert.IsDBNull(dataReader["question_id"]))
                                         {
-                                            question = new VMQuestionAlternatives()
-                                            {
-                                                QuestionId = questionId,
-                                                IsRequired = Convert.ToBoolean(dataReader["is_required"]),
-                                                Question = dataReader["question"].ToString(),
-                                                Description = !Convert.IsDBNull(dataReader["question_description"]) ?
-                                                                dataReader["question_description"].ToString() :
-                                                                null,
+                                            int questionId = Convert.ToInt32(dataReader["question_id"]);
 
-                                                Type = new VMQuestionType()
+                                            VMQuestionAlternatives question = test.QuestionsAlternatives.Where(q => q.QuestionId == questionId).FirstOrDefault();
+                                            if (question == null)
+                                            {
+                                                question = new VMQuestionAlternatives()
                                                 {
-                                                    QuestionTypeId = Convert.ToInt32(dataReader["question_type_id"]),
-                                                    QuestionTypeName = dataReader["question_type_name"].ToString()
-                                                },
+                                                    QuestionId = questionId,
+                                                    IsRequired = Convert.ToBoolean(dataReader["is_required"]),
+                                                    Question = dataReader["question"].ToString(),
+                                                    Description = !Convert.IsDBNull(dataReader["question_description"]) ?
+                                                                    dataReader["question_description"].ToString() :
+                                                                    null,
 
-                                                Alternatives = new List<VMAlternative>()
-                                            };
-                                            test.QuestionsAlternatives.Add(question);
-                                        }
+                                                    Type = new VMQuestionType()
+                                                    {
+                                                        QuestionTypeId = Convert.ToInt32(dataReader["question_type_id"]),
+                                                        QuestionTypeName = dataReader["question_type_name"].ToString()
+                                                    },
 
-                                        if(!Convert.IsDBNull(dataReader["alternative_id"]))
-                                        {
-                                            var alternative = new VMAlternative
-                                            {
-                                                AlternativeId = Convert.ToInt32(dataReader["alternative_id"]),
-                                                Alternative = dataReader["alternative"].ToString()
-                                            };
-
-                                            if (alternative != null && alternative.AlternativeId > 0)
-                                            {
-                                                question.Alternatives.Add(alternative);
+                                                    Alternatives = new List<VMAlternative>()
+                                                };
+                                                test.QuestionsAlternatives.Add(question);
                                             }
+
+                                            if (!Convert.IsDBNull(dataReader["alternative_id"]))
+                                            {
+                                                var alternative = new VMAlternative
+                                                {
+                                                    AlternativeId = Convert.ToInt32(dataReader["alternative_id"]),
+                                                    Alternative = dataReader["alternative"].ToString()
+                                                };
+
+                                                if (alternative != null && alternative.AlternativeId > 0)
+                                                {
+                                                    question.Alternatives.Add(alternative);
+                                                }
+                                            } 
                                         }
                                     }
                                 }
@@ -165,10 +168,10 @@ namespace dll.DAL
                                     a.alternative 
                                 FROM 
                                     tests_tb AS t 
-                                    INNER JOIN tests_testQuestions_tb AS tq ON tq.test_id = t.test_id 
-                                    INNER JOIN positionRequirements_tb AS r ON r.requirement_id = t.requirement_id 
-                                    INNER JOIN testQuestions_tb AS q ON q.question_id = tq.question_id 
-                                    INNER JOIN questionTypes_tb AS qt ON qt.question_type_id = q.question_type_id 
+                                    LEFT JOIN tests_testQuestions_tb AS tq ON tq.test_id = t.test_id 
+                                    LEFT JOIN positionRequirements_tb AS r ON r.requirement_id = t.requirement_id 
+                                    LEFT JOIN testQuestions_tb AS q ON q.question_id = tq.question_id 
+                                    LEFT JOIN questionTypes_tb AS qt ON qt.question_type_id = q.question_type_id 
                                     LEFT JOIN questionAlternatives_tb AS a ON a.question_id = tq.question_id 
                                 WHERE 
 									t.test_id = @testId 
@@ -195,47 +198,54 @@ namespace dll.DAL
                                         test.TestId = Convert.ToInt32(dataReader["test_id"]);
                                         test.Description = !Convert.IsDBNull(dataReader["test_description"]) ? dataReader["test_description"].ToString() : null;
 
-                                        test.Requirement = new VMRequirement()
+                                        if (!Convert.IsDBNull(dataReader["requirement_id"]))
                                         {
-                                            RequirementId = Convert.ToInt32(dataReader["requirement_id"]),
-                                            RequirementName = dataReader["requirement_name"].ToString()
-                                        };
-
-                                        int questionId = Convert.ToInt32(dataReader["question_id"]);
-                                        VMQuestionAlternatives question = test.QuestionsAlternatives.FirstOrDefault(q => q.QuestionId == questionId);
-                                        if (question == null)
-                                        {
-                                            question = new VMQuestionAlternatives()
+                                            test.Requirement = new VMRequirement()
                                             {
-                                                QuestionId = questionId,
-                                                IsRequired = Convert.ToBoolean(dataReader["is_required"]),
-                                                Question = dataReader["question"].ToString(),
-                                                Description = !Convert.IsDBNull(dataReader["question_description"]) ?
-                                                                dataReader["question_description"].ToString() :
-                                                                null,
+                                                RequirementId = Convert.ToInt32(dataReader["requirement_id"]),
+                                                RequirementName = dataReader["requirement_name"].ToString()
+                                            };
 
-                                                Type = new VMQuestionType()
+
+                                            if (!Convert.IsDBNull(dataReader["question_id"]))
+                                            {
+                                                int questionId = Convert.ToInt32(dataReader["question_id"]);
+                                                VMQuestionAlternatives question = test.QuestionsAlternatives.FirstOrDefault(q => q.QuestionId == questionId);
+                                                if (question == null)
                                                 {
-                                                    QuestionTypeId = Convert.ToInt32(dataReader["question_type_id"]),
-                                                    QuestionTypeName = dataReader["question_type_name"].ToString()
-                                                },
+                                                    question = new VMQuestionAlternatives()
+                                                    {
+                                                        QuestionId = questionId,
+                                                        IsRequired = Convert.ToBoolean(dataReader["is_required"]),
+                                                        Question = dataReader["question"].ToString(),
+                                                        Description = !Convert.IsDBNull(dataReader["question_description"]) ?
+                                                                        dataReader["question_description"].ToString() :
+                                                                        null,
 
-                                                Alternatives = new List<VMAlternative>()
-                                            };
-                                            test.QuestionsAlternatives.Add(question);
-                                        }
+                                                        Type = new VMQuestionType()
+                                                        {
+                                                            QuestionTypeId = Convert.ToInt32(dataReader["question_type_id"]),
+                                                            QuestionTypeName = dataReader["question_type_name"].ToString()
+                                                        },
 
-                                        if (!Convert.IsDBNull(dataReader["alternative_id"]))
-                                        {
-                                            var alternative = new VMAlternative
-                                            {
-                                                AlternativeId = Convert.ToInt32(dataReader["alternative_id"]),
-                                                Alternative = dataReader["alternative"].ToString()
-                                            };
+                                                        Alternatives = new List<VMAlternative>()
+                                                    };
+                                                    test.QuestionsAlternatives.Add(question);
+                                                }
 
-                                            if (alternative != null && alternative.AlternativeId > 0)
-                                            {
-                                                question.Alternatives.Add(alternative);
+                                                if (!Convert.IsDBNull(dataReader["alternative_id"]))
+                                                {
+                                                    var alternative = new VMAlternative
+                                                    {
+                                                        AlternativeId = Convert.ToInt32(dataReader["alternative_id"]),
+                                                        Alternative = dataReader["alternative"].ToString()
+                                                    };
+
+                                                    if (alternative != null && alternative.AlternativeId > 0)
+                                                    {
+                                                        question.Alternatives.Add(alternative);
+                                                    }
+                                                } 
                                             }
                                         }
                                     }
@@ -332,13 +342,14 @@ VALUES
                         }
 
                         transaction.Commit();
-                        Console.WriteLine($"The requirement with Id {test.RequirementId} was successfully registered.");
+                        //Console.WriteLine($"The requirement with Id {test.RequirementId} was successfully registered.");
                         return test;
                     }
                     catch (SqlException ex)
                     {
                         transaction.Rollback();
-                        throw new Exception($"An error occurred while registering the requirement in the company position. \n\nSqlException: {ex.Message}");
+                        //throw new Exception($"An error occurred while registering the requirement in the company position. \n\nSqlException: {ex.Message}");
+                        throw new Exception($"An error occurred. \n\nSqlException: {ex.Message}");
                     }
                 }
             }

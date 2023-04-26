@@ -1,4 +1,5 @@
-﻿using admin.Api.Model.Response;
+﻿using admin.Api.Model;
+using admin.Api.Model.Response;
 using admin.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -18,6 +19,12 @@ namespace admin.Services
         public QuestionsAlternative GetQuestionById(int questionId)
         {
             return _api.GetQuestionById(questionId).Result;
+        }
+
+        //public bool Insert(QuestionsAlternative question)
+        public bool Insert(MQuestion question)
+        {
+            return _api.Insert(question).Result;
         }
 
         //public List<AlternativeVM> GetAllAlternatives()

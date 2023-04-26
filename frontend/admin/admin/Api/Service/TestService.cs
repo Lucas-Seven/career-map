@@ -1,4 +1,5 @@
-﻿using admin.Api.Model.Response;
+﻿using admin.Api.Model;
+using admin.Api.Model.Response;
 using admin.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -66,6 +67,34 @@ namespace admin.Api.Service
             }
 
             return dados;
+        }
+
+        public async Task<bool> Insert(MTest test)
+        {
+            endpoint = "tests/insert";
+
+            try
+            {
+                string url = baseUrl + endpoint;
+                httpClient.BaseAddress = new Uri(url);
+
+                var content = new StringContent(JsonConvert.SerializeObject(test),
+                                                 System.Text.Encoding.UTF8,
+                                                 "application/json");
+
+                var response = await httpClient.PostAsync("", content);
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                Console.WriteLine(responseContent);
+                return true;
+            }
+            catch (Exception)
+            {
+                //throw;
+            }
+
+            return false;
         }
 
         //public async Task<bool> AddRequirement(RequirementInfo requirement)

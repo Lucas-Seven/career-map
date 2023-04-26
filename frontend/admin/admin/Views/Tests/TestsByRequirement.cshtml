@@ -4,17 +4,31 @@
     //ViewBag.Title = "Carreira - " + Model.CareerMapResponse.CareerMapName;
     //var f = Model.FirstOrDefault();
     //ViewData["Title"] = Model.FirstOrDefault().Description;
+
+    var requirementName = "";
+    if(
+        Model != null && 
+        Model.Count() > 0 &&
+        Model.First() != null &&
+        Model.First().Requirement != null && 
+        Model.First().Requirement.RequirementName != null
+    )
+    {
+        requirementName = Model.FirstOrDefault().Requirement.RequirementName;
+    }
+
 }
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item "><a href="@Url.Action("Index", "CareerMaps")">Mapas de carreira</a></li>
         @*<li class="breadcrumb-item"><a href="@Url.Action("CompanyPositionsCareerMapDetail", "CareerMaps", new { careerMapId = f.Model.CareerMap.CareerMapId })">@Model.CareerMap.CareerMapName</a></li>*@
         @*<li class="breadcrumb-item active">@Model.FirstOrDefault().Description</li>*@
+        <li class="breadcrumb-item active">@requirementName</li>
     </ol>
 </nav>
 
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <button class="btn btn-primary me-md-2" type="button">Adicionar Mapa</button>
+    <button class="btn btn-primary me-md-2" type="button" onclick="location.href='@Url.Action("Create", new{ requirementId = ViewBag.requirementId})'">Adicionar Teste</button>
 </div>
 
 <table class="table">
@@ -39,9 +53,9 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /*id=item.TestId*/ }) |
-                @Html.ActionLink("Details", "Details", new { testId=item.TestId }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @*@Html.ActionLink("Edit", "Edit", new { /*id=item.TestId*/ }) |*@
+                @Html.ActionLink("Teste", "Details", new { testId=item.TestId })
+                @*| @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
             </td>
         </tr>
 }

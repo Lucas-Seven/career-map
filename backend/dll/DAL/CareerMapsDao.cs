@@ -254,7 +254,8 @@ namespace dll.DAL
             {
                 VMCareerMapEntire careerMap = new VMCareerMapEntire();
 
-                string sql = @"SELECT 
+                string sql = @"--X
+                SELECT 
                   m.career_map_id, 
                   m.career_map_name, 
                   p.company_position_id, 
