@@ -36,7 +36,7 @@ namespace admin.Services
 
         public bool AddRequirement(RequirementInfo requirement) 
         {
-            return _api.AddRequirement(requirement).Result;
+            return _api.Insert(requirement).Result;
         }
 
 

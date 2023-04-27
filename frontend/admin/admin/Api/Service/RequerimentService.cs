@@ -68,7 +68,7 @@ namespace admin.Api.Service
         //    return dados;
         //}
 
-        public async Task<bool> AddRequirement(RequirementInfo requirement)
+        public async Task<bool> Insert(RequirementInfo requirement)
         {
             try
             {

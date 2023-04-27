@@ -10,41 +10,39 @@
 </nav>
 
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <button class="btn btn-primary me-md-2" type="button">Adicionar Mapa</button>
+    <button class="btn btn-success me-md-2" type="button">Adicionar Mapa de Carreira</button>
 </div>
 
-<table class="table">
-    <tr>
-        <th>
-            Id
-        </th>
-        <th>
-            Career name
-        </th>
-        <th>
-            Action
-        </th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<table class="table table-striped">
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CareerMapId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CareerMapName)
-            </td>
-            <td>
-                <button class="btn-details" onclick="location.href='@Url.Action("CompanyPositionsCareerMapDetail", new { careerMapId = item.CareerMapId })'">Cargos</button>
-            </td>
+            <th>
+                Career name
+            </th>
+            <th class="col-md-3">
+            </th>
         </tr>
-    }
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.HiddenFor(modelItem => item.CareerMapId)
+                    @Html.DisplayFor(modelItem => item.CareerMapName)
+                </td>
+                <td>
+                    <button class="btn btn-info btn-sm" onclick="location.href='@Url.Action("CompanyPositionsCareerMapDetail", new { careerMapId = item.CareerMapId })'">Cargos</button>
+                </td>
+            </tr>
+        }
     <tr>
         <td>
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         </td>
     </tr>
+    </tbody>
 </table>
 
 <style>

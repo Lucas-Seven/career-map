@@ -1,4 +1,4 @@
-﻿using admin.Api.Model.Response;
+﻿using admin.Api.Model;
 using admin.Api.Service;
 using admin.Services;
 using admin.ViewModels;
@@ -19,6 +19,36 @@ namespace admin.Controllers
         public ActionResult Details(int questionId)
         {
             return View(_service.GetQuestionById(questionId));
+        }
+
+        //public ActionResult Create(int testId)
+        [HttpGet]
+        public ActionResult Create()
+        {
+            //ViewBag.testId = testId;
+            return View();
+        }
+
+        //public ActionResult Create(QuestionsAlternative question)
+        [HttpPost]
+        public ActionResult Create(MQuestion qquestionModel)
+        {
+            //var idTest = (Int32) ViewData["testId"];
+            //ViewBag.testId = idTest;
+            //, int testId
+
+            //ViewBag.testId = 305;//testId;
+            //var res = _service.Insert(question);
+
+            //if (res)
+            //{
+            //    return RedirectToAction("Details", "Tests", new { testId = ViewBag.testId });
+            //}
+            //else
+            //{
+            //    return View();
+            //}
+            return View(qquestionModel);
         }
 
 
