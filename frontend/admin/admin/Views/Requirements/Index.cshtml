@@ -2,6 +2,9 @@
 @{
     ViewBag.Title = "Listagem de Requisitos";
 }
+
+<h4>Listagem de requisitos</h4>
+
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item active" aria-current="page">Requisitos</li>
@@ -12,51 +15,44 @@
     <button class="btn btn-primary me-md-2" type="button" onclick="location.href='@Url.Action("Create")'">Adicionar Requisito</button>
 </div>
 
-<table class="table">
-    <tr>
-        <th>
-            Id
-        </th>
-        <th>
-            Career name
-        </th>
-@*            <th>
-            Action
-        </th>*@
-    </tr>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Nomes
+            </th>
+        </tr>
+    </thead>
 
-    @foreach (var item in Model)
-    {
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.HiddenFor(modelItem => item.RequirementId)
+                    @Html.DisplayFor(modelItem => item.RequirementName)
+                </td>
+            </tr>
+        }
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.RequirementId)
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RequirementName)
-            </td>
-@*                <td>
-                <button class="btn-details" onclick="location.href='@Url.Action("Details", new { id = item.RequirementId })'">Exibir</button>
-            </td>*@
         </tr>
-    }
-    <tr>
-        <td>
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        </td>
-    </tr>
+    </tbody>
 </table>
 
 <style>
-.btn-details {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 8px 8px;
-  border-radius: 4px;
-  cursor: pointer;
-}
+    .btn-details {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 8px 8px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
 
-.btn-details:hover {
-  background-color: #0069d9;
-}
+        .btn-details:hover {
+            background-color: #0069d9;
+        }
 </style>           
