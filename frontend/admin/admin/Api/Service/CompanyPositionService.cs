@@ -9,12 +9,11 @@ namespace admin.Api.Service
     public class CompanyPositionService : BaseService
     {
         private CompanyPositionListResponse DataList {get; set; }
-        //public List<CompanyPosition> DataList { get; set; }
+
         public CompanyPositionService() 
         {
             endpoint = $"companyPositions";
             DataList = new CompanyPositionListResponse();
-            //DataList = new List<CompanyPosition>();
         }
 
         public async Task<CompanyPositionListResponse> GetPositionsByCareerMap(int careerMapId)
@@ -29,7 +28,6 @@ namespace admin.Api.Service
                 var dados = JsonConvert.DeserializeObject<CompanyPositionListResponse>(json);
 
                 DataList = dados;
-                //DataList.AddRange(dados.CompanyPositions);
             }
             catch (Exception)
             {
@@ -50,9 +48,6 @@ namespace admin.Api.Service
                 var json = await httpClient.GetStringAsync("");
 
                 dados = JsonConvert.DeserializeObject<List<CompanyPositionInfo>>(json);
-
-                //DataList = dados;
-                //DataList.AddRange(dados.CompanyPositions);
             }
             catch (Exception)
             {
@@ -61,5 +56,31 @@ namespace admin.Api.Service
 
             return dados;
         }
+        public async Task<bool> Insert(CompanyPositionInfo companyPosition)
+        {
+            try
+            {
+                string url = baseUrl + endpoint;
+                httpClient.BaseAddress = new Uri(url);
+
+                var content = new StringContent(JsonConvert.SerializeObject(companyPosition),
+                                                 System.Text.Encoding.UTF8,
+                                                 "application/json");
+
+                var response = await httpClient.PostAsync("", content);
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                Console.WriteLine(responseContent);
+                return true;
+            }
+            catch (Exception)
+            {
+                //throw;
+            }
+
+            return false;
+        }
+
     }
 }
