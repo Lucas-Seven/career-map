@@ -189,8 +189,8 @@ namespace dll.DAL
                     mp.hierarchy_number 
                 FROM 
                     careerMaps_tb AS m 
-                    INNER JOIN careerMaps_companyPositions_tb AS mp ON mp.career_map_id = m.career_map_id 
-                    INNER JOIN companyPositions_tb AS p ON p.company_position_id = mp.company_position_id 
+                    LEFT JOIN careerMaps_companyPositions_tb AS mp ON mp.career_map_id = m.career_map_id 
+                    LEFT JOIN companyPositions_tb AS p ON p.company_position_id = mp.company_position_id 
                 WHERE 
                     m.career_map_id = @careerMapId 
                 ORDER BY 
@@ -210,16 +210,20 @@ namespace dll.DAL
                             {
                                 while (dataReader.Read())
                                 {
-                                    VMCompanyPositionEntire companyPosition = new VMCompanyPositionEntire()
+
+                                    if (!Convert.IsDBNull(dataReader["company_position_id"]))
                                     {
-                                        HierarchyNumber = Convert.ToInt32(dataReader["hierarchy_number"]),
-                                        CompanyPosition = new VMCompanyPosition()
+                                        VMCompanyPositionEntire companyPosition = new VMCompanyPositionEntire()
                                         {
-                                            CompanyPositionId = Convert.ToInt32(dataReader["company_position_id"]),
-                                            CompanyPositionName = dataReader["company_position_name"].ToString()
-                                        }
-                                    };
-                                    careerMap.CompanyPositions.Add(companyPosition);
+                                            HierarchyNumber = Convert.ToInt32(dataReader["hierarchy_number"]),
+                                            CompanyPosition = new VMCompanyPosition()
+                                            {
+                                                CompanyPositionId = Convert.ToInt32(dataReader["company_position_id"]),
+                                                CompanyPositionName = dataReader["company_position_name"].ToString()
+                                            }
+                                        };
+                                        careerMap.CompanyPositions.Add(companyPosition); 
+                                    }
 
                                     if (careerMap.CareerMap == null)
                                     {
