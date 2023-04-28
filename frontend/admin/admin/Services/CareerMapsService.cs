@@ -57,6 +57,11 @@ namespace admin.Services
             return ret;
         }
 
+        public bool Insert(CareerMapResponse careerMap)
+        {
+            return _api.Insert(careerMap).Result;
+        }
+
         public CompanyPositionListResponse LoadCompanyPositionsFromCareerMapId(int careerMapId)
         {
             return _api.GetCompanyPositionsByCareerMapId(careerMapId).Result;

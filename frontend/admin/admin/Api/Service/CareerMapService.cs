@@ -80,5 +80,32 @@ namespace admin.Api.Service
 
             return new RequirementListResponse();
         }
+
+        public async Task<bool> Insert(CareerMapResponse careerMap)
+        {
+            try
+            {
+                endpoint = "careerMaps/insert";
+                string url = baseUrl + endpoint;
+                httpClient.BaseAddress = new Uri(url);
+
+                var content = new StringContent(JsonConvert.SerializeObject(careerMap),
+                                                 System.Text.Encoding.UTF8,
+                                                 "application/json");
+
+                var response = await httpClient.PostAsync("", content);
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                Console.WriteLine(responseContent);
+                return true;
+            }
+            catch (Exception)
+            {
+                //throw;
+            }
+
+            return false;
+        }
     }
 }
