@@ -39,7 +39,7 @@ namespace admin.Services
             var data = _api.GetPositionsByCareerMap(id).Result;
             var ret = new List<CompanyPositionVM>();
 
-            var careerMap = new CareerMapVM()
+            var careerMap = new CareerMapResponse()
             {
                 CareerMapId = data.CareerMapResponse.CareerMapId,
                 CareerMapName = data.CareerMapResponse.CareerMapName,

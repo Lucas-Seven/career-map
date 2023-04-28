@@ -17,21 +17,6 @@ namespace admin.Services
         {
             var data = _api.GetAllCareers().Result;
             return data;
-            //var data = _api.GetAllCareers().Result;
-            //var ret = new List<CareerMapResponse>();
-
-            //foreach (var item in data)
-            //{
-            //    CareerMapResponse career = new CareerMapResponse()
-            //    {
-            //        CareerMapId = item.CareerMapId,
-            //        CareerMapName = item.CareerMapName
-            //    };
-
-            //    ret.Add(career);
-            //}
-
-            //return ret;
         }
 
         public CompanyPositionListVM GetById(int id) 
@@ -39,7 +24,7 @@ namespace admin.Services
             var data = _api.GetCompanyPositionsByCareerMapId(id).Result;
             var ret = new CompanyPositionListVM();
 
-            ret.CareerMapVm = new CareerMapVM()
+            ret.CareerMapVm = new CareerMapResponse()
             {
                 CareerMapId = data.CareerMapResponse.CareerMapId,
                 CareerMapName = data.CareerMapResponse.CareerMapName
@@ -75,13 +60,13 @@ namespace admin.Services
         }
 
 
-        public Dictionary<int, CareerMapVM> LoadDataMemory()
+        public Dictionary<int, CareerMapResponse> LoadDataMemory()
         {
-            var careers = new Dictionary<int, CareerMapVM>();
+            var careers = new Dictionary<int, CareerMapResponse>();
 
             for (int i = 1; i <= 5; i++)
             {
-                careers.Add(i, new CareerMapVM()
+                careers.Add(i, new CareerMapResponse()
                 {
                     CareerMapId = i,
                     CareerMapName = $"Carreira {i}"

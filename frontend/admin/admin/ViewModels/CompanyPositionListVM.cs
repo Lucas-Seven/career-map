@@ -1,8 +1,10 @@
-﻿namespace admin.ViewModels
+﻿using admin.Api.Model.Response;
+
+namespace admin.ViewModels
 {
     public class CompanyPositionListVM
     {
-        public CareerMapVM CareerMapVm { get; set; }
+        public CareerMapResponse CareerMapVm { get; set; }
 
         public ICollection<CompanyPositionVM> CompanyPositionVmList { get; set; }
         public CompanyPositionListVM()
