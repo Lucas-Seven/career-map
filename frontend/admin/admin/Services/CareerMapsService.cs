@@ -13,23 +13,25 @@ namespace admin.Services
         {
             _api = new api.CareerMapService();   
         }
-        public List<CareerMapVM> GetAllCareers() 
+        public List<CareerMapResponse> GetAllCareers() 
         {
             var data = _api.GetAllCareers().Result;
-            var ret = new List<CareerMapVM>();
+            return data;
+            //var data = _api.GetAllCareers().Result;
+            //var ret = new List<CareerMapResponse>();
 
-            foreach (var item in data)
-            {
-                CareerMapVM career = new CareerMapVM()
-                {
-                    CareerMapId = item.CareerMapId,
-                    CareerMapName = item.CareerMapName
-                };
+            //foreach (var item in data)
+            //{
+            //    CareerMapResponse career = new CareerMapResponse()
+            //    {
+            //        CareerMapId = item.CareerMapId,
+            //        CareerMapName = item.CareerMapName
+            //    };
 
-                ret.Add(career);
-            }
+            //    ret.Add(career);
+            //}
 
-            return ret;
+            //return ret;
         }
 
         public CompanyPositionListVM GetById(int id) 
