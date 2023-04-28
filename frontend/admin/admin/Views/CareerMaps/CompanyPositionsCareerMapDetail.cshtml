@@ -36,7 +36,7 @@
                 @Html.DisplayFor(modelItem => item.CompanyPositionInfo.CompanyPositionName)
             </td>
             <td>
-                <button class="btn btn-info btn-sm" onclick="location.href='@Url.Action("RequirementsCompanyPositionDetail", new { careerMapId = Model.CareerMapResponse.CareerMapId, companyPositionId = item.CompanyPositionInfo.CompanyPositionId })'">Requisitos</button>
+                    <button class="btn btn-outline-info btn-sm" onclick="location.href='@Url.Action("RequirementsCompanyPositionDetail", new { careerMapId = Model.CareerMapResponse.CareerMapId, companyPositionId = item.CompanyPositionInfo.CompanyPositionId })'">Requisitos</button>
             </td>
         </tr>
         }

@@ -55,8 +55,8 @@
                     @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
                     @*@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
 
-                    <button class="btn btn-sm btn-info" onclick="location.href='@Url.Action("Details", "Questions", new {  questionId=item.QuestionId })'">Vizualizar</button> 
-                    
+                    <button class="btn btn-outline-info btn-sm" onclick="location.href='@Url.Action("Details", "Questions", new {  questionId=item.QuestionId })'">Vizualizar</button>
+
                     @*@Html.ActionLink("Visualizar", "Details", "Questions", new {  questionId=item.QuestionId })*@
                 </td>
             </tr>

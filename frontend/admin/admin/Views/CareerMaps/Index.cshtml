@@ -36,7 +36,7 @@
                     @Html.DisplayFor(modelItem => item.CareerMapName)
                 </td>
                 <td>
-                    <button class="btn btn-info btn-sm" onclick="location.href='@Url.Action("CompanyPositionsCareerMapDetail", new { careerMapId = item.CareerMapId })'">Cargos</button>
+                    <button class="btn btn-outline-info btn-sm" onclick="location.href='@Url.Action("CompanyPositionsCareerMapDetail", new { careerMapId = item.CareerMapId })'">Cargos</button>
                 </td>
             </tr>
         }
