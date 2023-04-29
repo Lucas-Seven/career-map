@@ -115,7 +115,7 @@ namespace dll.DAL
         }
 
         public List<VMCareerMap> SelectAllCareerMaps()
-        {            
+        {
             try
             {
                 List<VMCareerMap> careerMaps = new List<VMCareerMap>();
@@ -222,7 +222,7 @@ namespace dll.DAL
                                                 CompanyPositionName = dataReader["company_position_name"].ToString()
                                             }
                                         };
-                                        careerMap.CompanyPositions.Add(companyPosition); 
+                                        careerMap.CompanyPositions.Add(companyPosition);
                                     }
 
                                     if (careerMap.CareerMap == null)
@@ -300,7 +300,7 @@ namespace dll.DAL
                                                 CompanyPositionName = dataReader["company_position_name"].ToString()
                                             }
                                         };
-                                        careerMap.CompanyPositions.Add(companyPosition); 
+                                        careerMap.CompanyPositions.Add(companyPosition);
                                     }
 
                                     if (careerMap.CareerMap == null)
@@ -336,6 +336,30 @@ namespace dll.DAL
             {
                 VMCareerMapEntire careerMap = new VMCareerMapEntire();
 
+                //string sql = @"--X
+                //SELECT 
+                //  m.career_map_id, 
+                //  m.career_map_name, 
+                //  p.company_position_id, 
+                //  p.company_position_name, 
+                //  pr.group_name, 
+                //  r.requirement_id, 
+                //  r.requirement_name 
+                //FROM 
+                //  careerMaps_tb AS m 
+                //  INNER JOIN careerMaps_companyPositions_tb AS mp ON m.career_map_id = mp.career_map_id 
+                //  INNER JOIN companyPositions_tb AS p ON mp.company_position_id = p.company_position_id 
+                //  INNER JOIN companypositions_positionrequirements_tb AS pr ON pr.company_position_id = p.company_position_id 
+                //  INNER JOIN positionrequirements_tb AS r ON r.requirement_id = pr.requirement_id 
+                //WHERE 
+                //  m.career_map_id = @careerMapId 
+                //  AND p.company_position_id = @companyPositionId 
+                //ORDER BY 
+                //    mp.hierarchy_number, 
+                //    r.requirement_name,
+                //    pr.group_name;";
+
+
                 string sql = @"--X
                 SELECT 
                   m.career_map_id, 
@@ -347,13 +371,13 @@ namespace dll.DAL
                   r.requirement_name 
                 FROM 
                   careerMaps_tb AS m 
-                  INNER JOIN careerMaps_companyPositions_tb AS mp ON m.career_map_id = mp.career_map_id 
-                  INNER JOIN companyPositions_tb AS p ON mp.company_position_id = p.company_position_id 
-                  INNER JOIN companypositions_positionrequirements_tb AS pr ON pr.company_position_id = p.company_position_id 
-                  INNER JOIN positionrequirements_tb AS r ON r.requirement_id = pr.requirement_id 
+                  LEFT JOIN careerMaps_companyPositions_tb AS mp ON m.career_map_id = mp.career_map_id 
+                  LEFT JOIN companyPositions_tb AS p ON mp.company_position_id = p.company_position_id 
+                  LEFT JOIN companypositions_positionrequirements_tb AS pr ON pr.company_position_id = p.company_position_id 
+                  LEFT JOIN positionrequirements_tb AS r ON r.requirement_id = pr.requirement_id 
                 WHERE 
                   m.career_map_id = @careerMapId 
-                  AND p.company_position_id = @companyPositionId 
+                  AND mp.company_position_id = @companyPositionId 
                 ORDER BY 
                     mp.hierarchy_number, 
                     r.requirement_name,
@@ -377,34 +401,43 @@ namespace dll.DAL
 
                                 while (dataReader.Read())
                                 {
-                                    if (careerMap.CareerMap == null)
+                                    if (!Convert.IsDBNull(dataReader["career_map_id"]))
                                     {
-                                        careerMap.CareerMap = new VMCareerMap
+                                        if (careerMap.CareerMap == null)
                                         {
-                                            CareerMapId = Convert.ToInt32(dataReader["career_map_id"]),
-                                            CareerMapName = dataReader["career_map_name"].ToString()
-                                        };
-                                    }
-
-                                    if (careerMap.CompanyPosition == null)
-                                    {
-                                        careerMap.CompanyPosition = new VMCompanyPosition
-                                        {
-                                            CompanyPositionId = Convert.ToInt32(dataReader["company_position_id"]),
-                                            CompanyPositionName = dataReader["company_position_name"].ToString()
-                                        };
-                                    }
-
-                                    VMRequirementEntire requirement = new VMRequirementEntire()
-                                    {
-                                        GroupName = dataReader["group_name"].ToString(),
-                                        Requirement = new VMRequirement()
-                                        {
-                                            RequirementId = Convert.ToInt32(dataReader["requirement_id"]),
-                                            RequirementName = dataReader["requirement_name"].ToString()
+                                            careerMap.CareerMap = new VMCareerMap
+                                            {
+                                                CareerMapId = Convert.ToInt32(dataReader["career_map_id"]),
+                                                CareerMapName = dataReader["career_map_name"].ToString()
+                                            };
                                         }
-                                    };
-                                    careerMap.Requirements.Add(requirement);
+                                    }
+
+                                    if (!Convert.IsDBNull(dataReader["company_position_id"]))
+                                    {
+                                        if (careerMap.CompanyPosition == null)
+                                        {
+                                            careerMap.CompanyPosition = new VMCompanyPosition
+                                            {
+                                                CompanyPositionId = Convert.ToInt32(dataReader["company_position_id"]),
+                                                CompanyPositionName = dataReader["company_position_name"].ToString()
+                                            };
+                                        }
+                                    }
+
+                                    if (!Convert.IsDBNull(dataReader["requirement_id"]))
+                                    {
+                                        VMRequirementEntire requirement = new VMRequirementEntire()
+                                        {
+                                            GroupName = dataReader["group_name"].ToString(),
+                                            Requirement = new VMRequirement()
+                                            {
+                                                RequirementId = Convert.ToInt32(dataReader["requirement_id"]),
+                                                RequirementName = dataReader["requirement_name"].ToString()
+                                            }
+                                        };
+                                        careerMap.Requirements.Add(requirement);
+                                    }
                                 }
                             }
                         }
