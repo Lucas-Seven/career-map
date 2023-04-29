@@ -10,19 +10,17 @@ namespace admin.Controllers
     public class CareerMapsController : Controller
     {
         private CareerMapsService _service;
-        //private CompanyPositionService _companyPositionService;
+
         public CareerMapsController()
         {
             _service = new CareerMapsService();
             
         }
 
-        // GET: CarrermapsController
         public ActionResult Index()
         {
             return View(_service.GetAllCareers());
         }
-
 
         public ActionResult CompanyPositionsCareerMapDetail(int careerMapId)
         {
@@ -49,6 +47,67 @@ namespace admin.Controllers
             if (ret)
             {
                 return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        [HttpGet]
+        public ActionResult AssociatePositions(int careerMapId)
+        {
+            var availablePositions = new List<CompanyPositionInfo>();
+            var unavailablePositions = new List<CompanyPositionInfo>();
+            var init = new CompanyPositionListResponse();
+            var career = _service.GetAllCareers().Find(x => x.CareerMapId == careerMapId);
+
+            if(career != null)
+            {
+                try
+                {
+                    var _serviceCompanyPosition = new CompanyPositionService();
+
+                    var existingPositions = _service.LoadCompanyPositionsFromCareerMapId(careerMapId);
+                    var all = _serviceCompanyPosition.GetAllPositions();
+
+                    foreach (var pos in all)
+                    {
+                        var info = new CompanyPositionInfo()
+                        {
+                            CompanyPositionId = pos.CompanyPositionId,
+                            CompanyPositionName = pos.CompanyPositionName
+                        };
+
+                        if (existingPositions.CompanyPositionResponseList.Find(x => x.CompanyPositionInfo.CompanyPositionId == pos.CompanyPositionId) != null)
+                        {
+                            unavailablePositions.Add(info);
+                        }
+                        else
+                        {
+                            availablePositions.Add(info);
+                        }
+                    }
+
+                }
+                catch (Exception) { /* throw; */ }
+            }
+
+            ViewBag.AvailablePositions = availablePositions;
+            ViewBag.UnavailablePositions = unavailablePositions;
+
+            init.CareerMapResponse = career == null ? new CareerMapResponse() : career;
+            
+            return View(init);
+        }
+
+        [HttpPost]
+        public ActionResult AssociatePositions(CompanyPositionListResponse positions)
+        {
+            var ret = _service.AssociatePositions(positions);
+            if (ret)
+            {
+                return RedirectToAction("CompanyPositionsCareerMapDetail", new { careerMapId = positions.CareerMapResponse.CareerMapId });
             }
             else
             {

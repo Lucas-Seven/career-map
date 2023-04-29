@@ -15,8 +15,6 @@ namespace admin.Api.Service
         public QuestionService()
         {
             endpoint = $"question";
-            //DataList = new AlternativeListResponse();
-            //DataList = new List<CompanyPosition>();
         }
 
 
@@ -27,13 +25,10 @@ namespace admin.Api.Service
             try
             {
                 string url = $"{baseUrl}{endpoint}?questionId={questionId}";
-                httpClient.BaseAddress = new Uri(url);
-                var json = await httpClient.GetStringAsync("");
+                HttpClient.BaseAddress = new Uri(url);
+                var json = await HttpClient.GetStringAsync("");
 
                 dados = JsonConvert.DeserializeObject<QuestionsAlternative>(json);
-
-                //DataList = dados;
-                //DataList.AddRange(dados.Alternatives);
             }
             catch (Exception)
             {
@@ -43,9 +38,6 @@ namespace admin.Api.Service
             return dados;
         }
 
-
-
-        //public async Task<bool> Insert(QuestionsAlternative question)
         public async Task<bool> Insert(MQuestion question)
         {
             endpoint = "questions/insert";
@@ -53,13 +45,13 @@ namespace admin.Api.Service
             try
             {
                 string url = baseUrl + endpoint;
-                httpClient.BaseAddress = new Uri(url);
+                HttpClient.BaseAddress = new Uri(url);
 
                 var content = new StringContent(JsonConvert.SerializeObject(question),
                                                  System.Text.Encoding.UTF8,
                                                  "application/json");
 
-                var response = await httpClient.PostAsync("", content);
+                var response = await HttpClient.PostAsync("", content);
 
                 var responseContent = await response.Content.ReadAsStringAsync();
 

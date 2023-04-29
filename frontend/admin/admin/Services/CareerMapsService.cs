@@ -1,4 +1,5 @@
-﻿using admin.Api.Model.Response;
+﻿using admin.Api.Model;
+using admin.Api.Model.Response;
 using admin.ViewModels;
 using System.ComponentModel.DataAnnotations;
 using api = admin.Api.Service;
@@ -47,6 +48,18 @@ namespace admin.Services
         public bool Insert(CareerMapResponse careerMap)
         {
             return _api.Insert(careerMap).Result;
+        }
+
+        public bool AssociatePositions(CompanyPositionListResponse positions)
+        {
+            MCareerMapCompanyPosition position = new MCareerMapCompanyPosition()
+            {
+                careerMapId = positions.CareerMapResponse.CareerMapId,
+                companyPositionId = positions.CompanyPositionResponseList.FirstOrDefault(x => x.CompanyPositionInfo.CompanyPositionId > 0).CompanyPositionInfo.CompanyPositionId,
+                hierarchyNumber = 0
+            };
+
+            return _api.AssociatePositions(position).Result;
         }
 
         public CompanyPositionListResponse LoadCompanyPositionsFromCareerMapId(int careerMapId)

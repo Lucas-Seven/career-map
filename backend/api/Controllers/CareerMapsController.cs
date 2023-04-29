@@ -35,6 +35,13 @@ namespace api.Controllers
             return _careerMapsDAO.SelectCareerMapByIdWithCompanyPositions(careerMapId);
         }
 
+        [HttpPost]
+        [Route("{careerMapId}/companyPositions")]
+        public VMCareerMapCompanyPositions AddCompanyPositionToCareer(VMCareerMapCompanyPositions positions)
+        {
+            return _careerMapsDAO.AddCompanyPositionToCareer(positions);
+        }
+
         [HttpGet]
         [Route("{careerMapId}/companyPositions/{companyPositionId}/requirements")]
         public VMCareerMapEntire GetCareerMapEntireById(int careerMapId, int companyPositionId)

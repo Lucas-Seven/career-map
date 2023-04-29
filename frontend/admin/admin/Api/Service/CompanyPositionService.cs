@@ -8,33 +8,32 @@ namespace admin.Api.Service
 {
     public class CompanyPositionService : BaseService
     {
-        private CompanyPositionListResponse DataList {get; set; }
-
         public CompanyPositionService() 
         {
             endpoint = $"companyPositions";
-            DataList = new CompanyPositionListResponse();
         }
 
         public async Task<CompanyPositionListResponse> GetPositionsByCareerMap(int careerMapId)
-        {
+        {;
             endpoint = $"careerMaps/{careerMapId}/companyPositions";
             try
             {
+                var http = GetHttpClient();
+
                 string url = baseUrl + endpoint;
-                httpClient.BaseAddress = new Uri(url);
-                var json = await httpClient.GetStringAsync("");
+                http.BaseAddress = new Uri(url);
+                var json = await http.GetStringAsync("");
 
                 var dados = JsonConvert.DeserializeObject<CompanyPositionListResponse>(json);
 
-                DataList = dados;
+                return dados;
             }
             catch (Exception)
             {
                 //throw;
             }
 
-            return DataList;
+            return new CompanyPositionListResponse();
         }
 
         public async Task<List<CompanyPositionInfo>> GetAllPositions()
@@ -44,8 +43,8 @@ namespace admin.Api.Service
             try
             {
                 string url = baseUrl + endpoint;
-                httpClient.BaseAddress = new Uri(url);
-                var json = await httpClient.GetStringAsync("");
+                HttpClient.BaseAddress = new Uri(url);
+                var json = await HttpClient.GetStringAsync("");
 
                 dados = JsonConvert.DeserializeObject<List<CompanyPositionInfo>>(json);
             }
@@ -61,13 +60,13 @@ namespace admin.Api.Service
             try
             {
                 string url = baseUrl + endpoint;
-                httpClient.BaseAddress = new Uri(url);
+                HttpClient.BaseAddress = new Uri(url);
 
                 var content = new StringContent(JsonConvert.SerializeObject(companyPosition),
                                                  System.Text.Encoding.UTF8,
                                                  "application/json");
 
-                var response = await httpClient.PostAsync("", content);
+                var response = await HttpClient.PostAsync("", content);
 
                 var responseContent = await response.Content.ReadAsStringAsync();
 

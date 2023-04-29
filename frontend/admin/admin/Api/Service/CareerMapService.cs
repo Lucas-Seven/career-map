@@ -1,4 +1,5 @@
-﻿using admin.Api.Model.Response;
+﻿using admin.Api.Model;
+using admin.Api.Model.Response;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -20,8 +21,8 @@ namespace admin.Api.Service
             try
             {
                 string url = baseUrl + endpoint;
-                httpClient.BaseAddress = new Uri(url);
-                var json = await httpClient.GetStringAsync("");
+                HttpClient.BaseAddress = new Uri(url);
+                var json = await HttpClient.GetStringAsync("");
                 //var json = await httpClient.GetStringAsync(url);
                 var dados = JsonConvert.DeserializeObject<List<CareerMapResponse>>(json);
 
@@ -44,8 +45,9 @@ namespace admin.Api.Service
                 var endpoint = $"careerMaps/{careerMapId}/companyPositions";
 
                 string url = baseUrl + endpoint;
-                httpClient.BaseAddress = new Uri(url);
-                var json = await httpClient.GetStringAsync("");
+                var http = GetHttpClient();
+                http.BaseAddress = new Uri(url);
+                var json = await http.GetStringAsync("");
                 //var json = await httpClient.GetStringAsync(url);
                 var dados = JsonConvert.DeserializeObject<CompanyPositionListResponse>(json);
 
@@ -66,9 +68,9 @@ namespace admin.Api.Service
                 var endpoint = $"careerMaps/{careerMapId}/companyPositions/{companyPositionId}/requirements";
 
                 string url = baseUrl + endpoint;
-                httpClient.BaseAddress = new Uri(url);
-                var json = await httpClient.GetStringAsync("");
-                //var json = await httpClient.GetStringAsync(url);
+                HttpClient.BaseAddress = new Uri(url);
+                var json = await HttpClient.GetStringAsync("");
+
                 var dados = JsonConvert.DeserializeObject<RequirementListResponse>(json);
 
                 return dados;
@@ -87,13 +89,40 @@ namespace admin.Api.Service
             {
                 endpoint = "careerMaps/insert";
                 string url = baseUrl + endpoint;
-                httpClient.BaseAddress = new Uri(url);
+                HttpClient.BaseAddress = new Uri(url);
 
                 var content = new StringContent(JsonConvert.SerializeObject(careerMap),
                                                  System.Text.Encoding.UTF8,
                                                  "application/json");
 
-                var response = await httpClient.PostAsync("", content);
+                var response = await HttpClient.PostAsync("", content);
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                Console.WriteLine(responseContent);
+                return true;
+            }
+            catch (Exception)
+            {
+                //throw;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> AssociatePositions(MCareerMapCompanyPosition careerMap)
+        {
+            try
+            {
+                endpoint = "careerMaps/companyPositions/insert";
+                string url = baseUrl + endpoint;
+                HttpClient.BaseAddress = new Uri(url);
+
+                var content = new StringContent(JsonConvert.SerializeObject(careerMap),
+                                                 System.Text.Encoding.UTF8,
+                                                 "application/json");
+
+                var response = await HttpClient.PostAsync("", content);
 
                 var responseContent = await response.Content.ReadAsStringAsync();
 

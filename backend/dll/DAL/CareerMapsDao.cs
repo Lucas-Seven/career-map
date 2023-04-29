@@ -252,6 +252,84 @@ namespace dll.DAL
             }
         }
 
+        public VMCareerMapCompanyPositions AddCompanyPositionToCareer(VMCareerMapCompanyPositions positions)
+        {
+            try
+            {
+                VMCareerMapCompanyPositions careerMap = new VMCareerMapCompanyPositions();
+                careerMap.CompanyPositions = new List<VMCompanyPositionEntire>();
+
+                string sql = @"SELECT 
+                    m.career_map_id, 
+                    m.career_map_name, 
+                    p.company_position_id, 
+                    p.company_position_name, 
+                    mp.hierarchy_number 
+                FROM 
+                    careerMaps_tb AS m 
+                    LEFT JOIN careerMaps_companyPositions_tb AS mp ON mp.career_map_id = m.career_map_id 
+                    LEFT JOIN companyPositions_tb AS p ON p.company_position_id = mp.company_position_id 
+                WHERE 
+                    m.career_map_id = @careerMapId 
+                ORDER BY 
+                    mp.hierarchy_number;";
+
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+
+                    try
+                    {
+                        using (SqlCommand command = new SqlCommand(sql, connection))
+                        {
+                            command.Parameters.AddWithValue("@careerMapId", positions);
+
+                            using (SqlDataReader dataReader = command.ExecuteReader())
+                            {
+                                while (dataReader.Read())
+                                {
+
+                                    if (!Convert.IsDBNull(dataReader["company_position_id"]))
+                                    {
+                                        VMCompanyPositionEntire companyPosition = new VMCompanyPositionEntire()
+                                        {
+                                            HierarchyNumber = Convert.ToInt32(dataReader["hierarchy_number"]),
+                                            CompanyPosition = new VMCompanyPosition()
+                                            {
+                                                CompanyPositionId = Convert.ToInt32(dataReader["company_position_id"]),
+                                                CompanyPositionName = dataReader["company_position_name"].ToString()
+                                            }
+                                        };
+                                        careerMap.CompanyPositions.Add(companyPosition); 
+                                    }
+
+                                    if (careerMap.CareerMap == null)
+                                    {
+                                        careerMap.CareerMap = new VMCareerMap()
+                                        {
+                                            CareerMapId = Convert.ToInt32(dataReader["career_map_id"]),
+                                            CareerMapName = dataReader["career_map_name"].ToString()
+                                        };
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    catch (SqlException ex)
+                    {
+                        throw new Exception($"An error occurred when fetching \"company positions\" on \"career map\" with id {positions} from the database. \n\nSqlException: {ex.Message}");
+                    }
+                }
+
+                Console.WriteLine("The \"SelectCareerMapByIdWithCompanyPositions\" query was successful.");
+                return careerMap;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred. \n\nException: {ex.Message}");
+            }
+        }
+
         public VMCareerMapEntire SelectCareerMapEntireById(int careerMapId, int companyPositionId)
         {
             try
