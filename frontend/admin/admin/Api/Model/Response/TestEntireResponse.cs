@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace admin.Api.Model.Response
 {
@@ -21,12 +22,14 @@ namespace admin.Api.Model.Response
         public bool IsRequired { get; set; }
 
         [JsonProperty("question")]
+        [Display(Name="Questão")]
         public string Question { get; set; }
 
         [JsonProperty("description")]
         public string Description { get; set; }
 
         [JsonProperty("type")]
+        [Display(Name = "Tipo")]
         public Type Type { get; set; }
 
         [JsonProperty("alternatives")]
