@@ -3,6 +3,7 @@ using admin.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using api = admin.Api.Service;
+using PagedList;
 
 namespace admin.Services
 {
@@ -18,7 +19,7 @@ namespace admin.Services
         public List<RequirementVM> GetAllRequirements()
         {
             var data = _api.GetAllRequirements().Result;
-            var ret = new List<RequirementVM>();
+            var ret = new List<RequirementVM>();            
 
             foreach (var item in data)
             {
@@ -31,7 +32,7 @@ namespace admin.Services
                 ret.Add(career);
             }
 
-            return ret;
+            return ret;            
         }
 
         public bool AddRequirement(RequirementInfo requirement) 

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<admin.ViewModels.RequirementVM>
+﻿@*@model IEnumerable<admin.ViewModels.RequirementVM>*@
+@model PagedList.IPagedList<admin.ViewModels.RequirementVM>
 @{
     ViewBag.Title = "Listagem de Requisitos";
 }
@@ -42,10 +43,42 @@
     </tbody>
 </table>
 
+<div>
+    Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+    of @Model.PageCount
+
+    @if (Model.HasPreviousPage)
+    {
+        @Html.ActionLink("<<", "Index", new { pagina = 1, sortOrder = ViewBag.CurrentSort, currentFilter=ViewBag.CurrentFilter  })
+        @Html.Raw(" ")
+        ;
+        @Html.ActionLink("< Anterior", "Index", new { pagina = Model.PageNumber - 1, sortOrder = ViewBag.CurrentSort, currentFilter=ViewBag.CurrentFilter  })
+    }
+    else
+    {
+        @:<<
+        @Html.Raw(" ")
+        ;
+        @:< Anterior
+    }
+
+    @if (Model.HasNextPage)
+    {      
+        @Html.ActionLink("Próxima >", "Index", new { pagina = Model.PageNumber + 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, contador = 0 }, new { id = "proxima-link", data_contador = "" })            
+        @Html.Raw(" ");
+        @Html.ActionLink(">>", "Index", new { pagina = Model.PageCount, sortOrder = ViewBag.CurrentSort, currentFilter=ViewBag.CurrentFilter  })
+    }
+    else
+    {
+        @:Próxima >
+        @Html.Raw(" ")
+        @:>>
+    }
+</div>
+
 <style>
     .btn-details {
         background-color: #007bff;
-        color: #fff;
         border: none;
         padding: 8px 8px;
         border-radius: 4px;
@@ -55,4 +88,23 @@
         .btn-details:hover {
             background-color: #0069d9;
         }
-</style>           
+</style>
+
+<script> 
+    var contador = 0;
+    function incrementarContador() {
+        contador++;
+        document.getElementById("contador").innerHTML = "Contador: " + contador;
+        var proximaLink = document.getElementById("proxima-link");
+        proximaLink.setAttribute("data-contador", contador);
+    }
+    var meuBotao = document.getElementById("meuBotao");
+    meuBotao.addEventListener("click", incrementarContador);
+    var proximaLink = document.getElementById("proxima-link");
+    proximaLink.addEventListener("click", function (event) {
+        var contadorAtual = proximaLink.getAttribute("data-contador");
+        var href = proximaLink.getAttribute("href");
+        href = href.split("?")[0] + "?pagina=" + (Model.PageNumber + 1) + "&sortOrder=" + ViewBag.CurrentSort + "&currentFilter=" + ViewBag.CurrentFilter + "&contador=" + contadorAtual;
+        proximaLink.setAttribute("href", href);
+    });
+</script>

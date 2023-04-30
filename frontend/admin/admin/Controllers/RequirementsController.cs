@@ -4,6 +4,7 @@ using admin.Services;
 using admin.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PagedList;
 
 namespace admin.Controllers
 {
@@ -15,13 +16,26 @@ namespace admin.Controllers
         {
             _service = new Services.RequirementService();
         }
+                     
 
-
-        // GET: CarrermapsController
-        public ActionResult Index()
+        public ActionResult Index(int pagina = 1, string sortOrder = null, string currentFilter = null, int contador = 0)
         {
-            return View(_service.GetAllRequirements());
-        }
+            var result = pagina;
+            int paginaT = 0;
+            int paginaN = 0;
+            for (var i = 1; i <= 6; i++)
+            {
+                if (result == i)
+                {
+                    paginaT = i;
+                    paginaN = 20;
+                    break;
+                }
+            }
+            var retorno = _service.GetAllRequirements();
+            var listaAlunos = retorno.ToList();                    
+            return View(listaAlunos.ToPagedList(paginaT, paginaN));
+        }          
 
         [HttpGet]
         public ActionResult Create()
