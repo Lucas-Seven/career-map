@@ -19,7 +19,7 @@
 *@
 
 
-
+<form asp-action="Create">
     <div class="row">
         <div class="col-md-12 mb-2">
             <div class="form-group">
@@ -59,10 +59,10 @@
             </div>
         </div>
     </div>
-
+</form>
 
     @if (!Model.Type.QuestionTypeName.ToLower().Equals("text")){
-        <table class="table">
+    <table class="table datatables">
             <thead>
                 <tr>
                     <th>

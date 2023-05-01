@@ -12,48 +12,85 @@
     </ol>
 </nav>
 
-<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <button class="btn btn-outline-success me-md-2" type="button" onclick="location.href='@Url.Action("Create")'">Adicionar Mapa de Carreira</button>
+<div class="d-grid gap-2 d-md-flex justify-content-md-end float-right">
+    <button class="btn btn-outline-success me-md-2" type="button" onclick="location.href='@Url.Action("Create")'" id="mostrar-div">Adicionar Mapa de Carreira</button>
 </div>
 
-<table class="table table-striped datatables">
-    <thead>
-        <tr>
-            <th>
-                Mapa de carreira
-            </th>
-            <th class ="w-25">
-            </th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div >
+    <table class="table table-striped datatables">
+        <thead>
             <tr>
-                <td>
-                    @Html.HiddenFor(modelItem => item.CareerMapId)
-                    @Html.DisplayFor(modelItem => item.CareerMapName)
-                </td>
-                <td>
-                    <button class="btn btn-outline-info btn-sm" onclick="location.href='@Url.Action("CompanyPositionsCareerMapDetail", new { careerMapId = item.CareerMapId })'">Cargos</button>
-                </td>
+                <th>
+                    Mapa de carreira
+                </th>
+                <th class="w-25"></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.HiddenFor(modelItem => item.CareerMapId)
+                        @Html.DisplayFor(modelItem => item.CareerMapName)
+                    </td>
+                    <td class="text-right">
+                        <button class="btn btn-info btn-sm float-right" onclick="location.href='@Url.Action("CompanyPositionsCareerMapDetail", new { careerMapId = item.CareerMapId })'">Cargos</button>
+                    </td>
+                </tr>
+            }        
+        </tbody>
+    </table>
+</div>
 
 <style>
-.btn-details {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 8px 8px;
-  border-radius: 4px;
-  cursor: pointer;
-}
+    .btn-details {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 8px 8px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
 
-.btn-details:hover {
-  background-color: #0069d9;
-}
-</style>           
+        .btn-details:hover {
+            background-color: #0069d9;
+        }
+
+    .loader {
+        margin: auto;
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #0069d9;
+        border-bottom: 16px solid #0069d9;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 5s linear infinite;
+        animation: spin 10s linear infinite;
+    }
+
+    .inner-dvi {
+        position: absolute;
+        background-color: white;
+        border-radius: 15px;
+        margin: auto;
+        padding: 2%;
+        width: 150px;
+        z-index: 2;
+    }
+
+    #menu {
+        position: absolute;
+        z-index: 1;
+    }
+</style>
+<script>
+    //const mostrarDiv = document.getElementById('mostrar-div');
+    //const div = document.getElementById('minha-div');
+    //mostrarDiv.addEventListener('click', () => {
+    //    $('.menu').css('display', 'block');
+    //    setTimeout(function () {
+    //    }, 10000);
+    //});   
+ 
+</script>

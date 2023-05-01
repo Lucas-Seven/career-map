@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace admin.Api.Model.Response
 {
@@ -6,27 +8,32 @@ namespace admin.Api.Model.Response
     public class Alternative
     {
         [JsonProperty("alternativeId")]
+        [Display(Name = "Alternativa")]
         public int AlternativeId { get; set; }
 
         [JsonProperty("alternative")]
+        [Display(Name = "Texto")]
         public string Text { get; set; }
     }
 
     public class QuestionsAlternative
     {
         [JsonProperty("questionId")]
+        [Display(Name = "Questão")]
         public int QuestionId { get; set; }
 
         [JsonProperty("isRequired")]
         public bool IsRequired { get; set; }
 
         [JsonProperty("question")]
+        [Display(Name = "Questão")]
         public string Question { get; set; }
 
         [JsonProperty("description")]
         public string Description { get; set; }
 
         [JsonProperty("type")]
+        [Display(Name = "Tipo")]
         public Type Type { get; set; }
 
         [JsonProperty("alternatives")]
