@@ -2,7 +2,7 @@
 @model admin.Api.Model.Response.CompanyPositionListResponse
 
 @{
-    ViewData["Title"] = "Incluir associações de Cargos à Mapa de Carreira";
+    ViewData["Title"] = "Incluir associações de Requisitos à Cargos";
 
     var parms = new Dictionary<string, string>
     {
@@ -16,7 +16,7 @@
 <h4>@ViewData["Title"]</h4>
 <hr />
 
-<form asp-action="AssociatePositions">
+<form asp-action="AssociateRequirements">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     @*<div class="col-md-4">*@
         <div class="form-group">
@@ -28,13 +28,13 @@
         </div>
     @*</div>*@
 
-    @if (ViewBag.AvailablePositions != null)
-    {
-        <div class="form-group mt-3">
+    <div class="form-group mt-3">
+        <label for="posicao">Cargos disponíveis</label>
 
 
-            <label for="posicao">Cargos disponíveis</label>
-            @{var list = ((List<CompanyPositionInfo>)ViewBag.AvailablePositions);}
+        @if (ViewBag.AvailablePositions != null)
+        {
+            var list = ((List<CompanyPositionInfo>)ViewBag.AvailablePositions);
 @*            for (int i = 0; i < list.Count; i++)
             {
                 var posicao = list[i];
@@ -61,8 +61,10 @@
                     }
                 }
             </select>
-        </div>
-    }
+        }
+
+
+    </div>
 
 @*
     <div class="form-group mt-4">
