@@ -12,7 +12,7 @@
           </h2>
           <div [attr.id]="'collapse' + i" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading' + i" data-bs-parent="#listCompanyPositions">
             <div class="accordion-body">
-              <div *ngIf="requirements" class="d-flex gap-2 mb-3">
+              <div *ngIf="requirements" class="d-flex flex-wrap gap-2 mb-3">
                 <button *ngFor="let requirement of requirements" type="button" class="btn btn-primary">
                   {{ requirement.requirement.requirementName }}
                 </button>
