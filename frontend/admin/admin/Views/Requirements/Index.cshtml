@@ -49,30 +49,33 @@
 
     @if (Model.HasPreviousPage)
     {
-        @Html.ActionLink("<<", "Index", new { pagina = 1, sortOrder = ViewBag.CurrentSort, currentFilter=ViewBag.CurrentFilter  })
-        @Html.Raw(" ")
-        ;
-        @Html.ActionLink("< Anterior", "Index", new { pagina = Model.PageNumber - 1, sortOrder = ViewBag.CurrentSort, currentFilter=ViewBag.CurrentFilter  })
+        @Html.ActionLink("<", "Index", new { pagina = 1, sortOrder = ViewBag.CurrentSort, currentFilter=ViewBag.CurrentFilter }, new { @class = "previous-page-link" })
+        @Html.Raw(" ");
+        @Html.ActionLink(" Anterior", "Index", new { pagina = Model.PageNumber - 1, sortOrder = ViewBag.CurrentSort, currentFilter=ViewBag.CurrentFilter }, new { @class = "previous-page-link" })
     }
     else
     {
-        @:<<
-        @Html.Raw(" ")
-        ;
-        @:< Anterior
+        <span id="Anterior">Anterior</span>
+        @Html.Raw(" ");
+        @*@:<<*@
+        @*@Html.Raw(" ");
+        @:< Anterior*@
     }
 
     @if (Model.HasNextPage)
-    {      
-        @Html.ActionLink("Próxima >", "Index", new { pagina = Model.PageNumber + 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, contador = 0 }, new { id = "proxima-link", data_contador = "" })            
-        @Html.Raw(" ");
-        @Html.ActionLink(">>", "Index", new { pagina = Model.PageCount, sortOrder = ViewBag.CurrentSort, currentFilter=ViewBag.CurrentFilter  })
+    {
+        @Html.ActionLink("Próxima ", "Index", new { pagina = Model.PageNumber + 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, contador = 0 }, new { id = "proxima-link", data_contador = "", @class = "next-page-link" })
+        @Html.Raw(" ")        ;
+        @*@Html.ActionLink(">>", "Index", new { pagina = Model.PageCount, sortOrder = ViewBag.CurrentSort, currentFilter=ViewBag.CurrentFilter, @class = "next-page-link" })*@
     }
     else
     {
-        @:Próxima >
+        <button id="next-page-text" type="button" class="btn btn-primary">Anterior</button>
+        @Html.Raw(" ")        ;
+        @*<span class="next-page-text">>>Anterior</span>*@
+        @*@:Próxima >
         @Html.Raw(" ")
-        @:>>
+        @:>>*@
     }
 </div>
 
@@ -84,13 +87,59 @@
         border-radius: 4px;
         cursor: pointer;
     }
-
-        .btn-details:hover {
-            background-color: #0069d9;
-        }
+    .btn-details:hover {
+       background-color: #0069d9;
+    }
+    .next-page-link {
+        display: inline-block;
+        padding: 8px 16px;
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+        background-color: #0069d9;
+        border: none;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 8px;
+    }
+    .previous-page-link {
+        display: inline-block;
+        padding: 6px 16px;
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+        background-color: #0069d9;
+        border: none;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 8px;
+    }
+    #next-page-text {
+        font-weight: bold;
+        text-decoration: none;
+    }
+    .previous-page-text {
+        font-weight: bold;       
+        text-decoration: none;
+    } 
+    .body {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+        transform: scale(5);
+    }
+    .c-loader {
+        animation: is-rotating 1s infinite;
+        border: 6px solid #e5e5e5;
+        border-radius: 50%;
+        border-top-color: #51d4db;
+        height: 80px;
+        width: 80px;
+    }   
 </style>
 
-<script> 
+<script>
     var contador = 0;
     function incrementarContador() {
         contador++;

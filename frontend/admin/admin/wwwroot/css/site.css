@@ -16,3 +16,15 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+@keyframes is-rotating {
+    to {
+        transform: rotate(1turn);
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
