@@ -34,5 +34,13 @@ namespace api.Controllers
             _positionRequirementsDAO.InsertRequirement(requirement);
             return Ok(new { message = "The requirement was successfully registered." });
         }
+
+
+        //[HttpGet]
+        //[Route("{careerMapId}/companyPositions/{companyPositionId}/requirements")]
+        //public VMCareerMapEntire GetCareerMapEntireById(int careerMapId, int companyPositionId)
+        //{
+        //    return _careerMapsDAO.SelectCareerMapEntireById(careerMapId, companyPositionId);
+        //}
     }
 }

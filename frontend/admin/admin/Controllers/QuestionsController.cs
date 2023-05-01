@@ -31,14 +31,14 @@ namespace admin.Controllers
 
         //public ActionResult Create(QuestionsAlternative question)
         [HttpPost]
-        public ActionResult Create(MQuestion qquestionModel)
+        public ActionResult Create(MQuestion questionModel)
         {
-            //var idTest = (Int32) ViewData["testId"];
+            //var idTest = (Int32)ViewData["testId"];
             //ViewBag.testId = idTest;
             //, int testId
 
             //ViewBag.testId = 305;//testId;
-            //var res = _service.Insert(question);
+            //var res = _service.Insert(qquestionModel);
 
             //if (res)
             //{
@@ -48,7 +48,17 @@ namespace admin.Controllers
             //{
             //    return View();
             //}
-            return View(qquestionModel);
+            //return View(qquestionModel);
+
+            var ret = _service.Insert(questionModel);
+            if (ret)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
         }
 
 
