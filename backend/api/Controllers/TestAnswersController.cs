@@ -22,12 +22,20 @@ namespace api.Controllers
             _dao = new TestAnswersDAO(ConnectionString);
         }
 
-        //[HttpPost]
-        //[Route("insert")]
-        //public IActionResult PostCareerMap(List<MTestAnswer> answers)
-        //{
-        //    _dao.InsertCareerMap(careerMap);
-        //    return Ok(new { message = "The career map was successfully registered." });
-        //}
+        [HttpPost]
+        [Route("insertall")]
+        public IActionResult Save(List<MTestAnswer> answers)
+        {
+            _dao.InsertAll(answers);
+            return Ok(new { message = $"The answers was successfully registered." });
+        }
+
+        [HttpPost]
+        [Route("insert")]
+        public IActionResult Save(MTestAnswer answer)
+        {
+            var ret = _dao.Insert(answer);
+            return Ok(new { message = $"The answer {answer.AnswerId} was successfully registered." });
+        }
     }
 }

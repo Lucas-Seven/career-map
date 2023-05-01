@@ -6,7 +6,7 @@
         public int UserId { get; set; }
         public int TestId { get; set; }
         public int QuestionId { get; set; }
-        public int AlternativeId { get; set; }
+        public int? AlternativeId { get; set; }
         public string? DissertativeAnswer { get; set; }
     }
 }
