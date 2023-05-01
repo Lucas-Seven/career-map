@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CompanyPositionsService } from 'src/app/services/company-position/company-positions.service';
+import { RequirementsService } from 'src/app/services/requirement/requirements.service';
 
 @Component({
   selector: 'app-career-map',
@@ -9,8 +10,13 @@ import { CompanyPositionsService } from 'src/app/services/company-position/compa
 export class CareerMapComponent implements OnInit {
 
   companyPositions: any[] = [];
+  selectedPosition: any;
+  requirements: any[] = [];
 
-  constructor(private companyPositionsService: CompanyPositionsService) { }
+  constructor(
+    private companyPositionsService: CompanyPositionsService,
+    private requirementsService: RequirementsService
+  ) { }
 
   ngOnInit() {
     this.companyPositionsService.getCompanyPositions().subscribe(data => {
@@ -18,4 +24,9 @@ export class CareerMapComponent implements OnInit {
     });
   }
 
+  selectPosition(companyPositionId: number) {
+    this.requirementsService.getRequirements(companyPositionId).subscribe(data => {
+      this.requirements = data.requirements;
+    });
+  }
 }
