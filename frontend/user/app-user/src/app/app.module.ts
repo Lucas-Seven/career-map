@@ -7,13 +7,15 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AccordionComponent } from './components/accordion/accordion.component';
 import { CareerMapComponent } from './components/career-map/career-map.component';
+import { TestComponent } from './components/test/test.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     AccordionComponent,
-    CareerMapComponent
+    CareerMapComponent,
+    TestComponent
   ],
   imports: [
     BrowserModule,

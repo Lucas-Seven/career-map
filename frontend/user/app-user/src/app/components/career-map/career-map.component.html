@@ -32,7 +32,7 @@
     <div class="modal-body">
       <ul class="list-group">
         <li class="list-group-item" *ngFor="let test of tests">
-          <a>&#8226; {{ test.description }}</a>
+          &#8226; <a routerLink="/test" (click)="modal.dismiss('Cross click')">{{ test.description }}</a>
         </li>
       </ul>
     </div>
