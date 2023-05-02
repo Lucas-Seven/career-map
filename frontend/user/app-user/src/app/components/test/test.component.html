@@ -1,3 +1,52 @@
 <div class="container my-5">
-  <h1 class="mb-5">Teste</h1>
+  <h1 class="mb-5">{{ test.description }}</h1>
+
+  <div class="container">
+    <div *ngFor="let question of test.questionsAlternatives" class="mt-5">
+      <h2>{{ question.question }}</h2>
+      <p>{{ question.description }}</p>
+      <div class="form-group">
+        <ng-container *ngIf="question.type.questionTypeId === 1">
+          <textarea class="form-control" id="text" rows="1" placeholder="Escrever..."></textarea>
+        </ng-container>        
+        
+        <ng-container *ngIf="question.type.questionTypeId === 2">
+          <div class="form-check" *ngFor="let alternative of question.alternatives">
+            <input class="form-check-input" type="checkbox" name="{{ question.questionId }}" value="{{ alternative.alternativeId }}" id="{{ alternative.alternativeId }}">
+            <label class="form-check-label" for="{{ alternative.alternativeId }}">
+              {{ alternative.alternative }}
+            </label>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="question.type.questionTypeId === 3">
+          <select class="form-select" id="{{ question.questionId }}">
+            <option disabled selected>Selecionar...</option>
+            <option *ngFor="let alternative of question.alternatives" [value]="alternative.alternativeId">{{ alternative.alternative }}</option>
+          </select>
+        </ng-container>
+
+        <ng-container *ngIf="question.type.questionTypeId === 4">
+          <div class="form-check" *ngFor="let alternative of question.alternatives">
+            <input class="form-check-input" type="radio" name="{{ question.questionId }}" value="{{ alternative.alternativeId }}" id="{{ alternative.alternativeId }}">
+            <label class="form-check-label" for="{{ alternative.alternativeId }}">
+              {{ alternative.alternative }}
+            </label>
+          </div>          
+        </ng-container>        
+      </div>
+    </div>
+
+    <div class="align-right mt-3 d-flex justify-content-between">
+      <button type="button" class="btn btn-primary">
+        Enviar
+      </button>
+    
+      <button type="button" class="btn btn-danger">
+        Preencher formulário (QA)
+      </button>
+    </div>
+    
+
+  </div>
 </div>

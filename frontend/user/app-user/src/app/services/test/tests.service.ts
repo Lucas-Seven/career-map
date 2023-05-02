@@ -12,4 +12,8 @@ export class TestsService {
   getTests(requirementId: number) {
     return this.http.get<any>(ApiEndpoints.baseUrl + `tests/requirements/${requirementId}`);
   }
+
+  getTest(testId: number){
+    return this.http.get<any>(ApiEndpoints.baseUrl + `tests/${testId}`);
+  }
 }
