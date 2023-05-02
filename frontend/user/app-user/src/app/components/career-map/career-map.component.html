@@ -13,7 +13,7 @@
           <div [attr.id]="'collapse' + i" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading' + i" data-bs-parent="#listCompanyPositions">
             <div class="accordion-body">
               <div *ngIf="requirements" class="d-flex flex-wrap gap-2 mb-3">
-                <button *ngFor="let requirement of requirements" type="button" class="btn btn-primary" (click)="open(mymodal)">
+                <button *ngFor="let requirement of requirements" type="button" class="btn btn-primary" (click)="open(mymodal, requirement.requirement.requirementId)">
                   {{ requirement.requirement.requirementName }}
                 </button>
               </div>
@@ -31,14 +31,8 @@
     </div>
     <div class="modal-body">
       <ul class="list-group">
-        <li class="list-group-item">
-          <a>&#8226; Teste 1</a>
-        </li>
-        <li class="list-group-item">
-          <a>&#8226; Teste 2</a>
-        </li>
-        <li class="list-group-item">
-          <a>&#8226; Teste 3</a>
+        <li class="list-group-item" *ngFor="let test of tests">
+          <a>&#8226; {{ test.description }}</a>
         </li>
       </ul>
     </div>

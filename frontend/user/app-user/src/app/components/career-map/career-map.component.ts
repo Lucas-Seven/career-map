@@ -12,7 +12,6 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 export class CareerMapComponent implements OnInit {
 
   companyPositions: any[] = [];
-  selectedPosition: any;
   requirements: any[] = [];
   tests: any[] = [];
 
@@ -38,19 +37,16 @@ export class CareerMapComponent implements OnInit {
     });
   }
 
-  selectRequirements(requirementId: number){
+  open(content: any, requirementId: number) {
     this.testsService.getTests(requirementId).subscribe(data => {
-      this.tests = data.tests;
+      this.tests = data;
+      this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
     });
-  }
-
-  open(content:any) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
+  } 
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
