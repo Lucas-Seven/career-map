@@ -1,10 +1,10 @@
-﻿@model admin.Api.Model.MQuestion
+﻿@model admin.ViewModels.AddQuestionVm
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Inserir questão";
 
     var param = new Dictionary<string, string>();
-    param.Add("testId", $"{ViewBag.TestId}");
+    param.Add("testId", $"{Model.IdTest}");
 }
 
 <h3>Nova questão</h3>
@@ -22,10 +22,84 @@
             </div>
             *@
             <div class="form-group">
+                @Html.HiddenFor(x => x.IdTest)
 
-                <label asp-for="Question" class="control-label"></label>
-                <input asp-for="Question" class="form-control" value="Teste de questão" />
-                <span asp-validation-for="Question" class="text-danger"></span>
+                <label asp-for="mQuestion.Question" class="control-label"></label>
+                <input asp-for="mQuestion.Question" class="form-control" value="Teste de questão" />
+                <span asp-validation-for="mQuestion.Question" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @*
+    @if (ViewBag.AvailablePositions != null)
+    {
+    var list = ((List<CompanyPositionInfo>)ViewBag.AvailablePositions);
+    <select class="form-control" id="posicao" name="CompanyPositionResponseList[0].CompanyPositionInfo.CompanyPositionId">
+    @if (list == null || list.Count == 0)
+    {
+    <option value="">Não existem cargos disponíveis para associação.</option>
+    }
+    else
+    {
+    @foreach (var posicao in list)
+    {
+    <option value="@posicao.CompanyPositionId">@posicao.CompanyPositionName</option>
+    }
+    }
+    </select>
+    }
+    *@
+
+
+        @{
+            var list = new Dictionary<int, string>() {
+                { 1,   "Text" },
+                { 2,   "Checkboxes" },
+                { 3,   "Dropdown" },
+                { 4,   "Multiple choice" }
+            };
+        }
+
+        <select class="form-control" id="posicao" name="mQuestion.QuestionTypeId"> 
+            @foreach (var posicao in list)
+            {
+                <option value="@posicao.Key">@posicao.Value</option>
+            }
+        </select>
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="mQuestion.Description" class="control-label"></label>
+                <input asp-for="mQuestion.Description" class="form-control" value="Descrição do teste de questão" />
+                <span asp-validation-for="mQuestion.Description" class="text-danger"></span>
             </div>
         </div>
     </div>
@@ -34,18 +108,8 @@
         <div class="col-md-4">
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsRequired" /> @Html.DisplayNameFor(model => model.IsRequired)
+                    <input class="form-check-input" asp-for="mQuestion.IsRequired" /> @Html.DisplayNameFor(model => model.mQuestion.IsRequired)
                 </label>
-            </div>
-        </div>
-    </div>
-    
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" value="Descrição do teste de questão" />
-                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
         </div>
     </div>
@@ -56,7 +120,7 @@
             <div class="row">
                 <input type="submit" value="Salvar" class="btn btn-md btn-success col-md-5" />
                 <span class="col-md-2"></span>
-                <a class="btn btn-md btn-outline-danger col-md-5" asp-action="Details" asp-controller="Tests" asp-all-route-data="param" >Cancelar</a>
+                <a class="btn btn-md btn-outline-danger col-md-5" asp-action="Details" asp-controller="Tests" asp-all-route-data="param">Cancelar</a>
             </div>
         </div>
     </div>

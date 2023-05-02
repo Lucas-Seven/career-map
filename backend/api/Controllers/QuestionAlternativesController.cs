@@ -8,7 +8,7 @@ using viewmodels.Form;
 
 namespace api.Controllers
 {
-    [Route("api/question")]
+    [Route("api/questionAlternatives")]
     [ApiController]
     public class QuestionAlternativesController : ControllerBase
     {
