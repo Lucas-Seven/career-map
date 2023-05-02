@@ -6,6 +6,7 @@ namespace admin.Api.Model
     public class MQuestion
     {
         public int? QuestionId { get; set; }
+        [Display(Name = "Tipo de Questão")]
         public int QuestionTypeId { get; set; }
 
         [Display(Name = "Questão")]
