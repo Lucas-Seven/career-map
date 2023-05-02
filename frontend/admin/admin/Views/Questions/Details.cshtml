@@ -19,14 +19,14 @@
 *@
 
 
-<form asp-action="Create">
+@*<form asp-action="Create">
     <div class="row">
         <div class="col-md-12 mb-2">
             <div class="form-group">
                 <input name="QuestionId" type="hidden" />
 
                 <label asp-for="Question" class="control-label">Questão</label>
-                <input asp-for="Question" class="form-control disabled" readonly/>
+                <input asp-for="Question" class="form-control disabled" readonly />
                 <span asp-validation-for="Question" class="text-danger"></span>
             </div>
         </div>
@@ -45,8 +45,8 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="Type.QuestionTypeName" class="control-label">Tipo</label>
-            <input asp-for="Type.QuestionTypeName" class="form-control disabled" readonly />
-            <span asp-validation-for="Type.QuestionTypeName" class="text-danger"></span>
+                <input asp-for="Type.QuestionTypeName" class="form-control disabled" readonly />
+                <span asp-validation-for="Type.QuestionTypeName" class="text-danger"></span>
             </div>
         </div>
 
@@ -59,42 +59,81 @@
             </div>
         </div>
     </div>
+</form>*@
+
+
+
+
+<form asp-action="Create">
+    <div class="row ">
+        <div class="col-6">
+            <input name="QuestionId" type="hidden" />
+            <label asp-for="Question" class="control-label">Questão</label>
+            <input asp-for="Question" class="form-control disabled" readonly />
+            <span asp-validation-for="Question" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-6">
+            <label asp-for="Description" class="control-label">Descrição</label>
+            <input asp-for="Description" class="form-control disabled" readonly />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <label asp-for="Type.QuestionTypeName" class="control-label">Tipo</label>
+        </div>
+        <div class="col-6">@*4*@</div>
+        <div class="col-3">
+            <input asp-for="Type.QuestionTypeName" class="form-control disabled" readonly />
+            <span asp-validation-for="Type.QuestionTypeName" class="text-danger"></span>
+        </div>
+        <div class="col-3">
+            @Html.CheckBoxFor(x => x.IsRequired, new{ @class="form-check-input", disabled="disabled"} )
+            <label class="form-check-label" for="IsRequired">
+                Obrigatório
+            </label>
+        </div>
+    </div>
 </form>
 
-    @if (!Model.Type.QuestionTypeName.ToLower().Equals("text")){
+@if (!Model.Type.QuestionTypeName.ToLower().Equals("text"))
+{
     <table class="table datatables">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Alternatives.FirstOrDefault().AlternativeId)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Alternatives.FirstOrDefault().Text)
-                    </th>
-                    <th>
-                        Ações
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-        @foreach (var item in Model.Alternatives) {
+        <thead>
             <tr>
-                    <td> 
+                <th>
+                    @Html.DisplayNameFor(model => model.Alternatives.FirstOrDefault().AlternativeId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Alternatives.FirstOrDefault().Text)
+                </th>
+                <th>
+                    Ações
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Alternatives)
+            {
+                <tr>
+                    <td>
                         @Html.DisplayFor(modelItem => item.AlternativeId)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Text)
                     </td>
                     <td>
-@*                        @html.actionlink("edit", "edit", new { /* id=item.primarykey */ }) |
-                        @html.actionlink("details", "details", new { /* id=item.primarykey */ }) |
-                        @html.actionlink("delete", "delete", new { /* id=item.primarykey */ })
-*@
+                        @*                        @html.actionlink("edit", "edit", new { /* id=item.primarykey */ }) |
+                @html.actionlink("details", "details", new { /* id=item.primarykey */ }) |
+                @html.actionlink("delete", "delete", new { /* id=item.primarykey */ })
+                *@
                         @Html.ActionLink("Visualizar", "Details", "Questions", new {  questionId=item.AlternativeId})
                     </td>
                 </tr>
-        }
-            </tbody>
-        </table>
+            }
+        </tbody>
+    </table>
 
-    }
+}
