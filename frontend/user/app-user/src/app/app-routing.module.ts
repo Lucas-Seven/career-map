@@ -6,7 +6,7 @@ import { CareerMapComponent } from './components/career-map/career-map.component
 const routes: Routes = [
   { path: '', redirectTo: '/career-map', pathMatch: 'full' },
   { path: 'career-map', component: CareerMapComponent },
-  { path: 'test', component: TestComponent }
+  { path: 'test/:id', component: TestComponent }
 ];
 
 @NgModule({
