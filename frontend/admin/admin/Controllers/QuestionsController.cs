@@ -23,9 +23,9 @@ namespace admin.Controllers
 
         //public ActionResult Create(int testId)
         [HttpGet]
-        public ActionResult Create()
+        public ActionResult Create(int testId)
         {
-            //ViewBag.testId = testId;
+            ViewBag.testId = testId;
             return View();
         }
 
