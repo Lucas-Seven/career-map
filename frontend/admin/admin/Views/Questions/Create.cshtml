@@ -2,52 +2,66 @@
 
 @{
     ViewData["Title"] = "Create";
+
+    var param = new Dictionary<string, string>();
+    param.Add("testId", $"{ViewBag.TestId}");
 }
 
-<h1>Create</h1>
+<h3>Nova questão</h3>
 
 <hr />
-        <form asp-action="Create" >
-<div class="row">
-    <div class="col-md-4">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-@*            
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="col-md-4">
+            @*
             <div class="form-group">
-                <label asp-for="QuestionTypeId" class="control-label"></label>
-                <input asp-for="QuestionTypeId" class="form-control" value="3" />
-                <span asp-validation-for="QuestionTypeId" class="text-danger"></span>
+            <label asp-for="QuestionTypeId" class="control-label"></label>
+            <input asp-for="QuestionTypeId" class="form-control" value="3" />
+            <span asp-validation-for="QuestionTypeId" class="text-danger"></span>
             </div>
             *@
             <div class="form-group">
 
                 <label asp-for="Question" class="control-label"></label>
-                <input asp-for="Question" class="form-control" value="Teste de questão"/>
+                <input asp-for="Question" class="form-control" value="Teste de questão" />
                 <span asp-validation-for="Question" class="text-danger"></span>
             </div>
-            
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsRequired" /> @Html.DisplayNameFor(model => model.IsRequired)
                 </label>
             </div>
-            
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" value="Descrição do teste de questão"/>
+                <input asp-for="Description" class="form-control" value="Descrição do teste de questão" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-
-            <div class="form-group">
-                <input type="submit" value="Salvar" class="btn btn-primary" />
-            </div>
+        </div>
     </div>
-</div>
-        </form>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
+    <div class="row mt-md-4">
+        <div class="col-md-4">
+                <input type="submit" value="Salvar" class="btn btn-md btn-success col-md-5" />
+                <span class="col-md-2"></span>
+                <a class="btn btn-md btn-outline-danger col-md-5" asp-action="Details" asp-controller="Tests" asp-all-route-data="param" >Cancelar</a>
+        </div>
+    </div>
+</form>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
