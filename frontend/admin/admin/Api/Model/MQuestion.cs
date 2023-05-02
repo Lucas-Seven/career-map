@@ -11,6 +11,7 @@ namespace admin.Api.Model
 
         [Display(Name = "Questão")]
         public string? Question { get; set; }
+        [Display(Name = "Necessário")]
         public bool IsRequired { get; set; }
 
         [Display(Name = "Descrição")]
