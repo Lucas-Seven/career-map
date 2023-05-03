@@ -36,6 +36,29 @@ export class TestComponent implements OnInit {
   }
 
   submitAnswers(){
-    console.log(1)
+    // Create an array of test answers from the user's selections
+    let answers = [];
+    for (let i = 0; i < this.test.questionsAlternatives.length; i++) { 
+      let question = this.test.questionsAlternatives[i];
+      let answer = {
+        answerId: 0,
+        userId: 1,
+        testId: this.test.testId,
+        questionId: question.questionId,
+        alternativeId: question.alternatives.alternativeId,
+        dissertativeAnswer: ''
+      };
+      answers.push(answer);
+    }
+
+    // Send the test answers to the API
+    this.testsService.postAnswers(answers).subscribe(response => {
+      console.log(response);
+      // Navigate to the career map page or display a success message
+      this.navigateToCareerMap();
+    }, error => {
+      console.error(error);
+      // Display an error message or take appropriate action
+    });
   }
 }

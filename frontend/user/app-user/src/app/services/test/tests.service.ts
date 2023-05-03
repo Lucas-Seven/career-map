@@ -18,6 +18,6 @@ export class TestsService {
   }
 
   postAnswers(answers: any[]){
-    return this.http.post(ApiEndpoints.baseUrl + `​testAnswers​/insertall`, answers);
+    return this.http.post(ApiEndpoints.baseUrl + `testAnswers/insertall`, answers);
   }  
 }
