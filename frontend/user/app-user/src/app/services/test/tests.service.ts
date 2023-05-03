@@ -16,4 +16,8 @@ export class TestsService {
   getTest(testId: number){
     return this.http.get<any>(ApiEndpoints.baseUrl + `tests/${testId}`);
   }
+
+  postAnswers(answers: any[]){
+    return this.http.post(ApiEndpoints.baseUrl + `​testAnswers​/insertall`, answers);
+  }  
 }

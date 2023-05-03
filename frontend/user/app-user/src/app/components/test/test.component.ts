@@ -34,4 +34,8 @@ export class TestComponent implements OnInit {
   navigateToCareerMap() {
     this.router.navigateByUrl('/career-map');
   }
+
+  submitAnswers(){
+    console.log(1)
+  }
 }
