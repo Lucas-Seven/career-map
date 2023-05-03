@@ -13,6 +13,8 @@ export class TestComponent implements OnInit {
   test: any = {};
   testAnswers: any = [];
   testLoaded: boolean = false;
+  selectedAlternative: number[] = [];
+  dissertativeAnswers: { [key: string]: string } = {};
 
   constructor(
     private route: ActivatedRoute,
@@ -45,20 +47,24 @@ export class TestComponent implements OnInit {
         userId: 1,
         testId: this.test.testId,
         questionId: question.questionId,
-        alternativeId: question.alternatives.alternativeId,
-        dissertativeAnswer: ''
+        alternativeId: this.selectedAlternative[question.questionId] || null,
+        dissertativeAnswer: this.dissertativeAnswers[question.questionId] || ''
       };
       answers.push(answer);
+      console.log(this.selectedAlternative);
     }
 
     // Send the test answers to the API
-    this.testsService.postAnswers(answers).subscribe(response => {
-      console.log(response);
-      // Navigate to the career map page or display a success message
-      this.navigateToCareerMap();
-    }, error => {
-      console.error(error);
-      // Display an error message or take appropriate action
-    });
+    this.testsService.postAnswers(answers).subscribe({
+      next: response => {
+        console.log(response);
+        // Navigate to the career map page or display a success message
+        this.navigateToCareerMap();
+      },
+      error: error => {
+        console.error(error);
+        // Display an error message or take appropriate action
+      }
+    });    
   }
 }

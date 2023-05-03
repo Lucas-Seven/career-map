@@ -13,12 +13,12 @@
       <p>{{ question.description }}</p>
       <div class="form-group">
         <ng-container *ngIf="question.type.questionTypeId === 1">
-          <textarea class="form-control" id="text" rows="1" placeholder="Escrever..."></textarea>
+          <textarea class="form-control" id="text" rows="1" placeholder="Escrever..." [(ngModel)]="dissertativeAnswers[question.questionId]"></textarea>
         </ng-container>        
         
         <ng-container *ngIf="question.type.questionTypeId === 2">
           <div class="form-check" *ngFor="let alternative of question.alternatives">
-            <input class="form-check-input" type="checkbox" name="{{ question.questionId }}" value="{{ alternative.alternativeId }}" id="{{ alternative.alternativeId }}">
+            <input class="form-check-input" type="checkbox" name="{{ question.questionId }}" value="{{ alternative.alternativeId }}" id="{{ alternative.alternativeId }}" [(ngModel)]="selectedAlternative[question.questionId]">
             <label class="form-check-label" for="{{ alternative.alternativeId }}">
               {{ alternative.alternative }}
             </label>
@@ -28,13 +28,13 @@
         <ng-container *ngIf="question.type.questionTypeId === 3">
           <select class="form-select" id="{{ question.questionId }}">
             <option disabled selected>Selecionar...</option>
-            <option *ngFor="let alternative of question.alternatives" [value]="alternative.alternativeId">{{ alternative.alternative }}</option>
+            <option *ngFor="let alternative of question.alternatives" [value]="alternative.alternativeId" [(ngModel)]="selectedAlternative[question.questionId]">{{ alternative.alternative }}</option>
           </select>
         </ng-container>
 
         <ng-container *ngIf="question.type.questionTypeId === 4">
           <div class="form-check" *ngFor="let alternative of question.alternatives">
-            <input class="form-check-input" type="radio" name="{{ question.questionId }}" value="{{ alternative.alternativeId }}" id="{{ alternative.alternativeId }}">
+            <input class="form-check-input" type="radio" name="{{ question.questionId }}" value="{{ alternative.alternativeId }}" id="{{ alternative.alternativeId }}" [(ngModel)]="selectedAlternative[question.questionId]">
             <label class="form-check-label" for="{{ alternative.alternativeId }}">
               {{ alternative.alternative }}
             </label>
