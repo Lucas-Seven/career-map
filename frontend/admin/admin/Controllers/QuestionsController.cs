@@ -25,30 +25,30 @@ namespace admin.Controllers
         [HttpGet]
         public ActionResult Create(int testId)
         {
-            ViewBag.testId = testId;
-            return View();
+            //ViewBag.testId = testId;
+            AddQuestionVm questionModel = new AddQuestionVm() { IdTest = testId };
+            return View(questionModel);
         }
 
         //public ActionResult Create(QuestionsAlternative question)
         [HttpPost]
-        public ActionResult Create(MQuestion qquestionModel)
+        public ActionResult Create(AddQuestionVm questionModel)
         {
+
+
             //var idTest = (Int32) ViewData["testId"];
             //ViewBag.testId = idTest;
             //, int testId
 
             //ViewBag.testId = 305;//testId;
-            //var res = _service.Insert(question);
+            var res = _service.Insert(questionModel);
 
-            //if (res)
-            //{
-            //    return RedirectToAction("Details", "Tests", new { testId = ViewBag.testId });
-            //}
-            //else
-            //{
-            //    return View();
-            //}
-            return View(qquestionModel);
+            if (res)
+            {
+                return RedirectToAction("Details", "Tests", new { testId = questionModel.IdTest});
+            }
+
+            return View(questionModel);
         }
 
 

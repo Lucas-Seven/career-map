@@ -22,7 +22,7 @@ namespace admin.Services
         }
 
         //public bool Insert(QuestionsAlternative question)
-        public bool Insert(MQuestion question)
+        public bool Insert(AddQuestionVm question)
         {
             return _api.Insert(question).Result;
         }

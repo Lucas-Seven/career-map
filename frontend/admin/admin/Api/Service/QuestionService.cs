@@ -14,7 +14,7 @@ namespace admin.Api.Service
 
         public QuestionService()
         {
-            endpoint = $"question";
+            endpoint = $"questions";
         }
 
 
@@ -38,24 +38,57 @@ namespace admin.Api.Service
             return dados;
         }
 
-        public async Task<bool> Insert(MQuestion question)
+        public async Task<bool> Insert(AddQuestionVm question)
         {
             endpoint = "questions/insert";
 
             try
             {
                 string url = baseUrl + endpoint;
-                HttpClient.BaseAddress = new Uri(url);
 
-                var content = new StringContent(JsonConvert.SerializeObject(question),
+                var http = GetHttpClient();
+
+                http.BaseAddress = new Uri(url);
+
+                var q = question.mQuestion;
+
+                var content = new StringContent(JsonConvert.SerializeObject(q),
                                                  System.Text.Encoding.UTF8,
                                                  "application/json");
 
-                var response = await HttpClient.PostAsync("", content);
+                var response = await http.PostAsync("", content);
 
                 var responseContent = await response.Content.ReadAsStringAsync();
 
-                Console.WriteLine(responseContent);
+                MQuestion retorno = JsonConvert.DeserializeObject<MQuestion>(responseContent);
+
+                var association = AssociateOnTest(question.IdTest, retorno.QuestionId).Result;
+
+                if (association)
+                {
+                    Console.WriteLine(responseContent);
+                    return true; 
+                }
+            }
+            catch (Exception)
+            {
+                //throw;
+            }
+
+            return false;
+        }
+
+        private async Task<bool> AssociateOnTest(int testId, int questionId)
+        {
+            try
+            {
+                var endpoint = $"questions/insertOnTest?testId={testId}&questionId={questionId}";
+
+                string url = baseUrl + endpoint;
+                var http = GetHttpClient();
+
+                http.BaseAddress = new Uri(url);
+                var json = await http.PostAsync("", null);
                 return true;
             }
             catch (Exception)
