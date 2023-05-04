@@ -101,6 +101,8 @@
     </div>
         *@
 
+    @if (ViewBag.UnavailablePositions != null && ViewBag.UnavailablePositions.Count > 0)
+    {
     <div class="form-group mt-3">
         <label for="posicoes">Cargos já associados</label>
         <br />
@@ -113,6 +115,7 @@
             </div>
         }
     </div>
+    }
 
 
     @*<div class="col-md-12">*@
