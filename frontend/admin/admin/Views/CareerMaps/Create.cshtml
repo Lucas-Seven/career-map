@@ -11,21 +11,17 @@
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row">
         <div class="col-md-4">
-            <div class="form-group">
-                <label asp-for="CareerMapName" class="control-label">Mapa de carreira</label>
-                <input asp-for="CareerMapName" class="form-control" />
-                <span asp-validation-for="CareerMapName" class="text-danger"></span>
-            </div>
+            <label asp-for="CareerMapName" class="control-label">Mapa de carreira</label>
+            <input asp-for="CareerMapName" class="form-control" />
+            <span asp-validation-for="CareerMapName" class="text-danger"></span>
         </div>
     </div>
 
     <div class="row mt-md-4">
         <div class="col-md-4">
-            <div class="row">
-                <input type="submit" value="Salvar" class="btn btn-md btn-success col-md-5" />
-                <span class="col-md-2"></span>
-                <a class="btn btn-md btn-outline-danger col-md-5" asp-action="Index">Cancelar</a>
-            </div>
+            <input type="submit" value="Salvar" class="btn btn-md btn-success col-md-5" />
+            <span class="col-md-2"></span>
+            <a class="btn btn-md btn-outline-danger col-md-5" asp-action="Index">Cancelar</a>
         </div>
     </div>
 </form>

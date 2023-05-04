@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/admin.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" asp-append-version="true" />
-
+    <script src="https://cdn.datatables.net/plug-ins/1.11.3/i18n/pt_br.json"></script>
 </head>
 <body>
     <header>
@@ -60,11 +60,30 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-
     <script>
-        $(document).ready(function () {
-            $('.datatables').DataTable();
+        //$(document).ready(function () {
+        //    $('.datatables').DataTable({
+        //        language: {
+        //           url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/pt_br.json'
+        //        },
+        //        pageLength: 5,   
+                
+        //    });            
+        //});
+
+         $(document).ready(function () {
+            $('.datatables').DataTable({
+                dom: '<"d-flex justify-content-between"lf>t<"d-flex justify-content-between"ip>',
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/pt_br.json'
+                },
+                pageLength: 5,
+                "lengthMenu": [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "Tudo"]],
+            });
         });
+
+        
+
     </script>
 </body>
 </html>
